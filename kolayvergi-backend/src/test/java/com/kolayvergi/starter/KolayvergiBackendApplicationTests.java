@@ -1,4 +1,4 @@
-package com.kolayvergi.kolayvergi_backend;
+package com.kolayvergi.starter;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
