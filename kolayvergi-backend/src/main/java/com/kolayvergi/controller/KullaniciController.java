@@ -4,14 +4,11 @@ import com.kolayvergi.constant.ApiConstants;
 import com.kolayvergi.dto.request.KullaniciCreateRequest;
 import com.kolayvergi.dto.request.KullaniciUpdateRequest;
 import com.kolayvergi.dto.response.KullaniciResponse;
-import com.kolayvergi.entity.Kullanici;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
-@RequestMapping(ApiConstants.KULLANICI)
+@RequestMapping(ApiConstants.KULLANICILAR)
 public interface KullaniciController {
 
     @PostMapping
