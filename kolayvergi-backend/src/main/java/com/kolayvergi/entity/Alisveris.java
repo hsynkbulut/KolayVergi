@@ -10,6 +10,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import java.math.BigDecimal;
 
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "alisveris")
 @Data

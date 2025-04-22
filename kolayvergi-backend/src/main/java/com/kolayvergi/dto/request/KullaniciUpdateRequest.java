@@ -1,33 +1,12 @@
-package com.kolayvergi.entity;
+package com.kolayvergi.dto.request;
 
-import com.kolayvergi.entity.base.BaseEntity;
-import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
-import java.util.List;
 
-@EqualsAndHashCode(callSuper = true)
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Entity
-@Table(name = "kullanicilar")
-public class Kullanici extends BaseEntity {
-
-    @Column(length = 10, unique = true, nullable = false)
-    @NotBlank(message = "VKN boş olamaz.")
-    @Pattern(regexp = "\\d{10}", message = "VKN tam olarak 10 haneli ve sadece rakam olmalıdır.")
-    private String vkn;
-
-    @Column(length = 11, unique = true, nullable = false)
-    @NotBlank(message = "TCKN boş olamaz.")
-    @Pattern(regexp = "\\d{11}", message = "TCKN tam olarak 11 haneli ve sadece rakam olmalıdır.")
-    private String tckn;
+public class KullaniciUpdateRequest {
 
     @NotBlank(message = "Ad boş olamaz.")
     private String ad;
@@ -37,7 +16,6 @@ public class Kullanici extends BaseEntity {
 
     @Email(message = "Geçerli bir e-posta adresi giriniz.")
     @NotBlank(message = "Email boş olamaz.")
-    @Column(unique = true, nullable = false)
     private String email;
 
     @NotBlank(message = "Şifre boş olamaz.")
@@ -58,8 +36,5 @@ public class Kullanici extends BaseEntity {
     @NotNull(message = "Maaş boş olamaz.")
     @DecimalMin(value = "0.0", inclusive = false, message = "Maaş sıfırdan büyük olmalıdır.")
     private BigDecimal maas;
-
-    @OneToMany(mappedBy = "kullanici", cascade = CascadeType.ALL)
-    private List<Alisveris> alisverisler;
 
 }
