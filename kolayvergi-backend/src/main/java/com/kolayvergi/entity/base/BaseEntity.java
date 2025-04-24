@@ -2,12 +2,14 @@ package com.kolayvergi.entity.base;
 
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 @MappedSuperclass
-@Data
+@Getter
+@Setter
 public abstract class BaseEntity {
 
     @Id
