@@ -16,8 +16,8 @@ import java.util.Optional;
 @Service
 public class VergiKasasiServiceImpl implements VergiKasasiService {
 
-    private VergiKasasiRepository vergiKasasiRepository;
-    private VergiKasasiMapper vergiKasasiMapper;
+    private final VergiKasasiRepository vergiKasasiRepository;
+    private final VergiKasasiMapper vergiKasasiMapper;
 
     public VergiKasasiServiceImpl(VergiKasasiRepository vergiKasasiRepository, VergiKasasiMapper vergiKasasiMapper) {
         this.vergiKasasiRepository = vergiKasasiRepository;
