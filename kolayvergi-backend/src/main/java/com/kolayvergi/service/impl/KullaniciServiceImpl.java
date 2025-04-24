@@ -12,8 +12,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 
 @Service
@@ -51,7 +49,8 @@ public class KullaniciServiceImpl implements KullaniciService {
         kullaniciRepository.deleteById(id);
     }
 
-    private Kullanici getKullanici(Long id){
+    @Override
+    public Kullanici getKullanici(Long id){
         return kullaniciRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Kullanıcı bulunamadı"));
     }
 }

@@ -5,33 +5,33 @@ import com.kolayvergi.dto.request.BorcCreateRequest;
 import com.kolayvergi.dto.request.BorcUpdateRequest;
 import com.kolayvergi.dto.response.BorcResponse;
 import com.kolayvergi.entity.Borc;
+import com.kolayvergi.entity.Kullanici;
 import com.kolayvergi.repository.BorcRepository;
 import com.kolayvergi.service.BorcService;
+import com.kolayvergi.service.KullaniciService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
+@RequiredArgsConstructor
 @Transactional(readOnly = true)
 @Service
 public class BorcServiceImpl implements BorcService {
 
-    private BorcRepository borcRepository;
-    private BorcMapper borcMapper;
-
-    public BorcServiceImpl(BorcRepository borcRepository, BorcMapper borcMapper) {
-        this.borcRepository = borcRepository;
-        this.borcMapper = borcMapper;
-    }
+    private final BorcRepository borcRepository;
+    private final BorcMapper borcMapper;
+    private final KullaniciService kullaniciService;
 
     @Transactional(readOnly = false)
     @Override
     public BorcResponse createBorc(BorcCreateRequest request) {
+        Kullanici kullanici = kullaniciService.getKullanici(request.getKullaniciId());
         Borc borc = borcMapper.borcCreateRequestToBorc(request);
-        borc.setKullaniciId(request.getKullaniciId());
+        borc.setKullanici(kullanici);
 
         Borc dbBorc = borcRepository.save(borc);
-
         return borcMapper.borcToBorcResponse(dbBorc);
     }
 
