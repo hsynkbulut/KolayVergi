@@ -3,16 +3,14 @@ package com.kolayvergi.entity;
 import com.kolayvergi.entity.base.BaseEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -62,4 +60,6 @@ public class Kullanici extends BaseEntity {
     @OneToMany(mappedBy = "kullanici", cascade = CascadeType.ALL)
     private List<Alisveris> alisverisler;
 
+    @OneToOne(mappedBy = "kullanici", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
+    private Borc borc;
 }
