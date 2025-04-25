@@ -10,10 +10,11 @@ import com.kolayvergi.service.KullaniciService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 
-
+@Transactional(readOnly = true)
 @Service
 @RequiredArgsConstructor
 public class KullaniciServiceImpl implements KullaniciService {
@@ -21,6 +22,7 @@ public class KullaniciServiceImpl implements KullaniciService {
     private final KullaniciRepository kullaniciRepository;
     private final KullaniciMapper kullaniciMapper;
 
+    @Transactional(readOnly = false)
     @Override
     public KullaniciResponse createKullanici(KullaniciCreateRequest request) {
         Kullanici kullanici = kullaniciMapper.kullaniciCreateRequestToKullanici(request);
@@ -35,6 +37,7 @@ public class KullaniciServiceImpl implements KullaniciService {
         return kullaniciMapper.kullaniciToKullaniciResponse(kullanici);
     }
 
+    @Transactional(readOnly = false)
     @Override
     public KullaniciResponse updateKullanici(Long id, KullaniciUpdateRequest updateKullaniciRequest) {
         Kullanici kullanici = getKullanici(id);
@@ -44,6 +47,7 @@ public class KullaniciServiceImpl implements KullaniciService {
         return kullaniciMapper.kullaniciToKullaniciResponse(dbKullanici);
     }
 
+    @Transactional(readOnly = false)
     @Override
     public void deleteKullanici(Long id) {
         kullaniciRepository.deleteById(id);

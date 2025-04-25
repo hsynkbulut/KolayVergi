@@ -1,5 +1,7 @@
 package com.kolayvergi.dto.request;
 
+import com.kolayvergi.entity.enums.Cinsiyet;
+import com.kolayvergi.entity.enums.Meslek;
 import jakarta.validation.constraints.*;
 import lombok.Data;
 import lombok.Getter;
@@ -39,10 +41,10 @@ public class KullaniciCreateRequest {
     private Integer yas;
 
     @NotBlank(message = "Cinsiyet boş olamaz.")
-    private String cinsiyet;
+    private Cinsiyet cinsiyet;
 
     @NotBlank(message = "Meslek boş olamaz.")
-    private String meslek;
+    private Meslek meslek;
 
     @NotNull(message = "Maaş boş olamaz.")
     @DecimalMin(value = "0.0", inclusive = false, message = "Maaş sıfırdan büyük olmalıdır.")

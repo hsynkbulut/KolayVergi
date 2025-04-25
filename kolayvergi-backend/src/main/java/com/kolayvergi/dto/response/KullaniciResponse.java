@@ -1,19 +1,23 @@
 package com.kolayvergi.dto.response;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import com.kolayvergi.entity.enums.Cinsiyet;
+import com.kolayvergi.entity.enums.Meslek;
+import lombok.*;
 
 import java.math.BigDecimal;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
 @AllArgsConstructor
 public class KullaniciResponse {
 
     private String ad;
     private String soyad;
     private String email;
-    private String meslek;
+    private Cinsiyet cinsiyet;
+    private Meslek meslek;
     private Integer yas;
     private BigDecimal maas;
 }

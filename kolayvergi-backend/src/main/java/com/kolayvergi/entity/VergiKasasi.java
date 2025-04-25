@@ -1,6 +1,7 @@
 package com.kolayvergi.entity;
 
 import com.kolayvergi.entity.base.BaseEntity;
+import com.kolayvergi.entity.enums.VergiTuru;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;

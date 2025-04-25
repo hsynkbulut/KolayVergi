@@ -1,4 +1,4 @@
-package com.kolayvergi.entity;
+package com.kolayvergi.entity.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
