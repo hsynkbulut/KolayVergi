@@ -1,13 +1,12 @@
 package com.kolayvergi.dto.response;
 
-import com.kolayvergi.entity.VergiTuru;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.kolayvergi.entity.enums.VergiTuru;
+import lombok.*;
 
 import java.math.BigDecimal;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class VergiKasasiResponse {

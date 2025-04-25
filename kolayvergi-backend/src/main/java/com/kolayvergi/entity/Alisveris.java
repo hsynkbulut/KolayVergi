@@ -1,6 +1,7 @@
 package com.kolayvergi.entity;
 
 import com.kolayvergi.entity.base.BaseEntity;
+import com.kolayvergi.entity.enums.UrunTuru;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -24,7 +25,8 @@ public class Alisveris extends BaseEntity {
     private Kullanici kullanici;
 
     @Column(name = "urun_turu", nullable = false)
-    private String urunTuru; // Öneri: Enum olarak da kullanılabilir
+    @Enumerated(EnumType.STRING)
+    private UrunTuru urunTuru;
 
     private BigDecimal tutar;
 
