@@ -5,6 +5,9 @@ public class ApiConstants {
     public static final String KULLANICILAR = API_BASE + "/kullanicilar";
     public static final String BORCLAR = API_BASE + "/borclar";
     public static final String VERGIKASASI = API_BASE + "/vergikasasi";
+
+
+    public static final String ALISVERISLER = API_BASE + "/alisverisler"; // ✅ Alisveris endpoint'i eklendi
     public static final String ID = "/{id}";
 
     private ApiConstants() {
