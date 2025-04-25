@@ -1,5 +1,6 @@
 package com.kolayvergi.dto.response;
 
+import com.kolayvergi.entity.enums.UrunTuru;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,6 +13,6 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AlisverisResponse {
-    private String urunTuru;
+    private UrunTuru urunTuru;
     private BigDecimal tutar;
 }

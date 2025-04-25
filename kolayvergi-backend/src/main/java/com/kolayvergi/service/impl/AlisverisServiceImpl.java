@@ -27,6 +27,12 @@ public class AlisverisServiceImpl implements AlisverisService {
     @Transactional(readOnly = false)
     @Override
     public AlisverisResponse createAlisveris(AlisverisCreateRequest request) {
+        //urun turu tutar sececek
+        //kdv vergi hesaplayıcı methodu burada calısacak.
+        //kdv tablosuna kayıt atacak
+        //hesaplanmıs degısken ı odeme planına tutara ekleyıp kayıt atacak
+
+
         Kullanici kullanici = kullaniciService.getKullanici(request.getKullaniciId());
         Alisveris alisveris = alisverisMapper.aliverisCreateRequestToAlisveris(request);
         alisveris.setKullanici(kullanici);

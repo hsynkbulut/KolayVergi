@@ -1,6 +1,8 @@
 package com.kolayvergi.entity;
 
 import com.kolayvergi.entity.base.BaseEntity;
+import com.kolayvergi.entity.enums.Cinsiyet;
+import com.kolayvergi.entity.enums.Meslek;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
@@ -48,10 +50,12 @@ public class Kullanici extends BaseEntity {
     private Integer yas;
 
     @NotBlank(message = "Cinsiyet boş olamaz.")
-    private String cinsiyet;
+    @Enumerated(EnumType.STRING)
+    private Cinsiyet cinsiyet;
 
     @NotBlank(message = "Meslek boş olamaz.")
-    private String meslek;
+    @Enumerated(EnumType.STRING)
+    private Meslek meslek;
 
     @NotNull(message = "Maaş boş olamaz.")
     @DecimalMin(value = "0.0", inclusive = false, message = "Maaş sıfırdan büyük olmalıdır.")
