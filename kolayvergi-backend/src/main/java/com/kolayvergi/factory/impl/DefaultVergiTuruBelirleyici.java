@@ -14,7 +14,7 @@ public class DefaultVergiTuruBelirleyici implements VergiTuruBelirleyici {
     public List<VergiTuru> getVergiTurleri(UrunTuru urunTuru) {
         return switch (urunTuru) {
             case GIDA -> List.of(VergiTuru.KDV);
-            case OTOMOBIL -> List.of(VergiTuru.KDV, VergiTuru.MTV, VergiTuru.OTV);
+            case OTOMOBIL -> List.of(VergiTuru.KDV, VergiTuru.OTV);
             case ELEKTRONIK, GIYIM, KOZMETIK -> List.of(VergiTuru.KDV);
             case MOBILYA, BEYAZ_ESYA -> List.of(VergiTuru.KDV);
             case KITAP -> List.of(); // Kitap vergiden muaf gibi kabul edebiliriz

@@ -10,6 +10,7 @@ import com.kolayvergi.entity.Kullanici;
 import com.kolayvergi.entity.OdemePlani;
 import com.kolayvergi.entity.enums.UrunTuru;
 import com.kolayvergi.entity.enums.VergiTuru;
+import com.kolayvergi.entity.vergi.AracOtvVergisi;
 import com.kolayvergi.entity.vergi.KdvVergisi;
 import com.kolayvergi.factory.VergiTuruBelirleyici;
 import com.kolayvergi.repository.AlisverisRepository;
@@ -50,26 +51,40 @@ public class AlisverisServiceImpl implements AlisverisService {
         Kullanici kullanici = kullaniciService.getKullanici(request.getKullaniciId());
         Alisveris alisveris = alisverisMapper.aliverisCreateRequestToAlisveris(request);
         alisveris.setKullanici(kullanici);
-
         Alisveris dbAlisveris = alisverisRepository.save(alisveris);
 
         if (request.getUrunTuru() == UrunTuru.OTOMOBIL) {
             if (request.getAracBilgisi() == null) {
                 throw new IllegalArgumentException("Otomobil kategorisinde araç bilgisi zorunludur.");
             }
-            AracBilgisi aracBilgisi = aracBilgisiService.createAracBilgisiForAlisveris(alisveris, request.getAracBilgisi());
-            alisveris.setAracBilgisi(aracBilgisi);
+            AracBilgisi aracBilgisi = aracBilgisiService.createAracBilgisiForAlisveris(dbAlisveris, request.getAracBilgisi());
+            dbAlisveris.setAracBilgisi(aracBilgisi);
+
+            // Alisverisin tekrar kaydedilmesi
+            dbAlisveris = alisverisRepository.save(dbAlisveris);
         }
 
         // Vergi türlerini belirle
         List<VergiTuru> vergiTurleri = vergiTuruBelirleyici.getVergiTurleri(dbAlisveris.getUrunTuru());
 
         // Vergileri hesapla ve kaydet
-        KdvVergisi kdvVergisi = kdvVergisiService.createKdvVergisi(dbAlisveris, kullanici); //Burada bir kdv vergisi nesnesi donuyor bana. Icinde id, fiyat,urun turu falan var.
-        BigDecimal toplamVergiTutari = kdvVergisi.getFiyat();
+        BigDecimal toplamVergiTutari =  BigDecimal.ZERO;
 
+        for (VergiTuru vergiTuru : vergiTurleri) {
+            switch (vergiTuru) {
+                case KDV:
+                    KdvVergisi kdvVergisi = kdvVergisiService.createKdvVergisi(dbAlisveris, kullanici);
+                    toplamVergiTutari = toplamVergiTutari.add(kdvVergisi.getFiyat());
+                    break;
+                case OTV:
+                    AracOtvVergisi aracOtvVergisi = aracOtvVergisiService.createAracOtvVergisi(dbAlisveris, kullanici);
+                    toplamVergiTutari = toplamVergiTutari.add(aracOtvVergisi.getFiyat());
+                    break;
+                default:
+                    throw new IllegalArgumentException("Bilinmeyen vergi türü: " + vergiTuru);
+            }
+        }
 
-        // OdemePlani ve taksit olusturmak
         odemePlaniService.createOdemePlaniForAlisveris(alisveris, toplamVergiTutari);
 
         return alisverisMapper.alisverisToAlisverisResponse(dbAlisveris);
