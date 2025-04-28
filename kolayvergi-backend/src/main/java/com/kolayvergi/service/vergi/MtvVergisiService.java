@@ -1,14 +1,13 @@
 package com.kolayvergi.service.vergi;
 
-import com.kolayvergi.dto.request.mtv.MtvVergisiCreateRequest;
-import com.kolayvergi.dto.request.mtv.MtvVergisiUpdateRequest;
 import com.kolayvergi.dto.response.vergi.MtvVergisiResponse;
+import com.kolayvergi.entity.Alisveris;
+import com.kolayvergi.entity.Kullanici;
 
 import java.util.List;
 
 public interface MtvVergisiService {
-    MtvVergisiResponse createMtvVergisi(MtvVergisiCreateRequest request);
-    MtvVergisiResponse updateMtvVergisi(Long id, MtvVergisiUpdateRequest updateRequest);
+    MtvVergisiResponse createMtvVergisi(Alisveris alisveris, Kullanici kullanici);
+    List<MtvVergisiResponse> getAllByAlisverisId(Long alisverisId);
     MtvVergisiResponse getMtvVergisiById(Long id);
-    List<MtvVergisiResponse> getMtvVergisiAll();
 }

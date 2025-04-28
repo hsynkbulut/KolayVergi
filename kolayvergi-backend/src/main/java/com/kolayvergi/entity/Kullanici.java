@@ -49,11 +49,11 @@ public class Kullanici extends BaseEntity {
     @Max(value = 150, message = "Yaş 150’den büyük olamaz.")
     private Integer yas;
 
-    @NotBlank(message = "Cinsiyet boş olamaz.")
+    @NotNull(message = "Cinsiyet boş olamaz.")
     @Enumerated(EnumType.STRING)
     private Cinsiyet cinsiyet;
 
-    @NotBlank(message = "Meslek boş olamaz.")
+    @NotNull(message = "Meslek boş olamaz.")
     @Enumerated(EnumType.STRING)
     private Meslek meslek;
 

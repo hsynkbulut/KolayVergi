@@ -14,10 +14,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class KdvVergisi extends BaseVergi {
-
-    @Column(nullable = false)
-    private String urunKategorisi;
-
     @Enumerated(EnumType.STRING)
     private UrunTuru urunTuru;
 }

@@ -15,4 +15,6 @@ import java.math.BigDecimal;
 public class AlisverisResponse {
     private UrunTuru urunTuru;
     private BigDecimal tutar;
+    private Integer taksitSayisi;
+    private AracBilgisiResponse aracBilgisi; // sadece OTOMOBIL kategorisi için dolu olur
 }

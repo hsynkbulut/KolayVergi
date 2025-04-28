@@ -5,18 +5,16 @@ import com.kolayvergi.dto.request.BorcCreateRequest;
 import com.kolayvergi.dto.request.BorcUpdateRequest;
 import com.kolayvergi.dto.response.BorcResponse;
 import com.kolayvergi.service.BorcService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequiredArgsConstructor
 public class BorcControllerImpl implements BorcController {
 
     private final BorcService borcService;
-
-    public BorcControllerImpl(BorcService borcService) {
-        this.borcService = borcService;
-    }
 
     @Override
     public ResponseEntity<BorcResponse> createBorc(BorcCreateRequest request) {

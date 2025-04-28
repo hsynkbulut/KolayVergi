@@ -40,10 +40,10 @@ public class KullaniciCreateRequest {
     @Max(value = 150, message = "Yaş 150’den büyük olamaz.")
     private Integer yas;
 
-    @NotBlank(message = "Cinsiyet boş olamaz.")
+    @NotNull(message = "Cinsiyet boş olamaz.")
     private Cinsiyet cinsiyet;
 
-    @NotBlank(message = "Meslek boş olamaz.")
+    @NotNull(message = "Meslek boş olamaz.")
     private Meslek meslek;
 
     @NotNull(message = "Maaş boş olamaz.")
