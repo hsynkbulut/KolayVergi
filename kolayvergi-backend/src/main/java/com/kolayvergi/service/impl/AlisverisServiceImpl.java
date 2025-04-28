@@ -16,6 +16,7 @@ import com.kolayvergi.repository.AlisverisRepository;
 import com.kolayvergi.service.AlisverisService;
 import com.kolayvergi.service.AracBilgisiService;
 import com.kolayvergi.service.KullaniciService;
+import com.kolayvergi.service.OdemePlaniService;
 import com.kolayvergi.service.vergi.AracOtvVergisiService;
 import com.kolayvergi.service.vergi.KdvVergisiService;
 import com.kolayvergi.service.vergi.MtvVergisiService;
@@ -24,6 +25,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,6 +42,7 @@ public class AlisverisServiceImpl implements AlisverisService {
     private final KdvVergisiService kdvVergisiService;
     private final MtvVergisiService mtvVergisiService;
     private final AracOtvVergisiService aracOtvVergisiService;
+    private final OdemePlaniService odemePlaniService;
 
     @Transactional(readOnly = false)
     @Override
@@ -62,7 +65,12 @@ public class AlisverisServiceImpl implements AlisverisService {
         List<VergiTuru> vergiTurleri = vergiTuruBelirleyici.getVergiTurleri(dbAlisveris.getUrunTuru());
 
         // Vergileri hesapla ve kaydet
-        KdvVergisi kdvVergisi = kdvVergisiService.createKdvVergisi(dbAlisveris, kullanici);
+        KdvVergisi kdvVergisi = kdvVergisiService.createKdvVergisi(dbAlisveris, kullanici); //Burada bir kdv vergisi nesnesi donuyor bana. Icinde id, fiyat,urun turu falan var.
+        BigDecimal toplamVergiTutari = kdvVergisi.getFiyat();
+
+
+        // OdemePlani ve taksit olusturmak
+        odemePlaniService.createOdemePlaniForAlisveris(alisveris, toplamVergiTutari);
 
         return alisverisMapper.alisverisToAlisverisResponse(dbAlisveris);
     }
