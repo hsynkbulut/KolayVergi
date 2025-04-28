@@ -8,13 +8,14 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 
-@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Mapper(componentModel = "spring", uses = {AracBilgisiMapper.class}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface AlisverisMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "kullanici", ignore = true)
+    @Mapping(target = "aracBilgisi", ignore = true)
     Alisveris aliverisCreateRequestToAlisveris(AlisverisCreateRequest alisverisCreateRequest);
 
+    @Mapping(source = "aracBilgisi", target = "aracBilgisi")
     AlisverisResponse alisverisToAlisverisResponse(Alisveris alisveris);
-
 }

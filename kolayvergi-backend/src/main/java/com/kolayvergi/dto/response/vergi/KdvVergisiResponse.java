@@ -11,7 +11,6 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class KdvVergisiResponse {
     private Long alisverisId;
-    private BigDecimal fiyat;
-    private String urunKategorisi;
     private UrunTuru urunTuru;
+    private BigDecimal fiyat;
 }

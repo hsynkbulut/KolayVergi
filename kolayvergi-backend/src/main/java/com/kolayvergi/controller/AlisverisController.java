@@ -8,19 +8,18 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RequestMapping(ApiConstants.ALISVERISLER) // Örneğin: /api/alisveris
+@RequestMapping(ApiConstants.ALISVERISLER)
 public interface AlisverisController {
 
     @PostMapping
     ResponseEntity<AlisverisResponse> createAlisveris(@RequestBody @Valid AlisverisCreateRequest request);
 
-    @GetMapping("/{id}")
+    @GetMapping(ApiConstants.ID)
     ResponseEntity<AlisverisResponse> getAlisverisById(@PathVariable("id") Long id);
 
-    @PutMapping("/{id}")
+    @PutMapping(ApiConstants.ID)
     ResponseEntity<AlisverisResponse> updateAlisveris(@PathVariable("id") Long id,
                                                       @RequestBody @Valid AlisverisUpdateRequest request);
-
-    @DeleteMapping("/{id}")
+    @DeleteMapping(ApiConstants.ID)
     ResponseEntity<Void> deleteAlisveris(@PathVariable("id") Long id);
 }

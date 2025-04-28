@@ -5,18 +5,16 @@ import com.kolayvergi.dto.request.VergiKasasiCreateRequest;
 import com.kolayvergi.dto.request.VergiKasasiUpdateRequest;
 import com.kolayvergi.dto.response.VergiKasasiResponse;
 import com.kolayvergi.service.VergiKasasiService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequiredArgsConstructor
 public class VergiKasasiControllerImpl implements VergiKasasiController {
 
     private final VergiKasasiService vergiKasasiService;
-
-    public VergiKasasiControllerImpl(VergiKasasiService vergiKasasiService) {
-        this.vergiKasasiService = vergiKasasiService;
-    }
 
     @Override
     public ResponseEntity<VergiKasasiResponse> createVergiKasasi(VergiKasasiCreateRequest request) {

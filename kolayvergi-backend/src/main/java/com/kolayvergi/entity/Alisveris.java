@@ -31,7 +31,12 @@ public class Alisveris extends BaseEntity {
     @Column(name = "tutar", nullable = false, precision = 12, scale = 2)//precision ve scale tutar'in virgulden once sonra kac basamak olacagini belirler.
     private BigDecimal tutar;
 
+    @Column(name = "taksit_sayisi", nullable = false)
+    private Integer taksitSayisi;
+
+    @OneToOne(mappedBy = "alisveris", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private AracBilgisi aracBilgisi;
+
     @OneToOne(mappedBy = "alisveris", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
     private OdemePlani odemePlani;
-
 }
