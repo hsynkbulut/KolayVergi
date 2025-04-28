@@ -6,6 +6,9 @@ import com.kolayvergi.entity.Alisveris;
 import com.kolayvergi.entity.AracBilgisi;
 import com.kolayvergi.entity.Kullanici;
 import com.kolayvergi.entity.vergi.AracOtvVergisi;
+import com.kolayvergi.entity.vergi.KdvVergisi;
+import com.kolayvergi.hesaplayici.AracOtvVergisiHesaplayici;
+import com.kolayvergi.hesaplayici.KdvVergisiHesaplayici;
 import com.kolayvergi.repository.AracOtvVergisiRepository;
 import com.kolayvergi.service.vergi.AracOtvVergisiService;
 import jakarta.persistence.EntityNotFoundException;
@@ -22,24 +25,18 @@ public class AracOtvVergisiServiceImpl implements AracOtvVergisiService {
 
     private final AracOtvVergisiRepository aracOtvVergisiRepository;
     private final AracOtvVergisiMapper aracOtvVergisiMapper;
+    private final AracOtvVergisiHesaplayici aracOtvVergisiHesaplayici;
 
     @Override
     @Transactional
-    public AracOtvVergisiResponse createAracOtvVergisi(Alisveris alisveris, Kullanici kullanici) {
-
+    public AracOtvVergisi createAracOtvVergisi(Alisveris alisveris, Kullanici kullanici) {
         AracBilgisi aracBilgisi = alisveris.getAracBilgisi();
         if (aracBilgisi == null) {
             throw new IllegalStateException("Otomobil ürün kategorisi için araç bilgisi zorunludur.");
         }
 
-        AracOtvVergisi otv = new AracOtvVergisi();
-//        otv.setFiyat(fiyat);
-        otv.setAlisveris(alisveris);
-        otv.setAracTipi(aracBilgisi.getAracTipi());
-        otv.setMotorSilindirHacmi(aracBilgisi.getMotorSilindirHacmi());
-
-        AracOtvVergisi saved = aracOtvVergisiRepository.save(otv);
-        return aracOtvVergisiMapper.aracOtvVergisiToAracOtvVergisiResponse(saved);
+        AracOtvVergisi aracOtvVergisi = aracOtvVergisiHesaplayici.hesapla(alisveris, kullanici);
+        return aracOtvVergisiRepository.save(aracOtvVergisi);
     }
 
     @Override
