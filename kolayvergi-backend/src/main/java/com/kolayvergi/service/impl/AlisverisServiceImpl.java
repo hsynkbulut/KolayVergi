@@ -7,8 +7,10 @@ import com.kolayvergi.dto.response.AlisverisResponse;
 import com.kolayvergi.entity.Alisveris;
 import com.kolayvergi.entity.AracBilgisi;
 import com.kolayvergi.entity.Kullanici;
+import com.kolayvergi.entity.OdemePlani;
 import com.kolayvergi.entity.enums.UrunTuru;
 import com.kolayvergi.entity.enums.VergiTuru;
+import com.kolayvergi.entity.vergi.KdvVergisi;
 import com.kolayvergi.factory.VergiTuruBelirleyici;
 import com.kolayvergi.repository.AlisverisRepository;
 import com.kolayvergi.service.AlisverisService;
@@ -17,14 +19,11 @@ import com.kolayvergi.service.KullaniciService;
 import com.kolayvergi.service.vergi.AracOtvVergisiService;
 import com.kolayvergi.service.vergi.KdvVergisiService;
 import com.kolayvergi.service.vergi.MtvVergisiService;
-import com.kolayvergi.strategy.VergiHesaplayiciFactory;
-import com.kolayvergi.strategy.VergiHesaplayiciStrategy;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,7 +37,6 @@ public class AlisverisServiceImpl implements AlisverisService {
     private final AlisverisMapper alisverisMapper;
     private final AracBilgisiService aracBilgisiService;
     private final VergiTuruBelirleyici vergiTuruBelirleyici;
-    private final VergiHesaplayiciFactory vergiHesaplayiciFactory;
     private final KdvVergisiService kdvVergisiService;
     private final MtvVergisiService mtvVergisiService;
     private final AracOtvVergisiService aracOtvVergisiService;
@@ -50,6 +48,8 @@ public class AlisverisServiceImpl implements AlisverisService {
         Alisveris alisveris = alisverisMapper.aliverisCreateRequestToAlisveris(request);
         alisveris.setKullanici(kullanici);
 
+        Alisveris dbAlisveris = alisverisRepository.save(alisveris);
+
         if (request.getUrunTuru() == UrunTuru.OTOMOBIL) {
             if (request.getAracBilgisi() == null) {
                 throw new IllegalArgumentException("Otomobil kategorisinde araç bilgisi zorunludur.");
@@ -59,29 +59,11 @@ public class AlisverisServiceImpl implements AlisverisService {
         }
 
         // Vergi türlerini belirle
-        List<VergiTuru> vergiTurleri = vergiTuruBelirleyici.getVergiTurleri(alisveris.getUrunTuru());
+        List<VergiTuru> vergiTurleri = vergiTuruBelirleyici.getVergiTurleri(dbAlisveris.getUrunTuru());
 
         // Vergileri hesapla ve kaydet
-        for (VergiTuru vergiTuru : vergiTurleri) {
-//            VergiHesaplayiciStrategy hesaplayici = vergiHesaplayiciFactory.getStrategy(vergiTuru);
-//            BigDecimal vergiTutari = hesaplayici.hesapla(alisveris.getTutar(), kullanici);
+        KdvVergisi kdvVergisi = kdvVergisiService.createKdvVergisi(dbAlisveris, kullanici);
 
-            switch (vergiTuru) {
-                case KDV:
-                    kdvVergisiService.createKdvVergisi(alisveris, kullanici);
-                    break;
-                case MTV:
-                    mtvVergisiService.createMtvVergisi(alisveris, kullanici);
-                    break;
-                case OTV:
-                    aracOtvVergisiService.createAracOtvVergisi(alisveris, kullanici);
-                    break;
-                default:
-                    throw new IllegalArgumentException("Bilinmeyen vergi türü: " + vergiTuru);
-            }
-        }
-
-        Alisveris dbAlisveris = alisverisRepository.save(alisveris);
         return alisverisMapper.alisverisToAlisverisResponse(dbAlisveris);
     }
 
