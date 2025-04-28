@@ -22,6 +22,7 @@ services:
       - postgres
     ports:
       - "8080:8080"
+      - "5005:5005"    # Remote Debugging için
     networks:
       - kolayvergi-spring-network
 
