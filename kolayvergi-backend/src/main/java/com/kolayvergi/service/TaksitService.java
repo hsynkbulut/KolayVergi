@@ -8,8 +8,5 @@ import java.util.List;
 
 public interface TaksitService {
 
-    List<Taksit> createInitialTaksitler(OdemePlani odemePlani, List<OdemeTuru> odemeTurleri);
-    Taksit updateTaksitOdeme(Long taksitId);
-
-
+    List<Taksit> createInitialTaksitler(OdemePlani odemePlani);
 }

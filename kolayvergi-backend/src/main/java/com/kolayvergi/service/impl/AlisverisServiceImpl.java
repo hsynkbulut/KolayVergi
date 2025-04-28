@@ -17,6 +17,7 @@ import com.kolayvergi.repository.AlisverisRepository;
 import com.kolayvergi.service.AlisverisService;
 import com.kolayvergi.service.AracBilgisiService;
 import com.kolayvergi.service.KullaniciService;
+import com.kolayvergi.service.OdemePlaniService;
 import com.kolayvergi.service.vergi.AracOtvVergisiService;
 import com.kolayvergi.service.vergi.KdvVergisiService;
 import com.kolayvergi.service.vergi.MtvVergisiService;
@@ -25,6 +26,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,6 +43,7 @@ public class AlisverisServiceImpl implements AlisverisService {
     private final KdvVergisiService kdvVergisiService;
     private final MtvVergisiService mtvVergisiService;
     private final AracOtvVergisiService aracOtvVergisiService;
+    private final OdemePlaniService odemePlaniService;
 
     @Transactional(readOnly = false)
     @Override
@@ -65,18 +68,24 @@ public class AlisverisServiceImpl implements AlisverisService {
         List<VergiTuru> vergiTurleri = vergiTuruBelirleyici.getVergiTurleri(dbAlisveris.getUrunTuru());
 
         // Vergileri hesapla ve kaydet
+        BigDecimal toplamVergiTutari =  BigDecimal.ZERO;
+
         for (VergiTuru vergiTuru : vergiTurleri) {
             switch (vergiTuru) {
                 case KDV:
                     KdvVergisi kdvVergisi = kdvVergisiService.createKdvVergisi(dbAlisveris, kullanici);
+                    toplamVergiTutari = toplamVergiTutari.add(kdvVergisi.getFiyat());
                     break;
                 case OTV:
                     AracOtvVergisi aracOtvVergisi = aracOtvVergisiService.createAracOtvVergisi(dbAlisveris, kullanici);
+                    toplamVergiTutari = toplamVergiTutari.add(aracOtvVergisi.getFiyat());
                     break;
                 default:
                     throw new IllegalArgumentException("Bilinmeyen vergi türü: " + vergiTuru);
             }
         }
+
+        odemePlaniService.createOdemePlaniForAlisveris(alisveris, toplamVergiTutari);
 
         return alisverisMapper.alisverisToAlisverisResponse(dbAlisveris);
     }
