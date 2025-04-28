@@ -5,18 +5,14 @@ import com.kolayvergi.dto.response.vergi.AracOtvVergisiResponse;
 import com.kolayvergi.entity.Alisveris;
 import com.kolayvergi.entity.AracBilgisi;
 import com.kolayvergi.entity.Kullanici;
-import com.kolayvergi.entity.enums.VergiTuru;
 import com.kolayvergi.entity.vergi.AracOtvVergisi;
 import com.kolayvergi.repository.AracOtvVergisiRepository;
 import com.kolayvergi.service.vergi.AracOtvVergisiService;
-import com.kolayvergi.strategy.VergiHesaplayiciFactory;
-import com.kolayvergi.strategy.VergiHesaplayiciStrategy;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,13 +22,10 @@ public class AracOtvVergisiServiceImpl implements AracOtvVergisiService {
 
     private final AracOtvVergisiRepository aracOtvVergisiRepository;
     private final AracOtvVergisiMapper aracOtvVergisiMapper;
-    private final VergiHesaplayiciFactory vergiHesaplayiciFactory;
 
     @Override
     @Transactional
     public AracOtvVergisiResponse createAracOtvVergisi(Alisveris alisveris, Kullanici kullanici) {
-        VergiHesaplayiciStrategy hesaplayici = vergiHesaplayiciFactory.getStrategy(VergiTuru.OTV);
-        BigDecimal fiyat = hesaplayici.hesapla(alisveris.getTutar(), kullanici);
 
         AracBilgisi aracBilgisi = alisveris.getAracBilgisi();
         if (aracBilgisi == null) {
@@ -40,7 +33,7 @@ public class AracOtvVergisiServiceImpl implements AracOtvVergisiService {
         }
 
         AracOtvVergisi otv = new AracOtvVergisi();
-        otv.setFiyat(fiyat);
+//        otv.setFiyat(fiyat);
         otv.setAlisveris(alisveris);
         otv.setAracTipi(aracBilgisi.getAracTipi());
         otv.setMotorSilindirHacmi(aracBilgisi.getMotorSilindirHacmi());

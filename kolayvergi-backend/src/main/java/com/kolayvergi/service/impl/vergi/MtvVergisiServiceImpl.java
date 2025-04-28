@@ -5,18 +5,14 @@ import com.kolayvergi.dto.response.vergi.MtvVergisiResponse;
 import com.kolayvergi.entity.Alisveris;
 import com.kolayvergi.entity.AracBilgisi;
 import com.kolayvergi.entity.Kullanici;
-import com.kolayvergi.entity.enums.VergiTuru;
 import com.kolayvergi.entity.vergi.MtvVergisi;
 import com.kolayvergi.repository.MtvVergisiRepository;
 import com.kolayvergi.service.vergi.MtvVergisiService;
-import com.kolayvergi.strategy.VergiHesaplayiciFactory;
-import com.kolayvergi.strategy.VergiHesaplayiciStrategy;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,14 +22,11 @@ public class MtvVergisiServiceImpl implements MtvVergisiService {
 
     private final MtvVergisiRepository mtvVergisiRepository;
     private final MtvVergisiMapper mtvVergisiMapper;
-    private final VergiHesaplayiciFactory vergiHesaplayiciFactory;
 
     @Override
     @Transactional
     public MtvVergisiResponse createMtvVergisi(Alisveris alisveris, Kullanici kullanici) {
         // 1. MTV stratejisini al ve vergi tutarını hesapla
-        VergiHesaplayiciStrategy hesaplayici = vergiHesaplayiciFactory.getStrategy(VergiTuru.MTV);
-        BigDecimal fiyat = hesaplayici.hesapla(alisveris.getTutar(), kullanici);
 
         // 2. Alışverişten AracBilgisi çek
         AracBilgisi aracBilgisi = alisveris.getAracBilgisi();
@@ -43,7 +36,7 @@ public class MtvVergisiServiceImpl implements MtvVergisiService {
 
         // 3. MTV vergisi nesnesini oluştur
         MtvVergisi mtv = new MtvVergisi();
-        mtv.setFiyat(fiyat);
+//        mtv.setFiyat(fiyat);
         mtv.setAlisveris(alisveris);
         mtv.setAracTipi(aracBilgisi.getAracTipi());
         mtv.setAracYasi(aracBilgisi.getAracYasi());

@@ -5,18 +5,14 @@ import com.kolayvergi.dto.mapper.KdvVergisiMapper;
 import com.kolayvergi.dto.response.vergi.KdvVergisiResponse;
 import com.kolayvergi.entity.Alisveris;
 import com.kolayvergi.entity.Kullanici;
-import com.kolayvergi.entity.enums.VergiTuru;
 import com.kolayvergi.entity.vergi.KdvVergisi;
 import com.kolayvergi.repository.KdvVergisiRepository;
 import com.kolayvergi.service.vergi.KdvVergisiService;
-import com.kolayvergi.strategy.VergiHesaplayiciFactory;
-import com.kolayvergi.strategy.VergiHesaplayiciStrategy;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,21 +22,11 @@ public class KdvVergisiServiceImpl implements KdvVergisiService {
 
     private final KdvVergisiRepository kdvVergisiRepository;
     private final KdvVergisiMapper kdvVergisiMapper;
-    private final VergiHesaplayiciFactory vergiHesaplayiciFactory;
 
     @Override
     @Transactional
     public KdvVergisiResponse createKdvVergisi(Alisveris alisveris, Kullanici kullanici) {
-        VergiHesaplayiciStrategy hesaplayici = vergiHesaplayiciFactory.getStrategy(VergiTuru.KDV);
-        BigDecimal fiyat = hesaplayici.hesapla(alisveris.getTutar(), kullanici);
-
-        KdvVergisi kdv = new KdvVergisi();
-        kdv.setFiyat(fiyat);
-        kdv.setUrunTuru(alisveris.getUrunTuru());
-        kdv.setAlisveris(alisveris);
-
-        KdvVergisi saved = kdvVergisiRepository.save(kdv);
-        return kdvVergisiMapper.kdvVergisiToKdvVergisiResponse(saved);
+        return null;
     }
 
     @Override

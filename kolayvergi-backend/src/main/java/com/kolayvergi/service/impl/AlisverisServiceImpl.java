@@ -63,8 +63,8 @@ public class AlisverisServiceImpl implements AlisverisService {
 
         // Vergileri hesapla ve kaydet
         for (VergiTuru vergiTuru : vergiTurleri) {
-            VergiHesaplayiciStrategy hesaplayici = vergiHesaplayiciFactory.getStrategy(vergiTuru);
-            BigDecimal vergiTutari = hesaplayici.hesapla(alisveris.getTutar(), kullanici);
+//            VergiHesaplayiciStrategy hesaplayici = vergiHesaplayiciFactory.getStrategy(vergiTuru);
+//            BigDecimal vergiTutari = hesaplayici.hesapla(alisveris.getTutar(), kullanici);
 
             switch (vergiTuru) {
                 case KDV:
