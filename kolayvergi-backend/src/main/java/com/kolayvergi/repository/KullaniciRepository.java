@@ -6,6 +6,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface KullaniciRepository extends JpaRepository<Kullanici, Long> {
+    boolean existsByVkn(String vkn); // VKN çakışma kontrolü için
+
 
  //    Optional<Kullanici> findByVkn(String vkn);
  //Optional<Kullanici> findByTckn(String tckn);
