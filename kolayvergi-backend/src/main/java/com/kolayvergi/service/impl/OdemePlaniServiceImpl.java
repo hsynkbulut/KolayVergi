@@ -42,6 +42,9 @@ public class OdemePlaniServiceImpl implements OdemePlaniService {
     @Override
     @Transactional
     public OdemePlani updateOdemePlaniAfterPayment(Taksit taksit) {
+        //toplam odenmis tutar taksit tutari kadar artacak taksit.gettutar
+        //kalan taksit sayisi -1
+
         OdemePlani odemePlani = taksit.getOdemePlani();
 
         BigDecimal yeniToplamOdenmis = odemePlani.getToplamOdenmisTutar()

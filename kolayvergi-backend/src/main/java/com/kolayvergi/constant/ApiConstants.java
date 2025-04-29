@@ -9,6 +9,7 @@ public class ApiConstants {
     public static final String ARAC_BILGISI = API_BASE + "/arac-bilgisi";
     public static final String ID = "/{id}";
     public static final String ALISVERIS_ID = ALISVERISLER + "/{alisverisId}";
+    public static final String ODEMELER = API_BASE + "/odemeler";
 
     private ApiConstants() {
         throw new UnsupportedOperationException("Bu bir yardımcı sınıftır ve nesnesi oluşturulamaz!");

@@ -1,5 +1,9 @@
 package com.kolayvergi.service.impl;
 
+import com.kolayvergi.dto.request.AlisverisUpdateRequest;
+import com.kolayvergi.dto.response.AlisverisResponse;
+import com.kolayvergi.entity.Alisveris;
+import com.kolayvergi.entity.Kullanici;
 import com.kolayvergi.entity.OdemePlani;
 import com.kolayvergi.entity.Taksit;
 import com.kolayvergi.entity.enums.OdemeDurumu;
@@ -16,6 +20,7 @@ import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -29,7 +34,6 @@ public class TaksitServiceImpl implements TaksitService {
     public List<Taksit> createInitialTaksitler(Long kullaniciId, OdemePlani odemePlani) {
         int taksitSayisi = odemePlani.getToplamTaksitSayisi();
         BigDecimal toplamTutar = odemePlani.getToplamOdenecekTutar();
-
 
         BigDecimal taksitTutari = toplamTutar.divide(
                 BigDecimal.valueOf(taksitSayisi),
@@ -54,5 +58,21 @@ public class TaksitServiceImpl implements TaksitService {
 
         taksitRepository.saveAll(taksitler);
         return taksitler;
+    }
+
+    @Override
+    @Transactional
+    public Taksit getTaksitByTaksitNo(String taksitNo) {
+        return taksitRepository.findByTaksitNo(taksitNo)
+                .orElseThrow(() -> new RuntimeException("Taksit bulunamadı: " + taksitNo));
+    }
+
+    @Override
+    @Transactional
+    public Taksit updateTaksitForPayment(Taksit taksit, OdemeTuru odemeTuru) {
+        taksit.setOdemeTarihi(LocalDate.now());
+        taksit.setDurum(OdemeDurumu.ODENDI);
+        taksit.setOdemeTuru(odemeTuru);
+        return taksitRepository.save(taksit);
     }
 }

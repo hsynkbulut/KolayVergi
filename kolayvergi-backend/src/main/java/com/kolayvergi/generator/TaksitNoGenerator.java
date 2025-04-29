@@ -14,6 +14,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 @RequiredArgsConstructor
 public class TaksitNoGenerator {
 
+    //TODO: Atomic Integer Kaldirilacak. Bu sinif refactor edilecek.
     private final AtomicInteger counter = new AtomicInteger(1);
 
     public String generateTaksitNo(Long kullaniciId, int index) {
