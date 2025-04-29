@@ -12,6 +12,7 @@ import com.kolayvergi.entity.enums.UrunTuru;
 import com.kolayvergi.entity.enums.VergiTuru;
 import com.kolayvergi.entity.vergi.AracOtvVergisi;
 import com.kolayvergi.entity.vergi.KdvVergisi;
+import com.kolayvergi.entity.vergi.MtvVergisi;
 import com.kolayvergi.factory.VergiTuruBelirleyici;
 import com.kolayvergi.repository.AlisverisRepository;
 import com.kolayvergi.service.AlisverisService;
@@ -80,7 +81,11 @@ public class AlisverisServiceImpl implements AlisverisService {
                     AracOtvVergisi aracOtvVergisi = aracOtvVergisiService.createAracOtvVergisi(dbAlisveris, kullanici);
                     toplamVergiTutari = toplamVergiTutari.add(aracOtvVergisi.getFiyat());
                     break;
-                default:
+                case MTV:
+                    MtvVergisi mtvVergisi = mtvVergisiService.createMtvVergisi(dbAlisveris, kullanici);
+                    toplamVergiTutari = toplamVergiTutari.add(mtvVergisi.getFiyat());
+                    break;
+                    default:
                     throw new IllegalArgumentException("Bilinmeyen vergi türü: " + vergiTuru);
             }
         }

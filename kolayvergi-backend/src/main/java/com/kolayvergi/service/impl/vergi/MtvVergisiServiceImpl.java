@@ -6,6 +6,7 @@ import com.kolayvergi.entity.Alisveris;
 import com.kolayvergi.entity.AracBilgisi;
 import com.kolayvergi.entity.Kullanici;
 import com.kolayvergi.entity.vergi.MtvVergisi;
+import com.kolayvergi.hesaplayici.MtvVergisiHesaplayici;
 import com.kolayvergi.repository.MtvVergisiRepository;
 import com.kolayvergi.service.vergi.MtvVergisiService;
 import jakarta.persistence.EntityNotFoundException;
@@ -22,29 +23,18 @@ public class MtvVergisiServiceImpl implements MtvVergisiService {
 
     private final MtvVergisiRepository mtvVergisiRepository;
     private final MtvVergisiMapper mtvVergisiMapper;
+    private final MtvVergisiHesaplayici mtvVergisiHesaplayici;
 
     @Override
     @Transactional
-    public MtvVergisiResponse createMtvVergisi(Alisveris alisveris, Kullanici kullanici) {
-        // 1. MTV stratejisini al ve vergi tutarını hesapla
-
-        // 2. Alışverişten AracBilgisi çek
+    public MtvVergisi createMtvVergisi(Alisveris alisveris, Kullanici kullanici) {
         AracBilgisi aracBilgisi = alisveris.getAracBilgisi();
         if (aracBilgisi == null) {
             throw new IllegalStateException("Otomobil ürün kategorisi için araç bilgisi zorunludur.");
         }
 
-        // 3. MTV vergisi nesnesini oluştur
-        MtvVergisi mtv = new MtvVergisi();
-//        mtv.setFiyat(fiyat);
-        mtv.setAlisveris(alisveris);
-        mtv.setAracTipi(aracBilgisi.getAracTipi());
-        mtv.setAracYasi(aracBilgisi.getAracYasi());
-        mtv.setMotorSilindirHacmi(aracBilgisi.getMotorSilindirHacmi());
-        mtv.setIlkTescilYili(aracBilgisi.getIlkTescilYili());
-
-        MtvVergisi kayit = mtvVergisiRepository.save(mtv);
-        return mtvVergisiMapper.mtvVergisiToMtvVergisiResponse(kayit);
+        MtvVergisi mtvVergisi = mtvVergisiHesaplayici.hesapla(alisveris, kullanici);
+        return mtvVergisiRepository.save(mtvVergisi);
     }
 
     @Override
