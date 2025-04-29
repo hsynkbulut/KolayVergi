@@ -4,8 +4,8 @@ import com.kolayvergi.entity.OdemePlani;
 import com.kolayvergi.entity.Taksit;
 import com.kolayvergi.entity.enums.OdemeDurumu;
 import com.kolayvergi.entity.enums.OdemeTuru;
+import com.kolayvergi.generator.TaksitNoGenerator;
 import com.kolayvergi.repository.TaksitRepository;
-import com.kolayvergi.service.OdemePlaniService;
 import com.kolayvergi.service.TaksitService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,10 +22,11 @@ import java.util.List;
 public class TaksitServiceImpl implements TaksitService {
 
     private final TaksitRepository taksitRepository;
+    private final TaksitNoGenerator taksitNoGenerator;
 
     @Override
     @Transactional
-    public List<Taksit> createInitialTaksitler(OdemePlani odemePlani) {
+    public List<Taksit> createInitialTaksitler(Long kullaniciId, OdemePlani odemePlani) {
         int taksitSayisi = odemePlani.getToplamTaksitSayisi();
         BigDecimal toplamTutar = odemePlani.getToplamOdenecekTutar();
 
@@ -42,7 +43,7 @@ public class TaksitServiceImpl implements TaksitService {
             Taksit taksit = new Taksit();
             taksit.setOdemePlani(odemePlani);
             //taksit.setTaksitNo(generateTaksitNo(odemePlani, i + 1));
-            taksit.setTaksitNo("taksitNo-" + i+1);
+            taksit.setTaksitNo(taksitNoGenerator.generateTaksitNo(kullaniciId, i + 1));
             taksit.setTaksitTutari(taksitTutari);
             taksit.setSonOdemeTarihi(LocalDate.now().plusMonths(i + 1));
             taksit.setOdemeTarihi(null);
@@ -54,18 +55,4 @@ public class TaksitServiceImpl implements TaksitService {
         taksitRepository.saveAll(taksitler);
         return taksitler;
     }
-
-    private String generateTaksitNo(OdemePlani odemePlani, int index) {
-        String vergiTuru = odemePlani.getAlisveris().getUrunTuru().name();
-        LocalDate now = LocalDate.now();
-        String datePart = now.format(java.time.format.DateTimeFormatter.ofPattern("ddMMyyyy_HHmm"));
-        String kullaniciId = String.format("%03d", odemePlani.getAlisveris().getKullanici().getId());
-        String indexStr = String.format("%03d", index);
-        String randomCheck = String.format("%04d", (int) (Math.random() * 9999));
-        String numerator = String.format("%04d", index);
-
-        //GIDA_28042025_1530_005_001_4567_0001
-        return vergiTuru + "_" + datePart + "_" + kullaniciId + "_" + indexStr + "_" + randomCheck + "_" + numerator;
-    }
-
 }

@@ -3,7 +3,6 @@ package com.kolayvergi.service.impl;
 import com.kolayvergi.entity.Alisveris;
 import com.kolayvergi.entity.OdemePlani;
 import com.kolayvergi.entity.Taksit;
-import com.kolayvergi.entity.enums.OdemeTuru;
 import com.kolayvergi.repository.OdemePlaniRepository;
 import com.kolayvergi.service.OdemePlaniService;
 import com.kolayvergi.service.TaksitService;
@@ -18,18 +17,15 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OdemePlaniServiceImpl implements OdemePlaniService {
 
-    //private final VergiHesaplamaService vergiHesaplamaService;
     private final TaksitService taksitService;
     private final OdemePlaniRepository odemePlaniRepository;
-
 
     @Override
     @Transactional
     public OdemePlani createOdemePlaniForAlisveris(Alisveris alisveris, BigDecimal vergiTutari) {
-
+        Long kullaniciId = alisveris.getKullanici().getId();
         BigDecimal odenecekTutar = vergiTutari.add(alisveris.getTutar());
 
-        // 1. OdemePlani oluştur
         OdemePlani odemePlani = new OdemePlani();
         odemePlani.setAlisveris(alisveris);
         odemePlani.setToplamOdenecekTutar(odenecekTutar);
@@ -38,8 +34,7 @@ public class OdemePlaniServiceImpl implements OdemePlaniService {
         odemePlani.setKalanTaksitSayisi(alisveris.getTaksitSayisi());
         odemePlaniRepository.save(odemePlani);
 
-        // 2. Taksitleri oluştur
-        List<Taksit> taksitler = taksitService.createInitialTaksitler(odemePlani);
+        List<Taksit> taksitler = taksitService.createInitialTaksitler(kullaniciId, odemePlani);
         return odemePlani;
     }
 
