@@ -3,15 +3,14 @@ package com.kolayvergi.service.impl;
 import com.kolayvergi.dto.request.TaksitOdemeRequest;
 import com.kolayvergi.entity.Taksit;
 import com.kolayvergi.entity.enums.OdemeTuru;
+import com.kolayvergi.odemeYontemi.KrediKartiOdeme;
+import com.kolayvergi.odemeYontemi.KrediOdeme;
 import com.kolayvergi.odemeYontemi.NakitOdeme;
 import com.kolayvergi.odemeYontemi.OdemeYontemi;
 import com.kolayvergi.service.OdemeService;
 import com.kolayvergi.service.TaksitService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.math.BigDecimal;
 
 @Service
 @RequiredArgsConstructor
@@ -19,6 +18,8 @@ public class OdemeServiceImpl implements OdemeService {
 
     private final TaksitService taksitService;
     private final NakitOdeme nakitOdeme;
+    private final KrediOdeme krediOdeme;
+    private final KrediKartiOdeme krediKartiOdeme;
 
     @Override
     public boolean taksitOde(TaksitOdemeRequest request) {
@@ -36,9 +37,8 @@ public class OdemeServiceImpl implements OdemeService {
     private OdemeYontemi getOdemeYontemi(OdemeTuru odemeTuru) {
         return switch (odemeTuru) {
             case NAKIT -> nakitOdeme;
-            case KREDI -> throw new UnsupportedOperationException("Kredi ödemesi henüz desteklenmiyor");
-            case KREDI_KARTI -> throw new UnsupportedOperationException("Kredi kartı ödemesi henüz desteklenmiyor");
+            case KREDI -> krediOdeme;
+            case KREDI_KARTI -> krediKartiOdeme;
         };
     }
-
 }
