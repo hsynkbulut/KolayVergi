@@ -5,6 +5,7 @@ import com.kolayvergi.dto.request.KullaniciCreateRequest;
 import com.kolayvergi.dto.request.KullaniciUpdateRequest;
 import com.kolayvergi.dto.response.KullaniciResponse;
 import com.kolayvergi.entity.Kullanici;
+import com.kolayvergi.generator.VknGenerator;
 import com.kolayvergi.repository.KullaniciRepository;
 import com.kolayvergi.service.KullaniciService;
 import jakarta.persistence.EntityNotFoundException;
@@ -21,12 +22,15 @@ public class KullaniciServiceImpl implements KullaniciService {
 
     private final KullaniciRepository kullaniciRepository;
     private final KullaniciMapper kullaniciMapper;
+    private final VknGenerator vknGenerator;
+
 
     @Transactional(readOnly = false)
     @Override
     public KullaniciResponse createKullanici(KullaniciCreateRequest request) {
         Kullanici kullanici = kullaniciMapper.kullaniciCreateRequestToKullanici(request);
         kullanici.setAlisverisler(new ArrayList<>());
+        kullanici.setVkn(vknGenerator.generate());
         Kullanici dbKullanici = kullaniciRepository.save(kullanici);
         return kullaniciMapper.kullaniciToKullaniciResponse(dbKullanici);
     }
@@ -57,4 +61,21 @@ public class KullaniciServiceImpl implements KullaniciService {
     public Kullanici getKullanici(Long id){
         return kullaniciRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Kullanıcı bulunamadı"));
     }
+
+    private String generateUniqueVkn() {
+        String vkn = vknGenerator.generate();
+        int denemeSayisi = 1;
+
+        while (kullaniciRepository.existsByVkn(vkn)) {
+            if (denemeSayisi >= 50) {
+                throw new RuntimeException("Benzersiz VKN üretilemedi.");
+            }
+
+            vkn = vknGenerator.generate();
+            denemeSayisi++;
+        }
+        return vkn;
+    }
+
+
 }

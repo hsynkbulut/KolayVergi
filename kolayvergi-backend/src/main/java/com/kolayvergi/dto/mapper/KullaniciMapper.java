@@ -13,6 +13,7 @@ public interface KullaniciMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "alisverisler", ignore = true)
+    @Mapping(target = "vkn", ignore = true)
     Kullanici kullaniciCreateRequestToKullanici(KullaniciCreateRequest request);
 
     KullaniciResponse kullaniciToKullaniciResponse(Kullanici kullanici);

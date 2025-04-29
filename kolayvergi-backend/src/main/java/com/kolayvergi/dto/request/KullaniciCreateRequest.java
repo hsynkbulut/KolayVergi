@@ -13,9 +13,6 @@ import java.math.BigDecimal;
 @Setter
 public class KullaniciCreateRequest {
 
-    @NotBlank(message = "VKN boş olamaz.")
-    @Pattern(regexp = "\\d{10}", message = "VKN tam olarak 10 haneli ve sadece rakam olmalıdır.")
-    private String vkn;
 
     @NotBlank(message = "TCKN boş olamaz.")
     @Pattern(regexp = "\\d{11}", message = "TCKN tam olarak 11 haneli ve sadece rakam olmalıdır.")
