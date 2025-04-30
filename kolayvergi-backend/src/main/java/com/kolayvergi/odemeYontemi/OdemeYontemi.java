@@ -1,10 +1,13 @@
 package com.kolayvergi.odemeYontemi;
 
+import com.kolayvergi.dto.response.OdemeSonucu;
 import com.kolayvergi.entity.Taksit;
 import com.kolayvergi.entity.enums.OdemeTuru;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 public interface OdemeYontemi {
-    boolean odemeYap(Taksit taksit, BigDecimal odemeTutari, OdemeTuru odemeTuru);
+    OdemeSonucu hesaplaVeOde(Taksit taksit, OdemeTuru odemeTuru, LocalDate odemeTarihi, BigDecimal kullaniciOdemeTutari);
+    OdemeSonucu sadeceHesapla(Taksit taksit, OdemeTuru odemeTuru, LocalDate odemeTarihi);
 }

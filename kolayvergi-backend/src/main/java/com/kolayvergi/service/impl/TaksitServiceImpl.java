@@ -1,5 +1,7 @@
 package com.kolayvergi.service.impl;
 
+import com.kolayvergi.entity.OdemePlani;
+import com.kolayvergi.entity.Taksit;
 import com.kolayvergi.dto.request.AlisverisUpdateRequest;
 import com.kolayvergi.dto.request.BorcCreateRequest;
 import com.kolayvergi.dto.request.BorcUpdateRequest;
@@ -21,7 +23,6 @@ import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -48,7 +49,6 @@ public class TaksitServiceImpl implements TaksitService {
         for (int i = 0; i < taksitSayisi; i++) {
             Taksit taksit = new Taksit();
             taksit.setOdemePlani(odemePlani);
-            //taksit.setTaksitNo(generateTaksitNo(odemePlani, i + 1));
             taksit.setTaksitNo(taksitNoGenerator.generateTaksitNo(kullaniciId, i + 1));
             taksit.setTaksitTutari(taksitTutari);
             taksit.setSonOdemeTarihi(LocalDate.now().plusMonths(i + 1));
@@ -88,10 +88,11 @@ public class TaksitServiceImpl implements TaksitService {
 
     @Override
     @Transactional
-    public Taksit updateTaksitForPayment(Taksit taksit, OdemeTuru odemeTuru) {
+    public Taksit updateTaksitForPayment(Taksit taksit, OdemeTuru odemeTuru, BigDecimal guncellenmisTutar) {
         taksit.setOdemeTarihi(LocalDate.now());
         taksit.setDurum(OdemeDurumu.ODENDI);
         taksit.setOdemeTuru(odemeTuru);
+        taksit.setTaksitTutari(guncellenmisTutar);
         return taksitRepository.save(taksit);
     }
 }
