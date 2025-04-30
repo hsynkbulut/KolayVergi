@@ -38,24 +38,19 @@ public class OdemePlaniServiceImpl implements OdemePlaniService {
         return odemePlani;
     }
 
-
     @Override
     @Transactional
-    public OdemePlani updateOdemePlaniAfterPayment(Taksit taksit) {
-        //toplam odenmis tutar taksit tutari kadar artacak taksit.gettutar
-        //kalan taksit sayisi -1
-
+    public OdemePlani updateOdemePlaniAfterPayment(Taksit taksit, BigDecimal guncellenmisTutar) {
         OdemePlani odemePlani = taksit.getOdemePlani();
 
         BigDecimal yeniToplamOdenmis = odemePlani.getToplamOdenmisTutar()
-                .add(taksit.getTaksitTutari());
+                .add(guncellenmisTutar);
         odemePlani.setToplamOdenmisTutar(yeniToplamOdenmis);
 
         int yeniKalanTaksitSayisi = odemePlani.getKalanTaksitSayisi() - 1;
         odemePlani.setKalanTaksitSayisi(Math.max(yeniKalanTaksitSayisi, 0));
 
-        OdemePlani updatedOdemePlani = odemePlaniRepository.save(odemePlani);
-
-        return updatedOdemePlani;
+        return odemePlaniRepository.save(odemePlani);
     }
+
 }

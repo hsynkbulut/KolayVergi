@@ -1,6 +1,7 @@
 package com.kolayvergi.service.impl;
 
 import com.kolayvergi.dto.request.TaksitOdemeRequest;
+import com.kolayvergi.dto.response.OdemeSonucu;
 import com.kolayvergi.entity.Taksit;
 import com.kolayvergi.entity.enums.OdemeTuru;
 import com.kolayvergi.odemeYontemi.KrediKartiOdeme;
@@ -12,6 +13,8 @@ import com.kolayvergi.service.TaksitService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+
 @Service
 @RequiredArgsConstructor
 public class OdemeServiceImpl implements OdemeService {
@@ -21,24 +24,25 @@ public class OdemeServiceImpl implements OdemeService {
     private final KrediOdeme krediOdeme;
     private final KrediKartiOdeme krediKartiOdeme;
 
-    @Override
-    public boolean taksitOde(TaksitOdemeRequest request) {
-//        TODO: OdenmisTaksit tekrar odenmememli-kontrol eklenek
-
-        Taksit taksit = taksitService.getTaksitByTaksitNo(request.getTaksitNo());
-
-        // Ödeme türüne göre uygun yöntemi seç
-        OdemeYontemi odemeYontemi = getOdemeYontemi(request.getOdemeTuru());
-
-        // Ödeme işlemini gerçekleştir
-        return odemeYontemi.odemeYap(taksit, request.getOdemeTutari(), request.getOdemeTuru());
-    }
-
     private OdemeYontemi getOdemeYontemi(OdemeTuru odemeTuru) {
         return switch (odemeTuru) {
             case NAKIT -> nakitOdeme;
             case KREDI -> krediOdeme;
             case KREDI_KARTI -> krediKartiOdeme;
         };
+    }
+
+    @Override
+    public OdemeSonucu taksitOde(TaksitOdemeRequest request) {
+        Taksit taksit = taksitService.getTaksitByTaksitNo(request.getTaksitNo());
+        OdemeYontemi odemeYontemi = getOdemeYontemi(request.getOdemeTuru());
+        return odemeYontemi.hesaplaVeOde(taksit, request.getOdemeTuru(), LocalDate.now(), request.getOdemeTutari());
+    }
+
+    @Override
+    public OdemeSonucu taksitOdemeBilgisi(String taksitNo, OdemeTuru odemeTuru) {
+        Taksit taksit = taksitService.getTaksitByTaksitNo(taksitNo);
+        OdemeYontemi odemeYontemi = getOdemeYontemi(odemeTuru);
+        return odemeYontemi.sadeceHesapla(taksit, odemeTuru, LocalDate.now());
     }
 }

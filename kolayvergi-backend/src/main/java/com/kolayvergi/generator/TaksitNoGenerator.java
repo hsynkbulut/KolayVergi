@@ -8,15 +8,10 @@ import java.security.MessageDigest;
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.concurrent.atomic.AtomicInteger;
 
 @Component
 @RequiredArgsConstructor
 public class TaksitNoGenerator {
-
-    //TODO: Atomic Integer Kaldirilacak. Bu sinif refactor edilecek.
-    private final AtomicInteger counter = new AtomicInteger(1);
-
     public String generateTaksitNo(Long kullaniciId, int index) {
         String timestamp = generateTimeStamp();
         String formattedKullaniciId = formatUserId(kullaniciId);
