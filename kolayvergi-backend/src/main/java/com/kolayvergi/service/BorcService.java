@@ -8,5 +8,6 @@ public interface BorcService {
 
     BorcResponse createBorc(BorcCreateRequest borc);
     BorcResponse getBorc(Long id);
+    BorcResponse getBorcByKullaniciId(Long kullaniciId);
     BorcResponse updateBorc(Long id, BorcUpdateRequest updateBorc);
 }

@@ -17,11 +17,11 @@ import java.math.BigDecimal;
 public class Borc extends BaseEntity {
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "kullanici_id", nullable = false, unique = true)
+    @JoinColumn(name = "kullanici_id", unique = true)
     private Kullanici kullanici;
 
     @NotNull(message = "Toplam borç alanı boş olamaz!")
-    @Column(name = "toplam_borc", nullable = false)
+    @Column(name = "toplam_borc")
     private BigDecimal toplamBorc;
 
     @Column(name = "kalan_borc")

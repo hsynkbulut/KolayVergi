@@ -32,9 +32,9 @@ public class OdemePlaniServiceImpl implements OdemePlaniService {
         odemePlani.setToplamOdenmisTutar(BigDecimal.ZERO);
         odemePlani.setToplamTaksitSayisi(alisveris.getTaksitSayisi());
         odemePlani.setKalanTaksitSayisi(alisveris.getTaksitSayisi());
-        odemePlaniRepository.save(odemePlani);
+        OdemePlani dbOdeme = odemePlaniRepository.save(odemePlani);
 
-        List<Taksit> taksitler = taksitService.createInitialTaksitler(kullaniciId, odemePlani);
+        List<Taksit> taksitler = taksitService.createInitialTaksitler(kullaniciId, dbOdeme);
         return odemePlani;
     }
 
