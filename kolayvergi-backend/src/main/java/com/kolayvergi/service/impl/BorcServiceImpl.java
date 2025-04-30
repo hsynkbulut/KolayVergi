@@ -4,11 +4,13 @@ import com.kolayvergi.dto.mapper.BorcMapper;
 import com.kolayvergi.dto.request.BorcCreateRequest;
 import com.kolayvergi.dto.request.BorcUpdateRequest;
 import com.kolayvergi.dto.response.BorcResponse;
+import com.kolayvergi.entity.AracBilgisi;
 import com.kolayvergi.entity.Borc;
 import com.kolayvergi.entity.Kullanici;
 import com.kolayvergi.repository.BorcRepository;
 import com.kolayvergi.service.BorcService;
 import com.kolayvergi.service.KullaniciService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,6 +42,15 @@ public class BorcServiceImpl implements BorcService {
         Borc borc = getBorcById(id);
         return borcMapper.borcToBorcResponse(borc);
     }
+
+    public BorcResponse getBorcByKullaniciId(Long kullaniciId) {
+        Optional<Borc> borcOpt = borcRepository.getBorcByKullanici_Id(kullaniciId);
+        if (borcOpt.isEmpty()) {
+            return null;
+        }
+        return borcMapper.borcToBorcResponse(borcOpt.get());
+    }
+
 
     @Transactional(readOnly = false)
     @Override
