@@ -34,7 +34,7 @@ public class Alisveris extends BaseEntity {
     @Column(name = "taksit_sayisi", nullable = false)
     private Integer taksitSayisi;
 
-    @OneToOne(mappedBy = "alisveris", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "alisveris", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private AracBilgisi aracBilgisi;
 
     @OneToOne(mappedBy = "alisveris", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
