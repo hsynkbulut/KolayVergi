@@ -3,10 +3,13 @@ package com.kolayvergi.dto.mapper;
 
 import com.kolayvergi.dto.request.AlisverisCreateRequest;
 import com.kolayvergi.dto.response.AlisverisResponse;
+import com.kolayvergi.dto.response.AracBilgisiResponse;
 import com.kolayvergi.entity.Alisveris;
+import com.kolayvergi.entity.AracBilgisi;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
+import org.mapstruct.Named;
 
 @Mapper(componentModel = "spring", uses = {AracBilgisiMapper.class}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface AlisverisMapper {
@@ -16,6 +19,21 @@ public interface AlisverisMapper {
     @Mapping(target = "aracBilgisi", ignore = true)
     Alisveris aliverisCreateRequestToAlisveris(AlisverisCreateRequest alisverisCreateRequest);
 
-    @Mapping(source = "aracBilgisi", target = "aracBilgisi")
+    @Mapping(source = "aracBilgisi", target = "aracBilgisi", qualifiedByName = "mapAracBilgisi")
     AlisverisResponse alisverisToAlisverisResponse(Alisveris alisveris);
+
+    @Named("mapAracBilgisi")
+    default AracBilgisiResponse mapAracBilgisi(AracBilgisi aracBilgisi) {
+        if (aracBilgisi == null) {
+            return null;
+        }
+        return new AracBilgisiResponse(
+            aracBilgisi.getMarka(),
+            aracBilgisi.getModel(),
+            aracBilgisi.getIlkTescilYili(),
+            aracBilgisi.getMotorSilindirHacmi(),
+            aracBilgisi.getAracTipi(),
+            aracBilgisi.getAracYasi()
+        );
+    }
 }
