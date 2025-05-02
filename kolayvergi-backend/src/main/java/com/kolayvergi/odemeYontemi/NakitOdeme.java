@@ -47,6 +47,8 @@ public class NakitOdeme implements OdemeYontemi {
             borcService.updateBorc(dbBorc.getId(), borcUpdateRequest);
         }
 
+
+
         return sonuc;
     }
 
