@@ -25,10 +25,4 @@ public class OdemeControllerImpl implements OdemeController {
     public ResponseEntity<OdemeSonucu> taksitOdemeBilgisi(String taksitNo, OdemeTuru odemeTuru) {
         return ResponseEntity.ok(odemeService.taksitOdemeBilgisi(taksitNo, odemeTuru));
     }
-
-//    @Override
-//    public ResponseEntity<Boolean> taksitOde(TaksitOdemeRequest request) {
-//        return ResponseEntity.status(HttpStatus.CREATED).body(odemeService.taksitOde(request));
-//    }
-
 }
