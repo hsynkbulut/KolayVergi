@@ -21,9 +21,8 @@ public class AracOtvVergisiHesaplayici {
             throw new IllegalArgumentException("Araç bilgisi bulunamadı. Araç ÖTV hesaplanamaz.");
         }
 
-        BigDecimal temelOran = BigDecimal.valueOf(45); // %45 baz oran
+        BigDecimal temelOran = BigDecimal.valueOf(45);
 
-        // Motor Hacmine göre ayarlamalar
         if (aracBilgisi.getMotorSilindirHacmi() != null) {
             if (aracBilgisi.getMotorSilindirHacmi() > 2000) {
                 temelOran = temelOran.multiply(BigDecimal.valueOf(1.5)); // +%50
@@ -37,15 +36,12 @@ public class AracOtvVergisiHesaplayici {
             temelOran = temelOran.multiply(BigDecimal.valueOf(1.3)); // +%30
         }
 
-        // Kullanıcı özelliklerine göre indirimler
         temelOran = uygulaKullaniciIndirimleri(temelOran, kullanici);
 
-        // ÖTV tutarını hesapla
         BigDecimal otvTutari = alisveris.getTutar()
                 .multiply(temelOran)
                 .divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
 
-        // AracOtvVergisi nesnesi oluştur
         AracOtvVergisi aracOtvVergisi = new AracOtvVergisi();
         aracOtvVergisi.setFiyat(otvTutari);
         aracOtvVergisi.setAlisveris(alisveris);

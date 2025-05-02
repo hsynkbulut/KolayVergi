@@ -9,5 +9,5 @@ import java.time.LocalDate;
 
 public interface OdemeYontemi {
     OdemeSonucu hesaplaVeOde(Taksit taksit, OdemeTuru odemeTuru, LocalDate odemeTarihi, BigDecimal kullaniciOdemeTutari);
-    OdemeSonucu sadeceHesapla(Taksit taksit, OdemeTuru odemeTuru, LocalDate odemeTarihi);
+    OdemeSonucu sadeceHesapla(Taksit taksit, LocalDate odemeTarihi);
 }

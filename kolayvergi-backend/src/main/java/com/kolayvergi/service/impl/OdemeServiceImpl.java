@@ -46,6 +46,6 @@ public class OdemeServiceImpl implements OdemeService {
     public OdemeSonucu taksitOdemeBilgisi(String taksitNo, OdemeTuru odemeTuru) {
         Taksit taksit = taksitService.getTaksitByTaksitNo(taksitNo);
         OdemeYontemi odemeYontemi = getOdemeYontemi(odemeTuru);
-        return odemeYontemi.sadeceHesapla(taksit, odemeTuru, LocalDate.now());
+        return odemeYontemi.sadeceHesapla(taksit, LocalDate.now());
     }
 }

@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 
-// Faizli ödeme türleri implementasyonu
 @Component
 public class KrediOdeme extends AbstractFaizliOdeme {
     public KrediOdeme(TaksitService taksitService, OdemePlaniService odemePlaniService, BorcService borcService) {

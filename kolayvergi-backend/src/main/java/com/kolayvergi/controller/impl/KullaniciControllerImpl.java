@@ -4,11 +4,9 @@ import com.kolayvergi.controller.KullaniciController;
 import com.kolayvergi.dto.request.KullaniciCreateRequest;
 import com.kolayvergi.dto.request.KullaniciUpdateRequest;
 import com.kolayvergi.dto.response.KullaniciResponse;
-import com.kolayvergi.entity.Kullanici;
 import com.kolayvergi.service.KullaniciService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 

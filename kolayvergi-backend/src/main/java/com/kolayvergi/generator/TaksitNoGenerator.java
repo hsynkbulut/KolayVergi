@@ -1,6 +1,5 @@
 package com.kolayvergi.generator;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.nio.charset.StandardCharsets;
@@ -10,7 +9,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 @Component
-@RequiredArgsConstructor
 public class TaksitNoGenerator {
     public String generateTaksitNo(Long kullaniciId, int index) {
         String timestamp = generateTimeStamp();

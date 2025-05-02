@@ -1,6 +1,5 @@
 package com.kolayvergi.odemeYontemi;
 
-import com.kolayvergi.dto.request.BorcCreateRequest;
 import com.kolayvergi.dto.request.BorcUpdateRequest;
 import com.kolayvergi.dto.response.BorcResponse;
 import com.kolayvergi.dto.response.OdemeSonucu;
@@ -25,7 +24,7 @@ public abstract class AbstractFaizliOdeme implements OdemeYontemi {
 
     @Override
     public OdemeSonucu hesaplaVeOde(Taksit taksit, OdemeTuru odemeTuru, LocalDate odemeTarihi, BigDecimal kullaniciOdemeTutari) {
-        OdemeSonucu sonuc = hesapla(taksit, odemeTuru, odemeTarihi);
+        OdemeSonucu sonuc = hesapla(taksit, odemeTarihi);
 
         if (sonuc.getGuncellenmisTutar().compareTo(kullaniciOdemeTutari) != 0) {
             throw new IllegalArgumentException("Girilen tutar beklenen tutardan farkli!");
@@ -52,11 +51,11 @@ public abstract class AbstractFaizliOdeme implements OdemeYontemi {
     }
 
     @Override
-    public OdemeSonucu sadeceHesapla(Taksit taksit, OdemeTuru odemeTuru, LocalDate odemeTarihi) {
-        return hesapla(taksit, odemeTuru, odemeTarihi);
+    public OdemeSonucu sadeceHesapla(Taksit taksit, LocalDate odemeTarihi) {
+        return hesapla(taksit, odemeTarihi);
     }
 
-    protected OdemeSonucu hesapla(Taksit taksit, OdemeTuru odemeTuru, LocalDate odemeTarihi) {
+    protected OdemeSonucu hesapla(Taksit taksit, LocalDate odemeTarihi) {
         BigDecimal mevcut = taksit.getTaksitTutari();
         BigDecimal faiz = mevcut.multiply(faizOrani).divide(BigDecimal.valueOf(100));
         BigDecimal indirim = BigDecimal.ZERO;

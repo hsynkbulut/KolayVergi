@@ -1,13 +1,10 @@
 package com.kolayvergi.service.impl;
 
-import com.kolayvergi.entity.OdemePlani;
-import com.kolayvergi.entity.Taksit;
-import com.kolayvergi.dto.request.AlisverisUpdateRequest;
 import com.kolayvergi.dto.request.BorcCreateRequest;
 import com.kolayvergi.dto.request.BorcUpdateRequest;
-import com.kolayvergi.dto.response.AlisverisResponse;
 import com.kolayvergi.dto.response.BorcResponse;
-import com.kolayvergi.entity.*;
+import com.kolayvergi.entity.OdemePlani;
+import com.kolayvergi.entity.Taksit;
 import com.kolayvergi.entity.enums.OdemeDurumu;
 import com.kolayvergi.entity.enums.OdemeTuru;
 import com.kolayvergi.generator.TaksitNoGenerator;
