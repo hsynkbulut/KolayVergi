@@ -25,7 +25,7 @@ public class NakitOdeme implements OdemeYontemi {
     //TODO: NakitOdeme ve abstract faizli odemede cok benzer 2 method var. Refactor edilecek.
     @Override
     public OdemeSonucu hesaplaVeOde(Taksit taksit, OdemeTuru odemeTuru, LocalDate odemeTarihi, BigDecimal kullaniciOdemeTutari) {
-        OdemeSonucu sonuc = sadeceHesapla(taksit, odemeTuru, odemeTarihi);
+        OdemeSonucu sonuc = sadeceHesapla(taksit, odemeTarihi);
 
         if (sonuc.getGuncellenmisTutar().compareTo(kullaniciOdemeTutari) != 0) {
             throw new IllegalArgumentException("Girilen tutar beklenen tutardan farkli!");
@@ -53,7 +53,7 @@ public class NakitOdeme implements OdemeYontemi {
     }
 
     @Override
-    public OdemeSonucu sadeceHesapla(Taksit taksit, OdemeTuru odemeTuru, LocalDate odemeTarihi) {
+    public OdemeSonucu sadeceHesapla(Taksit taksit, LocalDate odemeTarihi) {
         BigDecimal mevcut = taksit.getTaksitTutari();
         BigDecimal indirim = BigDecimal.ZERO;
         BigDecimal ceza = BigDecimal.ZERO;

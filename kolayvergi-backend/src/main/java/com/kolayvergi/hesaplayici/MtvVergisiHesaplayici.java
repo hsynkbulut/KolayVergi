@@ -25,10 +25,8 @@ public class MtvVergisiHesaplayici {
         // Temel oranı araç bilgilerine göre hesaplama
         BigDecimal temelOran = getTemelMtvOrani(aracBilgisi);
 
-        // Kullanıcı bilgilerine göre ek indirim veya artırım uygulama
         BigDecimal finalOran = uygulaKullaniciIndirimleri(temelOran, kullanici);
 
-        // MTV tutarını hesaplama
         BigDecimal mtvTutari = alisveris.getTutar()
                 .multiply(finalOran)
                 .divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
