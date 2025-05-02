@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import java.math.BigDecimal;
 
 @Component
-public class KrediKartiOdeme extends FaizliOdeme {
+public class KrediKartiOdeme extends AbstractFaizliOdeme {
     public KrediKartiOdeme(TaksitService taksitService, OdemePlaniService odemePlaniService, BorcService borcService) {
         super(BigDecimal.valueOf(4), taksitService, odemePlaniService, borcService);
     }

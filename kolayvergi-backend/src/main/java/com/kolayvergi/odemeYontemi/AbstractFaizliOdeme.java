@@ -1,28 +1,27 @@
 package com.kolayvergi.odemeYontemi;
 
+import com.kolayvergi.dto.request.BorcCreateRequest;
+import com.kolayvergi.dto.request.BorcUpdateRequest;
+import com.kolayvergi.dto.response.BorcResponse;
 import com.kolayvergi.dto.response.OdemeSonucu;
 import com.kolayvergi.entity.Taksit;
 import com.kolayvergi.entity.enums.OdemeTuru;
 import com.kolayvergi.service.BorcService;
 import com.kolayvergi.service.OdemePlaniService;
 import com.kolayvergi.service.TaksitService;
+import lombok.RequiredArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-public abstract class FaizliOdeme implements OdemeYontemi {
+@RequiredArgsConstructor
+public abstract class AbstractFaizliOdeme implements OdemeYontemi {
 
     protected final BigDecimal faizOrani;
     protected final TaksitService taksitService;
     protected final OdemePlaniService odemePlaniService;
     protected final BorcService borcService;
 
-    public FaizliOdeme(BigDecimal faizOrani, TaksitService taksitService, OdemePlaniService odemePlaniService, BorcService borcService) {
-        this.faizOrani = faizOrani;
-        this.taksitService = taksitService;
-        this.odemePlaniService = odemePlaniService;
-        this.borcService = borcService;
-    }
 
     @Override
     public OdemeSonucu hesaplaVeOde(Taksit taksit, OdemeTuru odemeTuru, LocalDate odemeTarihi, BigDecimal kullaniciOdemeTutari) {
@@ -36,7 +35,18 @@ public abstract class FaizliOdeme implements OdemeYontemi {
 
         taksitService.updateTaksitForPayment(taksit, odemeTuru, guncellenmisTutar);
         odemePlaniService.updateOdemePlaniAfterPayment(taksit, guncellenmisTutar);
-//        borcService.updateBorc(taksit.getOdemePlani().getAlisveris().getKullanici().getId(), new BorcUpdateRequest(kullaniciOdemeTutari));
+
+        //Borc
+//TODO: Bu borc kismi refactor edilebilir aynisi taksitServiceImpl dede var.
+        Long kullaniciId = taksit.getOdemePlani().getAlisveris().getKullanici().getId();
+
+        BorcUpdateRequest borcUpdateRequest = new BorcUpdateRequest();
+        BorcResponse dbBorc = borcService.getBorcByKullaniciId(kullaniciId);
+        if(dbBorc != null) {
+            borcUpdateRequest.setKullaniciId(kullaniciId);
+            borcUpdateRequest.setKalanBorc(dbBorc.getKalanBorc().subtract(guncellenmisTutar));
+            borcService.updateBorc(dbBorc.getId(), borcUpdateRequest);
+        }
 
         return sonuc;
     }

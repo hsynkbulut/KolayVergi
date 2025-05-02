@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 
 // Faizli ödeme türleri implementasyonu
 @Component
-public class KrediOdeme extends FaizliOdeme {
+public class KrediOdeme extends AbstractFaizliOdeme {
     public KrediOdeme(TaksitService taksitService, OdemePlaniService odemePlaniService, BorcService borcService) {
         super(BigDecimal.valueOf(2), taksitService, odemePlaniService, borcService);
     }
