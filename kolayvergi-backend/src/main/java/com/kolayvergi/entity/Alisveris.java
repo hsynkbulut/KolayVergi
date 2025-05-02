@@ -9,6 +9,9 @@ import lombok.NoArgsConstructor;
 import jakarta.persistence.*;
 import lombok.*;
 import java.math.BigDecimal;
+import com.kolayvergi.entity.vergi.KdvVergisi;
+import com.kolayvergi.entity.vergi.MtvVergisi;
+import com.kolayvergi.entity.vergi.AracOtvVergisi;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
@@ -39,4 +42,13 @@ public class Alisveris extends BaseEntity {
 
     @OneToOne(mappedBy = "alisveris", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
     private OdemePlani odemePlani;
+
+    @OneToOne(mappedBy = "alisveris", cascade = CascadeType.ALL, orphanRemoval = true)
+    private KdvVergisi kdvVergisi;
+
+    @OneToOne(mappedBy = "alisveris", cascade = CascadeType.ALL, orphanRemoval = true)
+    private MtvVergisi mtvVergisi;
+
+    @OneToOne(mappedBy = "alisveris", cascade = CascadeType.ALL, orphanRemoval = true)
+    private AracOtvVergisi aracOtvVergisi;
 }

@@ -16,7 +16,7 @@ public abstract class BaseVergi extends BaseEntity {
     @Column(nullable = false, precision = 12, scale = 2)
     private BigDecimal fiyat;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "alisveris_id", nullable = false)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "alisveris_id", nullable = false, unique = true)
     private Alisveris alisveris;
 }
