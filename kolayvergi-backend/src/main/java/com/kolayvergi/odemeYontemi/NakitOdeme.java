@@ -1,5 +1,8 @@
 package com.kolayvergi.odemeYontemi;
 
+import com.kolayvergi.dto.request.BorcCreateRequest;
+import com.kolayvergi.dto.request.BorcUpdateRequest;
+import com.kolayvergi.dto.response.BorcResponse;
 import com.kolayvergi.dto.response.OdemeSonucu;
 import com.kolayvergi.entity.Taksit;
 import com.kolayvergi.entity.enums.OdemeTuru;
@@ -19,6 +22,7 @@ public class NakitOdeme implements OdemeYontemi {
     private final OdemePlaniService odemePlaniService;
     private final BorcService borcService;
 
+    //TODO: NakitOdeme ve abstract faizli odemede cok benzer 2 method var. Refactor edilecek.
     @Override
     public OdemeSonucu hesaplaVeOde(Taksit taksit, OdemeTuru odemeTuru, LocalDate odemeTarihi, BigDecimal kullaniciOdemeTutari) {
         OdemeSonucu sonuc = sadeceHesapla(taksit, odemeTuru, odemeTarihi);
@@ -31,7 +35,17 @@ public class NakitOdeme implements OdemeYontemi {
 
         taksitService.updateTaksitForPayment(taksit, odemeTuru, guncellenmisTutar);
         odemePlaniService.updateOdemePlaniAfterPayment(taksit, guncellenmisTutar);
-//        borcService.updateBorc(taksit.getOdemePlani().getAlisveris().getKullanici().getId(), new BorcUpdateRequest(kullaniciOdemeTutari));
+
+        //TODO: Bu borc kismi refactor edilebilir aynisi taksitServiceImpl ve AbstractFaizli odeme dede var.
+        Long kullaniciId = taksit.getOdemePlani().getAlisveris().getKullanici().getId();
+
+        BorcUpdateRequest borcUpdateRequest = new BorcUpdateRequest();
+        BorcResponse dbBorc = borcService.getBorcByKullaniciId(kullaniciId);
+        if(dbBorc != null) {
+            borcUpdateRequest.setKullaniciId(kullaniciId);
+            borcUpdateRequest.setKalanBorc(dbBorc.getKalanBorc().subtract(guncellenmisTutar));
+            borcService.updateBorc(dbBorc.getId(), borcUpdateRequest);
+        }
 
         return sonuc;
     }

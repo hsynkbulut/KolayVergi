@@ -8,6 +8,7 @@ import com.kolayvergi.odemeYontemi.KrediKartiOdeme;
 import com.kolayvergi.odemeYontemi.KrediOdeme;
 import com.kolayvergi.odemeYontemi.NakitOdeme;
 import com.kolayvergi.odemeYontemi.OdemeYontemi;
+import com.kolayvergi.service.BorcService;
 import com.kolayvergi.service.OdemeService;
 import com.kolayvergi.service.TaksitService;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,8 @@ public class OdemeServiceImpl implements OdemeService {
     private final NakitOdeme nakitOdeme;
     private final KrediOdeme krediOdeme;
     private final KrediKartiOdeme krediKartiOdeme;
+    private final BorcService borcService;
+
 
     private OdemeYontemi getOdemeYontemi(OdemeTuru odemeTuru) {
         return switch (odemeTuru) {
