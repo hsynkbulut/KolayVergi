@@ -103,20 +103,9 @@ public class AlisverisServiceImpl implements AlisverisService {
 
     @Override
     @Transactional(readOnly = false)
-    public AlisverisResponse updateAlisveris(Long id, AlisverisUpdateRequest updateAlisveris) {
-        Alisveris alisveris = getAlisverisById(id);
-
-        Optional.ofNullable(updateAlisveris.getUrunTuru()).ifPresent(alisveris::setUrunTuru);
-        Optional.ofNullable(updateAlisveris.getTutar()).ifPresent(alisveris::setTutar);
-        Optional.ofNullable(updateAlisveris.getTaksitSayisi()).ifPresent(alisveris::setTaksitSayisi);
-
-        if (updateAlisveris.getKullaniciId() != null) {
-            Kullanici kullanici = kullaniciService.getKullanici(updateAlisveris.getKullaniciId());
-            alisveris.setKullanici(kullanici);
-        }
-
-        Alisveris updatedAlisveris = alisverisRepository.save(alisveris);
-        return alisverisMapper.alisverisToAlisverisResponse(updatedAlisveris);
+    public AlisverisResponse updateAlisveris(Long id, AlisverisCreateRequest request) {
+        deleteAlisveris(id);
+        return createAlisveris(request);
     }
 
 

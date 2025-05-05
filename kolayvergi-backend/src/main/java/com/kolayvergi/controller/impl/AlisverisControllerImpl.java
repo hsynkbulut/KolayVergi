@@ -29,7 +29,7 @@ public class AlisverisControllerImpl implements AlisverisController {
     }
 
     @Override
-    public ResponseEntity<AlisverisResponse> updateAlisveris(Long id, AlisverisUpdateRequest request) {
+    public ResponseEntity<AlisverisResponse> updateAlisveris(Long id, AlisverisCreateRequest request) {
         AlisverisResponse response = alisverisService.updateAlisveris(id, request);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }

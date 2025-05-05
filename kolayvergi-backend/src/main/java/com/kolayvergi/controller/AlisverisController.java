@@ -39,7 +39,7 @@ public interface AlisverisController {
     @ApiResponse(responseCode = "404", description = "Alışveriş bulunamadı")
     @PutMapping(ApiConstants.ID)
     ResponseEntity<AlisverisResponse> updateAlisveris(@PathVariable("id") Long id,
-                                                      @RequestBody @Valid AlisverisUpdateRequest request);
+                                                      @RequestBody @Valid AlisverisCreateRequest request);
 
     @Operation(
             summary = SwaggerConstants.DELETE_ALISVERIS_SUMMARY,
