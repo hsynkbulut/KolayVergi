@@ -9,4 +9,5 @@ public enum Meslek {
     MEMUR,
     SERBEST_CALISAN,
     ISADAMI,
+    DIGER,
 }

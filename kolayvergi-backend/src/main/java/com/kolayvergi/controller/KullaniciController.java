@@ -1,54 +1,36 @@
 package com.kolayvergi.controller;
 
-import com.kolayvergi.constant.ApiConstants;
 import com.kolayvergi.constant.SwaggerConstants;
-import com.kolayvergi.dto.request.KullaniciCreateRequest;
-import com.kolayvergi.dto.request.KullaniciUpdateRequest;
 import com.kolayvergi.dto.response.KullaniciResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import jakarta.validation.Valid;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-@RequestMapping(ApiConstants.KULLANICILAR)
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/v1/kullanicilar")
+@Tag(name = "Kullanıcı Yönetimi", description = "Kullanıcı yönetimi için API endpoint'leri")
 public interface KullaniciController {
 
-    @Operation(
-            summary = SwaggerConstants.CREATE_KULLANICI_SUMMARY,
-            description = SwaggerConstants.CREATE_KULLANICI_DESC
-    )
-    @ApiResponse(responseCode = "201", description = "Kullanıcı başarıyla oluşturuldu")
-    @PostMapping
-    ResponseEntity<KullaniciResponse> createKullanici(@RequestBody @Valid KullaniciCreateRequest request);
-
-    @Operation(
-            summary = SwaggerConstants.GET_KULLANICI_SUMMARY,
-            description = SwaggerConstants.GET_KULLANICI_DESC
-    )
-    @ApiResponse(responseCode = "200", description = "Kullanıcı başarıyla getirildi")
-    @ApiResponse(responseCode = "404", description = "Kullanıcı bulunamadı")
     @GetMapping("/{id}")
-    ResponseEntity<KullaniciResponse> getKullaniciById(@PathVariable(name = "id") Long id);
+    @PreAuthorize("hasRole('ADMIN') or @kullaniciServiceImpl.isCurrentUser(#id)")
+    @Operation(summary = SwaggerConstants.GET_KULLANICI_SUMMARY, description = SwaggerConstants.GET_KULLANICI_DESC)
+    @ApiResponse(responseCode = "200", description = "Kullanıcı başarıyla getirildi")
+    ResponseEntity<KullaniciResponse> getKullaniciById(@PathVariable Long id);
 
-    @Operation(
-            summary = SwaggerConstants.UPDATE_KULLANICI_SUMMARY,
-            description = SwaggerConstants.UPDATE_KULLANICI_DESC
-    )
-    @ApiResponse(responseCode = "200", description = "Kullanıcı başarıyla güncellendi")
-    @ApiResponse(responseCode = "404", description = "Kullanıcı bulunamadı")
-    @PutMapping("/{id}")
-    ResponseEntity<KullaniciResponse> updateKullanici(
-            @PathVariable(name = "id") Long id,
-            @RequestBody @Valid KullaniciUpdateRequest updateKullaniciRequest
-    );
+    @DeleteMapping("/{id}/delete")
+    @PreAuthorize("hasRole('ADMIN')")
+    @Operation(summary = SwaggerConstants.DELETE_KULLANICI_SUMMARY, description = SwaggerConstants.DELETE_KULLANICI_DESC)
+    @ApiResponse(responseCode = "200", description = "Kullanıcı başarıyla silindi")
+    ResponseEntity<Void> deleteKullanici(@PathVariable Long id);
 
-    @Operation(
-            summary = SwaggerConstants.DELETE_KULLANICI_SUMMARY,
-            description = SwaggerConstants.DELETE_KULLANICI_DESC
-    )
-    @ApiResponse(responseCode = "204", description = "Kullanıcı başarıyla silindi")
-    @ApiResponse(responseCode = "404", description = "Kullanıcı bulunamadı")
-    @DeleteMapping("/{id}")
-    ResponseEntity<Void> deleteKullanici(@PathVariable(name = "id") Long id);
+    @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
+    @Operation(summary = SwaggerConstants.GET_ALL_KULLANICILAR_SUMMARY, description = SwaggerConstants.GET_ALL_KULLANICILAR_DESC)
+    @ApiResponse(responseCode = "200", description = "Tüm kullanıcılar başarıyla listelendi")
+    ResponseEntity<List<KullaniciResponse>> getAllKullanicilar();
 }
