@@ -23,7 +23,7 @@ public interface KullaniciController {
     ResponseEntity<KullaniciResponse> getKullaniciById(@PathVariable Long id);
 
     @DeleteMapping("/{id}/delete")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') or @kullaniciServiceImpl.isCurrentUser(#id)")
     @Operation(summary = SwaggerConstants.DELETE_KULLANICI_SUMMARY, description = SwaggerConstants.DELETE_KULLANICI_DESC)
     @ApiResponse(responseCode = "200", description = "Kullanıcı başarıyla silindi")
     ResponseEntity<Void> deleteKullanici(@PathVariable Long id);

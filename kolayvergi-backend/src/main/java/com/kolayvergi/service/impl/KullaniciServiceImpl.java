@@ -3,10 +3,13 @@ package com.kolayvergi.service.impl;
 import com.kolayvergi.dto.mapper.KullaniciMapper;
 import com.kolayvergi.dto.response.KullaniciResponse;
 import com.kolayvergi.entity.Kullanici;
+import com.kolayvergi.entity.enums.Role;
 import com.kolayvergi.repository.KullaniciRepository;
 import com.kolayvergi.service.KullaniciService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,6 +33,8 @@ public class KullaniciServiceImpl implements KullaniciService {
     @Transactional(readOnly = false)
     @Override
     public void deleteKullanici(Long id) {
+        Kullanici currentUser = getCurrentUser();
+        validateDeletePermission(currentUser, id);
         kullaniciRepository.deleteById(id);
     }
 
@@ -44,5 +49,27 @@ public class KullaniciServiceImpl implements KullaniciService {
         return kullaniciRepository.findAll().stream()
                 .map(kullaniciMapper::kullaniciToKullaniciResponse)
                 .collect(Collectors.toList());
+    }
+
+    public boolean isCurrentUser(Long userId) {
+        try {
+            Kullanici currentUser = getCurrentUser();
+            return currentUser.getId().equals(userId);
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    private Kullanici getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return kullaniciRepository.findByEmail(authentication.getName())
+                .orElseThrow(() -> new EntityNotFoundException("Oturum açmış kullanıcı bulunamadı"));
+    }
+
+    private void validateDeletePermission(Kullanici currentUser, Long targetUserId) {
+        if (currentUser.getRol() == Role.ROLE_ADMIN || currentUser.getId().equals(targetUserId)) {
+            return;
+        }
+        throw new RuntimeException("Bu kullanıcıyı silme yetkiniz bulunmamaktadır. Sadece kendi hesabınızı veya admin olarak tüm hesapları silebilirsiniz.");
     }
 }
