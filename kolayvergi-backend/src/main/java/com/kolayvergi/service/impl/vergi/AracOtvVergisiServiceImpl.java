@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+@Transactional(readOnly = true)
 @Service
 @RequiredArgsConstructor
 public class AracOtvVergisiServiceImpl implements AracOtvVergisiService {
@@ -46,13 +47,6 @@ public class AracOtvVergisiServiceImpl implements AracOtvVergisiService {
         }
         return list;
     }
-
-//    @Override
-//    public List<AracOtvVergisiResponse> getAllByAlisverisId(Long alisverisId) {
-//        return aracOtvVergisiRepository.findByAlisverisId(alisverisId).stream()
-//                .map(aracOtvVergisiMapper::aracOtvVergisiToAracOtvVergisiResponse)
-//                .toList();
-//    }
 
     @Override
     public AracOtvVergisiResponse getAracOtvVergisiById(Long id) {

@@ -13,9 +13,11 @@ import com.kolayvergi.service.OdemeService;
 import com.kolayvergi.service.TaksitService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 
+@Transactional(readOnly = true)
 @Service
 @RequiredArgsConstructor
 public class OdemeServiceImpl implements OdemeService {
@@ -35,6 +37,7 @@ public class OdemeServiceImpl implements OdemeService {
         };
     }
 
+    @Transactional
     @Override
     public OdemeSonucu taksitOde(TaksitOdemeRequest request) {
         Taksit taksit = taksitService.getTaksitByTaksitNo(request.getTaksitNo());

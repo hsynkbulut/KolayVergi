@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+@Transactional(readOnly = true)
 @Service
 @RequiredArgsConstructor
 public class KdvVergisiServiceImpl implements KdvVergisiService {
@@ -41,13 +42,6 @@ public class KdvVergisiServiceImpl implements KdvVergisiService {
         }
         return list;
     }
-
-//    @Override
-//    public List<KdvVergisiResponse> getAllByAlisverisId(Long alisverisId) {
-//        return kdvVergisiRepository.findByAlisverisId(alisverisId).stream()
-//                .map(kdvVergisiMapper::kdvVergisiToKdvVergisiResponse)
-//                .toList();
-//    }
 
     @Override
     public KdvVergisiResponse getKdvVergisiById(Long id) {

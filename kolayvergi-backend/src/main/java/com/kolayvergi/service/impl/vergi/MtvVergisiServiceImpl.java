@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+@Transactional(readOnly = true)
 @Service
 @RequiredArgsConstructor
 public class MtvVergisiServiceImpl implements MtvVergisiService {
@@ -46,13 +47,6 @@ public class MtvVergisiServiceImpl implements MtvVergisiService {
         }
         return list;
     }
-
-//    @Override
-//    public List<MtvVergisiResponse> getAllByAlisverisId(Long alisverisId) {
-//        return mtvVergisiRepository.findByAlisverisId(alisverisId).stream()
-//                .map(mtvVergisiMapper::mtvVergisiToMtvVergisiResponse)
-//                .toList();
-//    }
 
     @Override
     public MtvVergisiResponse getMtvVergisiById(Long id) {

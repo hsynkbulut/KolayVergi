@@ -2,12 +2,10 @@ package com.kolayvergi.service.impl;
 
 import com.kolayvergi.dto.mapper.AlisverisMapper;
 import com.kolayvergi.dto.request.AlisverisCreateRequest;
-import com.kolayvergi.dto.request.AlisverisUpdateRequest;
 import com.kolayvergi.dto.response.AlisverisResponse;
 import com.kolayvergi.entity.Alisveris;
 import com.kolayvergi.entity.AracBilgisi;
 import com.kolayvergi.entity.Kullanici;
-import com.kolayvergi.entity.OdemePlani;
 import com.kolayvergi.entity.enums.UrunTuru;
 import com.kolayvergi.entity.enums.VergiTuru;
 import com.kolayvergi.entity.vergi.AracOtvVergisi;
@@ -29,7 +27,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -46,7 +43,7 @@ public class AlisverisServiceImpl implements AlisverisService {
     private final AracOtvVergisiService aracOtvVergisiService;
     private final OdemePlaniService odemePlaniService;
 
-    @Transactional(readOnly = false)
+    @Transactional()
     @Override
     public AlisverisResponse createAlisveris(AlisverisCreateRequest request) {
         Kullanici kullanici = kullaniciService.getKullanici(request.getKullaniciId());
@@ -102,14 +99,14 @@ public class AlisverisServiceImpl implements AlisverisService {
     }
 
     @Override
-    @Transactional(readOnly = false)
+    @Transactional()
     public AlisverisResponse updateAlisveris(Long id, AlisverisCreateRequest request) {
         deleteAlisveris(id);
         return createAlisveris(request);
     }
 
 
-    @Transactional(readOnly = false)
+    @Transactional()
     @Override
     public void deleteAlisveris(Long id) {
         if (!alisverisRepository.existsById(id)) {

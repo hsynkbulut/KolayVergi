@@ -2,8 +2,9 @@ package com.kolayvergi.dto.request;
 
 import com.kolayvergi.entity.enums.Cinsiyet;
 import com.kolayvergi.entity.enums.Meslek;
+import com.kolayvergi.validator.annotation.ValidTCKN;
+import com.kolayvergi.validator.annotation.ValidVKN;
 import jakarta.validation.constraints.*;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,6 +13,12 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 public class KullaniciUpdateRequest {
+
+    @ValidVKN
+    private String vkn;
+
+    @ValidTCKN
+    private String tckn;
 
     @NotBlank(message = "Ad boş olamaz.")
     private String ad;
@@ -29,7 +36,7 @@ public class KullaniciUpdateRequest {
 
     @NotNull(message = "Yaş boş olamaz.")
     @Min(value = 18, message = "18 yaşından küçük kullanıcı kayıt olamaz.")
-    @Max(value = 150, message = "Yaş 150’den büyük olamaz.")
+    @Max(value = 150, message = "Yaş 150'den büyük olamaz.")
     private Integer yas;
 
     @NotNull(message = "Cinsiyet boş olamaz.")
