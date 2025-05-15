@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.util.List;
 
+@Transactional()
 @Service
 @RequiredArgsConstructor
 public class OdemePlaniServiceImpl implements OdemePlaniService {
@@ -21,7 +22,6 @@ public class OdemePlaniServiceImpl implements OdemePlaniService {
     private final OdemePlaniRepository odemePlaniRepository;
 
     @Override
-    @Transactional
     public OdemePlani createOdemePlaniForAlisveris(Alisveris alisveris, BigDecimal vergiTutari) {
         Long kullaniciId = alisveris.getKullanici().getId();
         BigDecimal odenecekTutar = vergiTutari.add(alisveris.getTutar());
@@ -39,7 +39,6 @@ public class OdemePlaniServiceImpl implements OdemePlaniService {
     }
 
     @Override
-    @Transactional
     public OdemePlani updateOdemePlaniAfterPayment(Taksit taksit, BigDecimal guncellenmisTutar) {
         OdemePlani odemePlani = taksit.getOdemePlani();
 

@@ -21,6 +21,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+@Transactional(readOnly = true)
 @Service
 @RequiredArgsConstructor
 public class TaksitServiceImpl implements TaksitService {
@@ -77,7 +78,6 @@ public class TaksitServiceImpl implements TaksitService {
     }
 
     @Override
-    @Transactional
     public Taksit getTaksitByTaksitNo(String taksitNo) {
         return taksitRepository.findByTaksitNo(taksitNo)
                 .orElseThrow(() -> new RuntimeException("Taksit bulunamadı: " + taksitNo));

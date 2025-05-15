@@ -26,44 +26,40 @@ public class BorcServiceImpl implements BorcService {
     private final BorcMapper borcMapper;
     private final KullaniciService kullaniciService;
 
-    @Transactional(readOnly = false)
+    @Transactional()
     @Override
     public BorcResponse createBorc(BorcCreateRequest request) {
         Kullanici kullanici = kullaniciService.getKullanici(request.getKullaniciId());
         Borc borc = borcMapper.borcCreateRequestToBorc(request);
         borc.setKullanici(kullanici);
 
-        Borc dbBorc = borcRepository.save(borc);
-        return borcMapper.borcToBorcResponse(dbBorc);
+        return borcMapper.borcToBorcResponse(borcRepository.save(borc));
     }
 
     @Override
     public BorcResponse getBorc(Long id) {
-        Borc borc = getBorcById(id);
-        return borcMapper.borcToBorcResponse(borc);
+        return borcMapper.borcToBorcResponse(getBorcById(id));
     }
 
+    @Override
     public BorcResponse getBorcByKullaniciId(Long kullaniciId) {
-        Optional<Borc> borcOpt = borcRepository.getBorcByKullanici_Id(kullaniciId);
-        if (borcOpt.isEmpty()) {
-            return null;
-        }
-        return borcMapper.borcToBorcResponse(borcOpt.get());
+        return borcRepository.getBorcByKullaniciId(kullaniciId)
+                .map(borcMapper::borcToBorcResponse)
+                .orElseThrow(() -> new EntityNotFoundException("Borc bulunamadı. Kullanıcı ID: " + kullaniciId));
     }
 
-
-    @Transactional(readOnly = false)
+    @Transactional()
     @Override
     public BorcResponse updateBorc(Long id, BorcUpdateRequest updateBorcRequest) {
         Borc borc = getBorcById(id);
         Optional.ofNullable(updateBorcRequest.getToplamBorc()).ifPresent(borc::setToplamBorc);
         Optional.ofNullable(updateBorcRequest.getKalanBorc()).ifPresent(borc::setKalanBorc);
-        Borc updatedBorc = borcRepository.save(borc);
 
-        return borcMapper.borcToBorcResponse(updatedBorc);
+        return borcMapper.borcToBorcResponse(borcRepository.save(borc));
     }
 
-    private Borc getBorcById(Long id){
-        return borcRepository.findById(id).orElseThrow(RuntimeException::new);
+    private Borc getBorcById(Long id) {
+        return borcRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Borc bulunamadı. ID: " + id));
     }
 }

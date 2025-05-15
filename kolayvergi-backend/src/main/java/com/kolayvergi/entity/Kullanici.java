@@ -4,6 +4,8 @@ import com.kolayvergi.entity.base.BaseEntity;
 import com.kolayvergi.entity.enums.Cinsiyet;
 import com.kolayvergi.entity.enums.Meslek;
 import com.kolayvergi.entity.enums.Role;
+import com.kolayvergi.validator.annotation.ValidTCKN;
+import com.kolayvergi.validator.annotation.ValidVKN;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
@@ -24,13 +26,11 @@ import java.util.List;
 public class Kullanici extends BaseEntity implements UserDetails {
 
     @Column(length = 10, unique = true, nullable = false)
-    @NotBlank(message = "VKN boş olamaz.")
-    @Pattern(regexp = "\\d{10}", message = "VKN tam olarak 10 haneli ve sadece rakam olmalıdır.")
+    @ValidVKN
     private String vkn;
 
     @Column(length = 11, unique = true, nullable = false)
-    @NotBlank(message = "TCKN boş olamaz.")
-    @Pattern(regexp = "\\d{11}", message = "TCKN tam olarak 11 haneli ve sadece rakam olmalıdır.")
+    @ValidTCKN
     private String tckn;
 
     @NotBlank(message = "Ad boş olamaz.")

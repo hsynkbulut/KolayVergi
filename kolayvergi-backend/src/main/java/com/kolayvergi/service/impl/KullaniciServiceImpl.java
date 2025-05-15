@@ -30,7 +30,7 @@ public class KullaniciServiceImpl implements KullaniciService {
         return kullaniciMapper.kullaniciToKullaniciResponse(kullanici);
     }
 
-    @Transactional(readOnly = false)
+    @Transactional()
     @Override
     public void deleteKullanici(Long id) {
         Kullanici currentUser = getCurrentUser();
