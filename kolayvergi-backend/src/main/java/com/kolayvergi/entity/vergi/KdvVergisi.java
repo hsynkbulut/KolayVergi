@@ -13,7 +13,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class KdvVergisi extends BaseVergi {
+public class KdvVergisi extends Vergi {
     @Enumerated(EnumType.STRING)
     private UrunTuru urunTuru;
 }

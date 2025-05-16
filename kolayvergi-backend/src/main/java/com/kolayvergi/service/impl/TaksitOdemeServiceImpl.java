@@ -8,8 +8,7 @@ import com.kolayvergi.odemeYontemi.KrediKartiOdeme;
 import com.kolayvergi.odemeYontemi.KrediOdeme;
 import com.kolayvergi.odemeYontemi.NakitOdeme;
 import com.kolayvergi.odemeYontemi.OdemeYontemi;
-import com.kolayvergi.service.BorcService;
-import com.kolayvergi.service.OdemeService;
+import com.kolayvergi.service.TaksitOdemeService;
 import com.kolayvergi.service.TaksitService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,13 +19,12 @@ import java.time.LocalDate;
 @Transactional(readOnly = true)
 @Service
 @RequiredArgsConstructor
-public class OdemeServiceImpl implements OdemeService {
+public class TaksitOdemeServiceImpl implements TaksitOdemeService {
 
     private final TaksitService taksitService;
     private final NakitOdeme nakitOdeme;
     private final KrediOdeme krediOdeme;
     private final KrediKartiOdeme krediKartiOdeme;
-    private final BorcService borcService;
 
 
     private OdemeYontemi getOdemeYontemi(OdemeTuru odemeTuru) {
@@ -39,14 +37,14 @@ public class OdemeServiceImpl implements OdemeService {
 
     @Transactional
     @Override
-    public OdemeSonucu taksitOde(TaksitOdemeRequest request) {
+    public OdemeSonucu taksitOdemeYap(TaksitOdemeRequest request) {
         Taksit taksit = taksitService.getTaksitByTaksitNo(request.getTaksitNo());
         OdemeYontemi odemeYontemi = getOdemeYontemi(request.getOdemeTuru());
         return odemeYontemi.hesaplaVeOde(taksit, request.getOdemeTuru(), LocalDate.now(), request.getOdemeTutari());
     }
 
     @Override
-    public OdemeSonucu taksitOdemeBilgisi(String taksitNo, OdemeTuru odemeTuru) {
+    public OdemeSonucu taksitOdemeDetaylariniGetir(String taksitNo, OdemeTuru odemeTuru) {
         Taksit taksit = taksitService.getTaksitByTaksitNo(taksitNo);
         OdemeYontemi odemeYontemi = getOdemeYontemi(odemeTuru);
         return odemeYontemi.sadeceHesapla(taksit, LocalDate.now());
