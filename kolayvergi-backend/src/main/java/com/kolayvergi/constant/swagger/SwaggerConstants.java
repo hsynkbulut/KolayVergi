@@ -1,4 +1,4 @@
-package com.kolayvergi.constant;
+package com.kolayvergi.constant.swagger;
 
 public class SwaggerConstants {
 

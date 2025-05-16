@@ -14,7 +14,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class AracOtvVergisi extends BaseVergi {
+public class AracOtvVergisi extends Vergi {
 
     @Column(nullable = false)
     private String aracTipi;

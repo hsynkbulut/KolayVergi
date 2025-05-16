@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 @MappedSuperclass
 @Getter
 @Setter
-public abstract class BaseVergi extends BaseEntity {
+public abstract class Vergi extends BaseEntity {
 
     @Column(nullable = false, precision = 12, scale = 2)
     private BigDecimal fiyat;

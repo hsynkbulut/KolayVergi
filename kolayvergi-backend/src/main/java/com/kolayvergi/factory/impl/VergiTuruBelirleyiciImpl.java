@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class DefaultVergiTuruBelirleyici implements VergiTuruBelirleyici {
+public class VergiTuruBelirleyiciImpl implements VergiTuruBelirleyici {
 
     @Override
     public List<VergiTuru> getVergiTurleri(UrunTuru urunTuru) {

@@ -10,7 +10,7 @@ import com.kolayvergi.entity.Kullanici;
 import com.kolayvergi.entity.enums.Role;
 import com.kolayvergi.generator.VknGenerator;
 import com.kolayvergi.repository.KullaniciRepository;
-import com.kolayvergi.security.jwt.JwtTokenProvider;
+import com.kolayvergi.security.jwt.JwtService;
 import com.kolayvergi.service.AuthService;
 import com.kolayvergi.service.KullaniciService;
 import lombok.RequiredArgsConstructor;
@@ -32,7 +32,7 @@ import java.util.stream.Collectors;
 public class AuthServiceImpl implements AuthService {
 
     private final AuthenticationManager authenticationManager;
-    private final JwtTokenProvider jwtTokenProvider;
+    private final JwtService jwtTokenProvider;
     private final KullaniciRepository kullaniciRepository;
     private final PasswordEncoder passwordEncoder;
     private final KullaniciService kullaniciService;
