@@ -9,25 +9,19 @@ import com.kolayvergi.dto.request.KullaniciUpdateRequest;
 import com.kolayvergi.dto.request.LoginRequest;
 import com.kolayvergi.dto.response.JwtResponse;
 import com.kolayvergi.dto.response.KullaniciResponse;
-import com.kolayvergi.service.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
 @RequestMapping(ApiConstants.AUTH)
-@RequiredArgsConstructor
 @Tag(name = "Authentication İşlemleri", description = "Authentication işlemleri için API endpoint'leri")
-public class AuthController {
-
-    private final AuthService authService;
+public interface AuthController {
 
     @Operation(
             summary = SwaggerConstants.LOGIN_SUMMARY,
@@ -40,7 +34,7 @@ public class AuthController {
     )
     @ApiResponse(responseCode = "401", description = "Geçersiz kimlik bilgileri")
     @PostMapping(ApiConstants.AUTH_LOGIN)
-    public ResponseEntity<JwtResponse> login(
+    ResponseEntity<JwtResponse> login(
             @io.swagger.v3.oas.annotations.parameters.RequestBody(
                 description = "Login için örnek request",
                 required = true,
@@ -52,9 +46,7 @@ public class AuthController {
                     )
                 )
             )
-            @Valid @RequestBody LoginRequest loginRequest) {
-        return ResponseEntity.ok(authService.login(loginRequest));
-    }
+            @Valid @RequestBody LoginRequest loginRequest);
 
     @Operation(
             summary = SwaggerConstants.REFRESH_TOKEN_SUMMARY,
@@ -67,12 +59,7 @@ public class AuthController {
     )
     @ApiResponse(responseCode = "401", description = "Geçersiz refresh token")
     @PostMapping(ApiConstants.AUTH_REFRESH)
-    public ResponseEntity<JwtResponse> refreshToken(@RequestHeader("Authorization") String refreshToken) {
-        if (refreshToken != null && refreshToken.startsWith("Bearer ")) {
-            refreshToken = refreshToken.substring(7);
-        }
-        return ResponseEntity.ok(authService.refreshToken(refreshToken));
-    }
+    ResponseEntity<JwtResponse> refreshToken(@RequestHeader("Authorization") String refreshToken);
 
     @Operation(
             summary = SwaggerConstants.REGISTER_SUMMARY,
@@ -84,7 +71,7 @@ public class AuthController {
             content = @Content(examples = @ExampleObject(description = "Kullanıcı girişi için örnek response", value = KullaniciSwaggerExample.KULLANICI_RESPONSE))
     )
     @PostMapping(ApiConstants.AUTH_REGISTER)
-    public ResponseEntity<KullaniciResponse> register(
+    ResponseEntity<KullaniciResponse> register(
             @io.swagger.v3.oas.annotations.parameters.RequestBody(
                 description = "Kayıt için örnek request",
                 required = true,
@@ -96,9 +83,7 @@ public class AuthController {
                     )
                 )
             )
-            @Valid @RequestBody KullaniciCreateRequest request) {
-        return ResponseEntity.ok(authService.register(request));
-    }
+            @Valid @RequestBody KullaniciCreateRequest request);
 
     @Operation(
             summary = SwaggerConstants.UPDATE_PROFILE_SUMMARY,
@@ -118,7 +103,7 @@ public class AuthController {
     @ApiResponse(responseCode = "404", description = "Kullanıcı bulunamadı")
     @PutMapping(ApiConstants.UPDATE)
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<KullaniciResponse> updateProfile(
+    ResponseEntity<KullaniciResponse> updateProfile(
             @io.swagger.v3.oas.annotations.parameters.RequestBody(
                 description = "Profil güncelleme için örnek request",
                 required = true,
@@ -130,7 +115,5 @@ public class AuthController {
                     )
                 )
             )
-            @Valid @RequestBody KullaniciUpdateRequest request) {
-        return ResponseEntity.ok(authService.updateProfile(request));
-    }
-} 
+            @Valid @RequestBody KullaniciUpdateRequest request);
+}
