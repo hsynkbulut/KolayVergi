@@ -39,3 +39,5 @@ public interface BorcController {
     @GetMapping(path = ApiConstants.ID)
     ResponseEntity<BorcResponse> getBorcById(@PathVariable(name = "id") Long id);
 }
+
+//deneme
