@@ -46,6 +46,9 @@ public class AlisverisServiceImpl implements AlisverisService {
     @Transactional()
     @Override
     public AlisverisResponse createAlisveris(AlisverisCreateRequest request) {
+
+
+
         Kullanici kullanici = kullaniciService.getKullanici(request.getKullaniciId());
         Alisveris alisveris = alisverisMapper.aliverisCreateRequestToAlisveris(request);
         alisveris.setKullanici(kullanici);

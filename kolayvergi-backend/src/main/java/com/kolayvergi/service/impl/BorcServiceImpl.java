@@ -32,7 +32,6 @@ public class BorcServiceImpl implements BorcService {
         Kullanici kullanici = kullaniciService.getKullanici(request.getKullaniciId());
         Borc borc = borcMapper.borcCreateRequestToBorc(request);
         borc.setKullanici(kullanici);
-
         return borcMapper.borcToBorcResponse(borcRepository.save(borc));
     }
 
@@ -47,6 +46,12 @@ public class BorcServiceImpl implements BorcService {
                 .map(borcMapper::borcToBorcResponse)
                 .orElseThrow(() -> new EntityNotFoundException("Borc bulunamadı. Kullanıcı ID: " + kullaniciId));
     }
+
+    public Optional<BorcResponse> getBorcByKullaniciIdSafely(Long kullaniciId) {
+        return borcRepository.getBorcByKullaniciId(kullaniciId)
+                .map(borcMapper::borcToBorcResponse);
+    }
+
 
     @Transactional()
     @Override
