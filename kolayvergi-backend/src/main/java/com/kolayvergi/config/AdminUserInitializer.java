@@ -26,7 +26,7 @@ public class AdminUserInitializer implements CommandLineRunner {
             admin.setSifre(passwordEncoder.encode(rawPassword));
             admin.setAd("Admin");
             admin.setSoyad("User");
-            admin.setTckn("11111111111");
+            admin.setTckn("11111111110");
             admin.setVkn(generateUniqueVkn());
             admin.setYas(30);
             admin.setRol(Role.ROLE_ADMIN);
