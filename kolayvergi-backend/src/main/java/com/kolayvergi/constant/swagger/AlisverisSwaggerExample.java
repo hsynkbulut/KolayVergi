@@ -9,7 +9,6 @@ public final class AlisverisSwaggerExample {
     // Request örnekleri
     public static final String OTOMOBIL_ALISVERIS_REQUEST = """
             {
-                "kullaniciId": 3,
                 "urunTuru": "OTOMOBIL",
                 "tutar": 500000.00,
                 "taksitSayisi": 12,
@@ -26,7 +25,6 @@ public final class AlisverisSwaggerExample {
 
     public static final String DIGER_URUN_ALISVERIS_REQUEST = """
             {
-                "kullaniciId": 3,
                 "urunTuru": "GIDA",
                 "tutar": 1500.00,
                 "taksitSayisi": 1

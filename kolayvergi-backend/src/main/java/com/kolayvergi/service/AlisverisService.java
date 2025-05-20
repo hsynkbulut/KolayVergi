@@ -1,9 +1,7 @@
 package com.kolayvergi.service;
 
 import com.kolayvergi.dto.request.AlisverisCreateRequest;
-import com.kolayvergi.dto.request.AlisverisUpdateRequest;
 import com.kolayvergi.dto.response.AlisverisResponse;
-import com.kolayvergi.repository.AlisverisRepository;
 
 public interface AlisverisService {
 

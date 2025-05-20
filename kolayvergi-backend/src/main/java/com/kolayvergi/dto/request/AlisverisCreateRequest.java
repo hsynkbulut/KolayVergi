@@ -15,8 +15,6 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AlisverisCreateRequest {
-    @NotNull(message = "Kullanıcı ID alanı boş bırakılamaz")
-    private Long kullaniciId;
 
     @NotNull(message = "Urun Turu alanı boş bırakılamaz")
     private UrunTuru urunTuru;

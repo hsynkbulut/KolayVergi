@@ -1,9 +1,9 @@
 package com.kolayvergi.controller;
 
-import com.kolayvergi.constant.swagger.SwaggerConstants;
+import com.kolayvergi.constant.ApiConstants;
 import com.kolayvergi.constant.swagger.AuthSwaggerExample;
 import com.kolayvergi.constant.swagger.KullaniciSwaggerExample;
-import com.kolayvergi.constant.ApiConstants;
+import com.kolayvergi.constant.swagger.SwaggerConstants;
 import com.kolayvergi.dto.request.KullaniciCreateRequest;
 import com.kolayvergi.dto.request.KullaniciUpdateRequest;
 import com.kolayvergi.dto.request.LoginRequest;

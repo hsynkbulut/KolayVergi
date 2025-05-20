@@ -4,7 +4,6 @@ import com.kolayvergi.dto.mapper.BorcMapper;
 import com.kolayvergi.dto.request.BorcCreateRequest;
 import com.kolayvergi.dto.request.BorcUpdateRequest;
 import com.kolayvergi.dto.response.BorcResponse;
-import com.kolayvergi.entity.AracBilgisi;
 import com.kolayvergi.entity.Borc;
 import com.kolayvergi.entity.Kullanici;
 import com.kolayvergi.repository.BorcRepository;
@@ -29,7 +28,7 @@ public class BorcServiceImpl implements BorcService {
     @Transactional()
     @Override
     public BorcResponse createBorc(BorcCreateRequest request) {
-        Kullanici kullanici = kullaniciService.getKullanici(request.getKullaniciId());
+        Kullanici kullanici = kullaniciService.getCurrentUser();
         Borc borc = borcMapper.borcCreateRequestToBorc(request);
         borc.setKullanici(kullanici);
         return borcMapper.borcToBorcResponse(borcRepository.save(borc));

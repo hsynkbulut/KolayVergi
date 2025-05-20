@@ -1,9 +1,10 @@
 package com.kolayvergi.dto.request;
 
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 
@@ -12,7 +13,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BorcCreateRequest {
-    @NotNull(message = "Kullanıcı ID alanı boş bırakılamaz")
+    //@NotNull(message = "Kullanıcı ID alanı boş bırakılamaz")
     private Long kullaniciId;
 
     @NotNull(message = "Toplam borç alanı boş bırakılamaz")

@@ -1,6 +1,5 @@
 package com.kolayvergi.odemeYontemi;
 
-import com.kolayvergi.dto.request.BorcCreateRequest;
 import com.kolayvergi.dto.request.BorcUpdateRequest;
 import com.kolayvergi.dto.response.BorcResponse;
 import com.kolayvergi.dto.response.OdemeSonucu;

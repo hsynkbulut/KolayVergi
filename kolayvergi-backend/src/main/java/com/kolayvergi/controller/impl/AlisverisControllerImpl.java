@@ -2,7 +2,6 @@ package com.kolayvergi.controller.impl;
 
 import com.kolayvergi.controller.AlisverisController;
 import com.kolayvergi.dto.request.AlisverisCreateRequest;
-import com.kolayvergi.dto.request.AlisverisUpdateRequest;
 import com.kolayvergi.dto.response.AlisverisResponse;
 import com.kolayvergi.service.AlisverisService;
 import lombok.RequiredArgsConstructor;

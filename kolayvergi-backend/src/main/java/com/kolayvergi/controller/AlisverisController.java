@@ -1,8 +1,8 @@
 package com.kolayvergi.controller;
 
 import com.kolayvergi.constant.ApiConstants;
-import com.kolayvergi.constant.swagger.SwaggerConstants;
 import com.kolayvergi.constant.swagger.AlisverisSwaggerExample;
+import com.kolayvergi.constant.swagger.SwaggerConstants;
 import com.kolayvergi.dto.request.AlisverisCreateRequest;
 import com.kolayvergi.dto.response.AlisverisResponse;
 import io.swagger.v3.oas.annotations.Operation;
