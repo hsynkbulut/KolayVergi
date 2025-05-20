@@ -27,7 +27,7 @@ public class AdminUserInitializer implements CommandLineRunner {
             admin.setAd("Admin");
             admin.setSoyad("User");
             admin.setTckn("11111111110");
-            admin.setVkn(generateUniqueVkn());
+            admin.setVkn(vknGenerator.generateUniqueVkn());
             admin.setYas(30);
             admin.setRol(Role.ROLE_ADMIN);
             admin.setCinsiyet(com.kolayvergi.entity.enums.Cinsiyet.ERKEK);
@@ -38,18 +38,4 @@ public class AdminUserInitializer implements CommandLineRunner {
         }
     }
 
-    private String generateUniqueVkn() {
-        String vkn = vknGenerator.generate();
-        int denemeSayisi = 1;
-
-        while (kullaniciRepository.existsByVkn(vkn)) {
-            if (denemeSayisi >= 50) {
-                throw new RuntimeException("Benzersiz VKN üretilemedi.");
-            }
-
-            vkn = vknGenerator.generate();
-            denemeSayisi++;
-        }
-        return vkn;
-    }
 } 

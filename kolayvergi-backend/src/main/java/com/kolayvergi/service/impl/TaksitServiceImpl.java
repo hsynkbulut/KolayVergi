@@ -10,6 +10,7 @@ import com.kolayvergi.entity.enums.OdemeTuru;
 import com.kolayvergi.generator.TaksitNoGenerator;
 import com.kolayvergi.repository.TaksitRepository;
 import com.kolayvergi.service.BorcService;
+import com.kolayvergi.service.KullaniciService;
 import com.kolayvergi.service.TaksitService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,7 @@ import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Transactional(readOnly = true)
 @Service
@@ -29,6 +31,7 @@ public class TaksitServiceImpl implements TaksitService {
     private final TaksitRepository taksitRepository;
     private final TaksitNoGenerator taksitNoGenerator;
     private final BorcService borcService;
+    private final KullaniciService kullaniciService;
 
     @Override
     @Transactional
@@ -58,22 +61,29 @@ public class TaksitServiceImpl implements TaksitService {
 
         taksitRepository.saveAll(taksitler);
 
-        //Kullaniciya ait tum alisverislerinin toplam borcunun gosterildigi tablo atamasi
-        BorcCreateRequest borcCreateRequest = new BorcCreateRequest();
-        BorcUpdateRequest borcUpdateRequest = new BorcUpdateRequest();
-        BorcResponse dbBorc = borcService.getBorcByKullaniciId(kullaniciId);
-        if(dbBorc != null) {
-            borcUpdateRequest.setKullaniciId(kullaniciId);
-            borcUpdateRequest.setToplamBorc(odemePlani.getToplamOdenecekTutar().add(dbBorc.getToplamBorc()));
-            borcUpdateRequest.setKalanBorc(odemePlani.getToplamOdenecekTutar().add(dbBorc.getKalanBorc()));
-            borcService.updateBorc(dbBorc.getId(), borcUpdateRequest);
+        //borc olusturma
+        Optional<BorcResponse> optionalBorc = borcService.getBorcByKullaniciIdSafely(kullaniciId);
+
+        if (optionalBorc.isPresent()) {
+            BorcResponse existingBorc = optionalBorc.get();
+
+            BorcUpdateRequest updateRequest = new BorcUpdateRequest();
+            updateRequest.setKullaniciId(kullaniciId);
+            updateRequest.setToplamBorc(odemePlani.getToplamOdenecekTutar().add(existingBorc.getToplamBorc()));
+            updateRequest.setKalanBorc(odemePlani.getToplamOdenecekTutar().add(existingBorc.getKalanBorc()));
+
+            borcService.updateBorc(existingBorc.getId(), updateRequest);
+        } else {
+            BorcCreateRequest createRequest = new BorcCreateRequest();
+            createRequest.setKullaniciId(kullaniciId);
+            createRequest.setToplamBorc(odemePlani.getToplamOdenecekTutar());
+            createRequest.setKalanBorc(odemePlani.getToplamOdenecekTutar());
+
+            borcService.createBorc(createRequest);
         }
-        else {
-            borcCreateRequest.setKullaniciId(kullaniciId);
-            borcCreateRequest.setToplamBorc(odemePlani.getToplamOdenecekTutar());
-            borcCreateRequest.setKalanBorc(odemePlani.getToplamOdenecekTutar());
-            borcService.createBorc(borcCreateRequest);
-        }
+
+
+
         return taksitler;
     }
 

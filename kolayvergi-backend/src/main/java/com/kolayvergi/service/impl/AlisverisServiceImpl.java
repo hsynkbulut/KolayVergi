@@ -22,6 +22,8 @@ import com.kolayvergi.service.vergi.KdvVergisiService;
 import com.kolayvergi.service.vergi.MtvVergisiService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -43,10 +45,14 @@ public class AlisverisServiceImpl implements AlisverisService {
     private final AracOtvVergisiService aracOtvVergisiService;
     private final OdemePlaniService odemePlaniService;
 
+
+
+
     @Transactional()
     @Override
     public AlisverisResponse createAlisveris(AlisverisCreateRequest request) {
-        Kullanici kullanici = kullaniciService.getKullanici(request.getKullaniciId());
+
+        Kullanici kullanici = kullaniciService.getCurrentUser();
         Alisveris alisveris = alisverisMapper.aliverisCreateRequestToAlisveris(request);
         alisveris.setKullanici(kullanici);
         Alisveris dbAlisveris = alisverisRepository.save(alisveris);
