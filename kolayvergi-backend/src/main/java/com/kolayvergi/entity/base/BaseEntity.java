@@ -22,6 +22,9 @@ public abstract class BaseEntity {
     @Column(name = "guncelleme_tarihi")
     private LocalDateTime guncellemeTarihi;
 
+    @Version
+    private Long version;
+
     @PrePersist
     protected void onCreate() {
         olusturulmaTarihi = LocalDateTime.now();

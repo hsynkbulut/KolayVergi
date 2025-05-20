@@ -32,7 +32,7 @@ public class MtvVergisiHesaplayici {
                 .divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
 
         MtvVergisi mtvVergisi = new MtvVergisi();
-        mtvVergisi.setFiyat(mtvTutari);
+        mtvVergisi.setTutar(mtvTutari);
         mtvVergisi.setAlisveris(alisveris);
         mtvVergisi.setAracTipi(aracBilgisi.getAracTipi());
         mtvVergisi.setAracYasi(aracBilgisi.getAracYasi());

@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Table(name = "arac_bilgileri")
+
 @Entity
 @Getter
 @Setter

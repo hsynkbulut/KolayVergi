@@ -1,6 +1,6 @@
 package com.kolayvergi.entity;
 
-import com.kolayvergi.entity.base.VersionedEntity;
+import com.kolayvergi.entity.base.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -14,7 +14,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class OdemePlani extends VersionedEntity {
+public class OdemePlani extends BaseEntity {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "alisveris_id", nullable = false, unique = true)

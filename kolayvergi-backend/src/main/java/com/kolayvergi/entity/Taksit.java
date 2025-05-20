@@ -1,6 +1,6 @@
 package com.kolayvergi.entity;
 
-import com.kolayvergi.entity.base.VersionedEntity;
+import com.kolayvergi.entity.base.BaseEntity;
 import com.kolayvergi.entity.enums.OdemeDurumu;
 import com.kolayvergi.entity.enums.OdemeTuru;
 import jakarta.persistence.*;
@@ -16,7 +16,7 @@ import java.time.LocalDate;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Taksit extends VersionedEntity {
+public class Taksit extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "odeme_plani_id", nullable = false)

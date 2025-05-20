@@ -14,7 +14,13 @@ import java.math.BigDecimal;
 public abstract class Vergi extends BaseEntity {
 
     @Column(nullable = false, precision = 12, scale = 2)
-    private BigDecimal fiyat;
+    private BigDecimal oran;//vergi orani
+
+    @Column(nullable = false, precision = 12, scale = 2)
+    private BigDecimal tutar;//vergi tutari
+
+    @Column(nullable = false, precision = 12, scale = 2)
+    private BigDecimal matrah; //vergisiz hali
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "alisveris_id", nullable = false, unique = true)
