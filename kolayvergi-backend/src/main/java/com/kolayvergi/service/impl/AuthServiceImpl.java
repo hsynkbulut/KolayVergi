@@ -86,7 +86,7 @@ public class AuthServiceImpl implements AuthService {
         Kullanici kullanici = kullaniciMapper.kullaniciCreateRequestToKullanici(request);
         kullanici.setSifre(passwordEncoder.encode(request.getSifre()));
         kullanici.setRol(Role.ROLE_USER);
-        kullanici.setVkn(generateUniqueVkn());
+        kullanici.setVkn(vknGenerator.generateUniqueVkn());
 
         Kullanici savedKullanici = kullaniciRepository.save(kullanici);
         return kullaniciMapper.kullaniciToKullaniciResponse(savedKullanici);
@@ -105,18 +105,4 @@ public class AuthServiceImpl implements AuthService {
         return kullaniciMapper.kullaniciToKullaniciResponse(updatedKullanici);
     }
 
-    private String generateUniqueVkn() {
-        String vkn = vknGenerator.generate();
-        int denemeSayisi = 1;
-
-        while (kullaniciRepository.existsByVkn(vkn)) {
-            if (denemeSayisi >= 50) {
-                throw new RuntimeException("Benzersiz VKN üretilemedi.");
-            }
-
-            vkn = vknGenerator.generate();
-            denemeSayisi++;
-        }
-        return vkn;
-    }
 } 

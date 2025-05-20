@@ -10,4 +10,5 @@ public interface KullaniciService {
     void deleteKullanici(Long id);
     Kullanici getKullanici(Long id);
     List<KullaniciResponse> getAllKullanicilar();
+    Kullanici getCurrentUser();
 }

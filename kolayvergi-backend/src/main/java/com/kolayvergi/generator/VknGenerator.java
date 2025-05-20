@@ -1,12 +1,17 @@
 package com.kolayvergi.generator;
 
 
+import com.kolayvergi.repository.KullaniciRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.Random;
 
 @Component
+@RequiredArgsConstructor
 public class VknGenerator {
+
+    private final KullaniciRepository kullaniciRepository;
     private final Random random = new Random();
 
     public String generate() {
@@ -20,6 +25,21 @@ public class VknGenerator {
         }
 
         return vkn.toString();
+    }
+
+    public String generateUniqueVkn() {
+        String vkn = generate();
+        int denemeSayisi = 1;
+
+        while (kullaniciRepository.existsByVkn(vkn)) {
+            if (denemeSayisi >= 50) {
+                throw new RuntimeException("Benzersiz VKN üretilemedi.");
+            }
+
+            vkn = generate();
+            denemeSayisi++;
+        }
+        return vkn;
     }
 
 }

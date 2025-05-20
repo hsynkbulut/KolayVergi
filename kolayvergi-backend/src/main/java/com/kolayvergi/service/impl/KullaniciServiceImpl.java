@@ -60,7 +60,7 @@ public class KullaniciServiceImpl implements KullaniciService {
         }
     }
 
-    private Kullanici getCurrentUser() {
+    public Kullanici getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return kullaniciRepository.findByEmail(authentication.getName())
                 .orElseThrow(() -> new EntityNotFoundException("Oturum açmış kullanıcı bulunamadı"));
