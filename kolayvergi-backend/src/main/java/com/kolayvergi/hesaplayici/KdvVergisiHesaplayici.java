@@ -25,7 +25,7 @@ public class KdvVergisiHesaplayici {
                 .divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
 
         KdvVergisi kdvVergisi = new KdvVergisi();
-        kdvVergisi.setFiyat(kdvTutari);
+        kdvVergisi.setTutar(kdvTutari);
         kdvVergisi.setUrunTuru(alisveris.getUrunTuru());
         kdvVergisi.setAlisveris(alisveris);
 

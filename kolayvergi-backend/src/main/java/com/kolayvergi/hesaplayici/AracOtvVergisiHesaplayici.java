@@ -3,7 +3,7 @@ package com.kolayvergi.hesaplayici;
 import com.kolayvergi.entity.Alisveris;
 import com.kolayvergi.entity.AracBilgisi;
 import com.kolayvergi.entity.Kullanici;
-import com.kolayvergi.entity.vergi.AracOtvVergisi;
+import com.kolayvergi.entity.vergi.OtvVergisi;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -14,7 +14,7 @@ import java.math.RoundingMode;
 @RequiredArgsConstructor
 public class AracOtvVergisiHesaplayici {
 
-    public AracOtvVergisi hesapla(Alisveris alisveris, Kullanici kullanici) {
+    public OtvVergisi hesapla(Alisveris alisveris, Kullanici kullanici) {
         AracBilgisi aracBilgisi = alisveris.getAracBilgisi();
 
         if (aracBilgisi == null) {
@@ -42,13 +42,13 @@ public class AracOtvVergisiHesaplayici {
                 .multiply(temelOran)
                 .divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
 
-        AracOtvVergisi aracOtvVergisi = new AracOtvVergisi();
-        aracOtvVergisi.setFiyat(otvTutari);
-        aracOtvVergisi.setAlisveris(alisveris);
-        aracOtvVergisi.setAracTipi(aracBilgisi.getAracTipi());
-        aracOtvVergisi.setMotorSilindirHacmi(aracBilgisi.getMotorSilindirHacmi());
+        OtvVergisi otvVergisi = new OtvVergisi();
+        otvVergisi.setTutar(otvTutari);
+        otvVergisi.setAlisveris(alisveris);
+        otvVergisi.setAracTipi(aracBilgisi.getAracTipi());
+        otvVergisi.setMotorSilindirHacmi(aracBilgisi.getMotorSilindirHacmi());
 
-        return aracOtvVergisi;
+        return otvVergisi;
     }
 
     private BigDecimal uygulaKullaniciIndirimleri(BigDecimal mevcutOran, Kullanici kullanici) {

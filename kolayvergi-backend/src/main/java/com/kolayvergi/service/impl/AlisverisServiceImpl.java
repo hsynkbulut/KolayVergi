@@ -8,7 +8,7 @@ import com.kolayvergi.entity.AracBilgisi;
 import com.kolayvergi.entity.Kullanici;
 import com.kolayvergi.entity.enums.UrunTuru;
 import com.kolayvergi.entity.enums.VergiTuru;
-import com.kolayvergi.entity.vergi.AracOtvVergisi;
+import com.kolayvergi.entity.vergi.OtvVergisi;
 import com.kolayvergi.entity.vergi.KdvVergisi;
 import com.kolayvergi.entity.vergi.MtvVergisi;
 import com.kolayvergi.factory.VergiTuruBelirleyici;
@@ -44,8 +44,6 @@ public class AlisverisServiceImpl implements AlisverisService {
     private final OdemePlaniService odemePlaniService;
 
 
-
-
     @Transactional()
     @Override
     public AlisverisResponse createAlisveris(AlisverisCreateRequest request) {
@@ -76,15 +74,15 @@ public class AlisverisServiceImpl implements AlisverisService {
             switch (vergiTuru) {
                 case KDV:
                     KdvVergisi kdvVergisi = kdvVergisiService.createKdvVergisi(dbAlisveris, kullanici);
-                    toplamVergiTutari = toplamVergiTutari.add(kdvVergisi.getFiyat());
+                    toplamVergiTutari = toplamVergiTutari.add(kdvVergisi.getTutar());
                     break;
                 case OTV:
-                    AracOtvVergisi aracOtvVergisi = aracOtvVergisiService.createAracOtvVergisi(dbAlisveris, kullanici);
-                    toplamVergiTutari = toplamVergiTutari.add(aracOtvVergisi.getFiyat());
+                    OtvVergisi otvVergisi = aracOtvVergisiService.createAracOtvVergisi(dbAlisveris, kullanici);
+                    toplamVergiTutari = toplamVergiTutari.add(otvVergisi.getTutar());
                     break;
                 case MTV:
                     MtvVergisi mtvVergisi = mtvVergisiService.createMtvVergisi(dbAlisveris, kullanici);
-                    toplamVergiTutari = toplamVergiTutari.add(mtvVergisi.getFiyat());
+                    toplamVergiTutari = toplamVergiTutari.add(mtvVergisi.getTutar());
                     break;
                     default:
                     throw new IllegalArgumentException("Bilinmeyen vergi türü: " + vergiTuru);

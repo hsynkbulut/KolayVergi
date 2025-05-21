@@ -2,7 +2,7 @@ package com.kolayvergi.entity;
 
 import com.kolayvergi.entity.base.BaseEntity;
 import com.kolayvergi.entity.enums.UrunTuru;
-import com.kolayvergi.entity.vergi.AracOtvVergisi;
+import com.kolayvergi.entity.vergi.OtvVergisi;
 import com.kolayvergi.entity.vergi.KdvVergisi;
 import com.kolayvergi.entity.vergi.MtvVergisi;
 import jakarta.persistence.*;
@@ -47,5 +47,5 @@ public class Alisveris extends BaseEntity {
     private MtvVergisi mtvVergisi;
 
     @OneToOne(mappedBy = "alisveris", cascade = CascadeType.ALL, orphanRemoval = true)
-    private AracOtvVergisi aracOtvVergisi;
+    private OtvVergisi otvVergisi;
 }
