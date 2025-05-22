@@ -10,5 +10,5 @@ import java.util.List;
 public interface OtvVergisiService {
     OtvVergisi createOtvVergisi(Alisveris alisveris, Kullanici kullanici);
     List<OtvVergisiResponse> getAllByAlisverisId(Long alisverisId);
-    OtvVergisiResponse getAracOtvVergisiById(Long id);
+    OtvVergisiResponse getOtvVergisiById(Long id);
 }

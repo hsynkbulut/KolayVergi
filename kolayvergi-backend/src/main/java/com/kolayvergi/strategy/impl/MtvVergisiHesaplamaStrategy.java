@@ -1,10 +1,12 @@
-package com.kolayvergi.hesaplayici;
+package com.kolayvergi.strategy.impl;
 
 import com.kolayvergi.entity.Alisveris;
 import com.kolayvergi.entity.AracBilgisi;
 import com.kolayvergi.entity.Kullanici;
 import com.kolayvergi.entity.enums.*;
 import com.kolayvergi.entity.vergi.MtvVergisi;
+import com.kolayvergi.entity.vergi.Vergi;
+import com.kolayvergi.strategy.VergiHesaplamaStrategy;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -12,9 +14,10 @@ import java.math.BigDecimal;
 
 @Component
 @RequiredArgsConstructor
-public class MtvVergisiHesaplayici {
+public class MtvVergisiHesaplamaStrategy implements VergiHesaplamaStrategy {
 
-    public MtvVergisi hesapla(Kullanici kullanici, Alisveris alisveris) {
+    @Override
+    public Vergi hesapla(Alisveris alisveris, Kullanici kullanici, Vergi... oncekiVergiler) {
         AracBilgisi aracBilgisi = alisveris.getAracBilgisi();
         if (aracBilgisi == null) {
             throw new IllegalArgumentException("MTV Vergisi hesaplanabilmesi için araç bilgisi bulunmalıdır.");
@@ -135,4 +138,4 @@ public class MtvVergisiHesaplayici {
             case AracYasi.ONALTI_USTU -> BigDecimal.valueOf(onalti_ustu);
         };
     }
-}
+} 

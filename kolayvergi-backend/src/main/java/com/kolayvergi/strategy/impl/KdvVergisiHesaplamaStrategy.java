@@ -1,4 +1,4 @@
-package com.kolayvergi.hesaplayici;
+package com.kolayvergi.strategy.impl;
 
 import com.kolayvergi.entity.Alisveris;
 import com.kolayvergi.entity.AracBilgisi;
@@ -6,6 +6,8 @@ import com.kolayvergi.entity.Kullanici;
 import com.kolayvergi.entity.enums.UrunTuru;
 import com.kolayvergi.entity.vergi.KdvVergisi;
 import com.kolayvergi.entity.vergi.OtvVergisi;
+import com.kolayvergi.entity.vergi.Vergi;
+import com.kolayvergi.strategy.VergiHesaplamaStrategy;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -14,9 +16,10 @@ import java.math.RoundingMode;
 
 @Component
 @RequiredArgsConstructor
-public class KdvVergisiHesaplayici {
+public class KdvVergisiHesaplamaStrategy implements VergiHesaplamaStrategy {
 
-    public KdvVergisi hesapla(Alisveris alisveris, Kullanici kullanici, OtvVergisi otvVergisi) {
+    @Override
+    public Vergi hesapla(Alisveris alisveris, Kullanici kullanici, Vergi... oncekiVergiler) {
         BigDecimal matrah = alisveris.getTutar();
         UrunTuru urunTuru = alisveris.getUrunTuru();
 
@@ -25,13 +28,13 @@ public class KdvVergisiHesaplayici {
             throw new IllegalArgumentException("KDV Vergisi hesaplanabilmesi için araç bilgisi bulunmalıdır.");
         }
 
-        BigDecimal tabanTutar;
-        if (otvVergisi != null) {
-            // Araç veya ÖTV uygulanmış ürün: ÖTV sonrası tutar üzerinden KDV
-            tabanTutar = matrah.add(otvVergisi.getTutar());
-        } else {
-            // ÖTV yoksa direkt matrah üzerinden
-            tabanTutar = matrah;
+        BigDecimal tabanTutar = matrah;
+        // ÖTV varsa, KDV'yi ÖTV sonrası tutar üzerinden hesapla
+        for (Vergi oncekiVergi : oncekiVergiler) {
+            if (oncekiVergi instanceof OtvVergisi) {
+                tabanTutar = tabanTutar.add(oncekiVergi.getTutar());
+                break;
+            }
         }
 
         BigDecimal kdvOrani = getUrunTuruKdvOrani(urunTuru);
@@ -41,14 +44,12 @@ public class KdvVergisiHesaplayici {
                 .multiply(kdvOrani)
                 .divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
 
-
         KdvVergisi kdvVergisi = new KdvVergisi();
         kdvVergisi.setAlisveris(alisveris);
         kdvVergisi.setAracBilgisi(aracBilgisi);
         kdvVergisi.setMatrah(tabanTutar);
         kdvVergisi.setOran(kdvOrani);
         kdvVergisi.setTutar(kdvTutari);
-        kdvVergisi.setUrunTuru(urunTuru);
 
         return kdvVergisi;
     }
@@ -89,4 +90,4 @@ public class KdvVergisiHesaplayici {
 
         return yeniOran;
     }
-}
+} 

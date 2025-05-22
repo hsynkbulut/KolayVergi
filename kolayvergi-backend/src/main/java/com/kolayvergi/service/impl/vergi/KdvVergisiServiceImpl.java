@@ -1,15 +1,15 @@
 package com.kolayvergi.service.impl.vergi;
 
-
 import com.kolayvergi.dto.mapper.KdvVergisiMapper;
 import com.kolayvergi.dto.response.vergi.KdvVergisiResponse;
 import com.kolayvergi.entity.Alisveris;
 import com.kolayvergi.entity.Kullanici;
 import com.kolayvergi.entity.vergi.KdvVergisi;
 import com.kolayvergi.entity.vergi.OtvVergisi;
-import com.kolayvergi.hesaplayici.KdvVergisiHesaplayici;
-import com.kolayvergi.repository.KdvVergisiRepository;
+import com.kolayvergi.entity.vergi.Vergi;
+import com.kolayvergi.repository.vergi.KdvVergisiRepository;
 import com.kolayvergi.service.vergi.KdvVergisiService;
+import com.kolayvergi.strategy.VergiHesaplamaStrategy;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,13 +25,13 @@ public class KdvVergisiServiceImpl implements KdvVergisiService {
 
     private final KdvVergisiRepository kdvVergisiRepository;
     private final KdvVergisiMapper kdvVergisiMapper;
-    private final KdvVergisiHesaplayici kdvVergisiHesaplayici;
+    private final VergiHesaplamaStrategy kdvVergisiHesaplamaStrategy;
 
     @Override
     @Transactional
     public KdvVergisi createKdvVergisi(Alisveris alisveris, Kullanici kullanici, OtvVergisi otvVergisi) {
-        KdvVergisi kdvVergisi = kdvVergisiHesaplayici.hesapla(alisveris, kullanici, otvVergisi);
-        return kdvVergisiRepository.save(kdvVergisi);
+        Vergi vergi = kdvVergisiHesaplamaStrategy.hesapla(alisveris, kullanici, otvVergisi);
+        return kdvVergisiRepository.save((KdvVergisi) vergi);
     }
 
     @Override
