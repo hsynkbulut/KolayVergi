@@ -87,10 +87,11 @@ public class AlisverisServiceImpl implements AlisverisService {
         return createAlisveris(request);
     }
 
+    @Transactional()
     @Override
     public void deleteAlisveris(Long id) {
         if (!alisverisRepository.existsById(id)) {
-            throw new EntityNotFoundException("Alışveriş bulunamadı: " + id);
+            throw new EntityNotFoundException("Silinecek alışveriş bulunamadı: " + id);
         }
         alisverisRepository.deleteById(id);
     }
