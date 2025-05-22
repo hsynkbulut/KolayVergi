@@ -86,7 +86,7 @@ mvn spring-boot:run
 
 ## 👥 Katkıda Bulunanlar
 
-- [Hüseyin Karabulut](https://github.com/hsynkbulut) - Frontend Geliştirici
+- [Hüseyin Karabulut](https://github.com/hsynkbulut) - Backend Geliştirici
 - [Mustafa Fatih Güçlüer](https://github.com/mfgucluer) - Backend Geliştirici
 
 ## 📝 Lisans
