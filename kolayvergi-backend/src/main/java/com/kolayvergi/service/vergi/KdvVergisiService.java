@@ -4,11 +4,12 @@ import com.kolayvergi.dto.response.vergi.KdvVergisiResponse;
 import com.kolayvergi.entity.Alisveris;
 import com.kolayvergi.entity.Kullanici;
 import com.kolayvergi.entity.vergi.KdvVergisi;
+import com.kolayvergi.entity.vergi.OtvVergisi;
 
 import java.util.List;
 
 public interface KdvVergisiService {
-    KdvVergisi createKdvVergisi(Alisveris alisveris, Kullanici kullanici);
+    KdvVergisi createKdvVergisi(Alisveris alisveris, Kullanici kullanici, OtvVergisi otvVergisi);
     List<KdvVergisiResponse> getAllByAlisverisId(Long alisverisId);
     KdvVergisiResponse getKdvVergisiById(Long id);
 }

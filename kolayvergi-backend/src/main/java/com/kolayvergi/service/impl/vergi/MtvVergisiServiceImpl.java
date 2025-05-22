@@ -34,7 +34,7 @@ public class MtvVergisiServiceImpl implements MtvVergisiService {
             throw new IllegalStateException("Otomobil ürün kategorisi için araç bilgisi zorunludur.");
         }
 
-        MtvVergisi mtvVergisi = mtvVergisiHesaplayici.hesapla(alisveris, kullanici);
+        MtvVergisi mtvVergisi = mtvVergisiHesaplayici.hesapla(kullanici, alisveris);
         return mtvVergisiRepository.save(mtvVergisi);
     }
 

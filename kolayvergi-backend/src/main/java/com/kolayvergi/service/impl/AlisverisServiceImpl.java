@@ -17,7 +17,7 @@ import com.kolayvergi.service.AlisverisService;
 import com.kolayvergi.service.AracBilgisiService;
 import com.kolayvergi.service.KullaniciService;
 import com.kolayvergi.service.OdemePlaniService;
-import com.kolayvergi.service.vergi.AracOtvVergisiService;
+import com.kolayvergi.service.vergi.OtvVergisiService;
 import com.kolayvergi.service.vergi.KdvVergisiService;
 import com.kolayvergi.service.vergi.MtvVergisiService;
 import jakarta.persistence.EntityNotFoundException;
@@ -40,7 +40,7 @@ public class AlisverisServiceImpl implements AlisverisService {
     private final VergiTuruBelirleyici vergiTuruBelirleyici;
     private final KdvVergisiService kdvVergisiService;
     private final MtvVergisiService mtvVergisiService;
-    private final AracOtvVergisiService aracOtvVergisiService;
+    private final OtvVergisiService otvVergisiService;
     private final OdemePlaniService odemePlaniService;
 
 
@@ -68,25 +68,25 @@ public class AlisverisServiceImpl implements AlisverisService {
         List<VergiTuru> vergiTurleri = vergiTuruBelirleyici.getVergiTurleri(dbAlisveris.getUrunTuru());
 
         // Vergileri hesapla ve kaydet
-        BigDecimal toplamVergiTutari =  BigDecimal.ZERO;
+        BigDecimal toplamVergiTutari = BigDecimal.ZERO;
+        OtvVergisi otvVergisi = null;
 
-        for (VergiTuru vergiTuru : vergiTurleri) {
-            switch (vergiTuru) {
-                case KDV:
-                    KdvVergisi kdvVergisi = kdvVergisiService.createKdvVergisi(dbAlisveris, kullanici);
-                    toplamVergiTutari = toplamVergiTutari.add(kdvVergisi.getTutar());
-                    break;
-                case OTV:
-                    OtvVergisi otvVergisi = aracOtvVergisiService.createAracOtvVergisi(dbAlisveris, kullanici);
-                    toplamVergiTutari = toplamVergiTutari.add(otvVergisi.getTutar());
-                    break;
-                case MTV:
-                    MtvVergisi mtvVergisi = mtvVergisiService.createMtvVergisi(dbAlisveris, kullanici);
-                    toplamVergiTutari = toplamVergiTutari.add(mtvVergisi.getTutar());
-                    break;
-                    default:
-                    throw new IllegalArgumentException("Bilinmeyen vergi türü: " + vergiTuru);
-            }
+        // Önce ÖTV hesapla
+        if (vergiTurleri.contains(VergiTuru.OTV)) {
+            otvVergisi = otvVergisiService.createOtvVergisi(dbAlisveris, kullanici);
+            toplamVergiTutari = toplamVergiTutari.add(otvVergisi.getTutar());
+        }
+
+        // Sonra KDV hesapla (ÖTV'li tutar üzerinden)
+        if (vergiTurleri.contains(VergiTuru.KDV)) {
+            KdvVergisi kdvVergisi = kdvVergisiService.createKdvVergisi(dbAlisveris, kullanici, otvVergisi);
+            toplamVergiTutari = toplamVergiTutari.add(kdvVergisi.getTutar());
+        }
+
+        // En son MTV hesapla
+        if (vergiTurleri.contains(VergiTuru.MTV)) {
+            MtvVergisi mtvVergisi = mtvVergisiService.createMtvVergisi(dbAlisveris, kullanici);
+            toplamVergiTutari = toplamVergiTutari.add(mtvVergisi.getTutar());
         }
 
         odemePlaniService.createOdemePlaniForAlisveris(alisveris, toplamVergiTutari);

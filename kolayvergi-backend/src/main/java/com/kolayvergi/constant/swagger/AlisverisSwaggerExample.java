@@ -15,10 +15,12 @@ public final class AlisverisSwaggerExample {
                 "aracBilgisi": {
                     "marka": "BMW",
                     "model": "320i",
-                    "ilkTescilYili": 2023,
-                    "motorSilindirHacmi": 2000,
-                    "aracTipi": "SEDAN",
-                    "aracYasi": 5
+                    "ilkTescilYili": "2024",
+                    "motorSilindirHacmi": "1601-1800 cm³",
+                    "aracTipi": "Otomobil-Kaptıkaçtı-Arazi Taşıtı ve benzerleri",
+                    "aracYasi": "1-3 yaş",
+                    "aracKapasitesi": "25 kişiye kadar",
+                    "aracAgirligi": "1-1.500 kg arası"
                 }
             }
             """;
@@ -40,10 +42,12 @@ public final class AlisverisSwaggerExample {
                 "aracBilgisi": {
                     "marka": "BMW",
                     "model": "320i",
-                    "ilkTescilYili": 2023,
-                    "motorSilindirHacmi": 2000,
-                    "aracTipi": "SEDAN",
-                    "aracYasi": 5
+                    "ilkTescilYili": "2024",
+                    "motorSilindirHacmi": "1601-1800 cm³",
+                    "aracTipi": "Otomobil-Kaptıkaçtı-Arazi Taşıtı ve benzerleri",
+                    "aracYasi": "1-3 yaş",
+                    "aracKapasitesi": "25 kişiye kadar",
+                    "aracAgirligi": "1-1.500 kg arası"
                 }
             }
             """;

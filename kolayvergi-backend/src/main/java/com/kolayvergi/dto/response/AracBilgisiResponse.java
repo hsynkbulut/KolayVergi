@@ -1,5 +1,7 @@
 package com.kolayvergi.dto.response;
 
+import com.kolayvergi.entity.enums.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,8 +12,10 @@ import lombok.NoArgsConstructor;
 public class AracBilgisiResponse {
     private String marka;
     private String model;
-    private Integer ilkTescilYili;
-    private Integer motorSilindirHacmi;
-    private String aracTipi;
-    private Integer aracYasi;
+    private IlkTescilYili ilkTescilYili;
+    private MotorSilindirHacmi motorSilindirHacmi;
+    private AracTipi aracTipi;
+    private AracYasi aracYasi;
+    private AracKapasitesi aracKapasitesi;
+    private AracAgirligi aracAgirligi;
 }

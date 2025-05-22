@@ -1,5 +1,6 @@
 package com.kolayvergi.dto.request;
 
+import com.kolayvergi.entity.enums.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,11 +15,15 @@ public class AracBilgisiUpdateRequest {
 
     private String model;
 
-    private Integer ilkTescilYili;
+    private IlkTescilYili ilkTescilYili;
 
-    private Integer motorSilindirHacmi;
+    private MotorSilindirHacmi motorSilindirHacmi;
 
-    private String aracTipi;
+    private AracTipi aracTipi;
 
-    private Integer aracYasi;
+    private AracYasi aracYasi;
+
+    private AracKapasitesi aracKapasitesi;
+
+    private AracAgirligi aracAgirligi;
 }
