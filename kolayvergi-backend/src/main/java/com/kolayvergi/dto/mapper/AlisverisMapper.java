@@ -33,7 +33,9 @@ public interface AlisverisMapper {
             aracBilgisi.getIlkTescilYili(),
             aracBilgisi.getMotorSilindirHacmi(),
             aracBilgisi.getAracTipi(),
-            aracBilgisi.getAracYasi()
+            aracBilgisi.getAracYasi(),
+            aracBilgisi.getAracKapasitesi(),
+            aracBilgisi.getAracAgirligi()
         );
     }
 }

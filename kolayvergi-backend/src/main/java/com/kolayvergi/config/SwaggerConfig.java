@@ -63,6 +63,6 @@ public class SwaggerConfig {
                                         .type(SecurityScheme.Type.HTTP)
                                         .scheme("bearer")
                                         .bearerFormat("JWT")
-                                        .description("JWT token giriniz. Örnek: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...")));
+                                        .description("JWT token giriniz. Örnek: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...")));
     }
 }

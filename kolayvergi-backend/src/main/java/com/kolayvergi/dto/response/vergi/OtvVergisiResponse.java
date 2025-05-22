@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class AracOtvVergisiResponse {
+public class OtvVergisiResponse {
     private Long alisverisId;
     private BigDecimal fiyat;
     private String aracTipi;

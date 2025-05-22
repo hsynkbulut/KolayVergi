@@ -1,6 +1,8 @@
 package com.kolayvergi.dto.request;
 
-import jakarta.validation.constraints.Min;
+import com.kolayvergi.entity.enums.*;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -17,17 +19,20 @@ public class AracBilgisiCreateRequest {
     private String model;
 
     @NotNull(message = "İlk tescil yılı boş olamaz.")
-    @Min(value = 1900, message = "İlk tescil yılı geçersiz.")
-    private Integer ilkTescilYili;
+    private IlkTescilYili ilkTescilYili;
 
     @NotNull(message = "Motor silindir hacmi boş olamaz.")
-    @Min(value = 50, message = "Motor hacmi çok düşük.")
-    private Integer motorSilindirHacmi;
+    private MotorSilindirHacmi motorSilindirHacmi;
 
-    @NotBlank(message = "Araç tipi boş olamaz.")
-    private String aracTipi;
+    @NotNull(message = "Araç tipi boş olamaz.")
+    private AracTipi aracTipi;
 
     @NotNull(message = "Araç yaşı boş olamaz.")
-    @Min(value = 0, message = "Araç yaşı negatif olamaz.")
-    private Integer aracYasi;
+    private AracYasi aracYasi;
+
+    @NotNull(message = "Araç kapasitesi boş olamaz.")
+    private AracKapasitesi aracKapasitesi;
+
+    @NotNull(message = "Araç ağırlığı boş olamaz.")
+    private AracAgirligi aracAgirligi;
 }

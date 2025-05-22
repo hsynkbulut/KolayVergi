@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum AracTipi {
     OTOMOBIL_KAPTIKACTI_ARAZI("Otomobil-Kaptıkaçtı-Arazi Taşıtı ve benzerleri"),
-    MOTOSIKLET("Motosikletler"),
     MINIBUS("Minibüsler"),
     OTOBUS("Otobüs ve benzerleri"),
     KAMYON_KAMYONET_CEKICI("Kamyon-Kamyonet-Çekici ve benzerleri");
