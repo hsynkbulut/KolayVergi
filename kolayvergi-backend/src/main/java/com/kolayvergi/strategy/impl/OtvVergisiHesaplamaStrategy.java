@@ -1,4 +1,4 @@
-package com.kolayvergi.hesaplayici;
+package com.kolayvergi.strategy.impl;
 
 import com.kolayvergi.entity.Alisveris;
 import com.kolayvergi.entity.AracBilgisi;
@@ -7,6 +7,8 @@ import com.kolayvergi.entity.enums.AracTipi;
 import com.kolayvergi.entity.enums.MotorSilindirHacmi;
 import com.kolayvergi.entity.enums.UrunTuru;
 import com.kolayvergi.entity.vergi.OtvVergisi;
+import com.kolayvergi.entity.vergi.Vergi;
+import com.kolayvergi.strategy.VergiHesaplamaStrategy;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -15,12 +17,13 @@ import java.math.RoundingMode;
 
 @Component
 @RequiredArgsConstructor
-public class OtvVergisiHesaplayici {
+public class OtvVergisiHesaplamaStrategy implements VergiHesaplamaStrategy {
 
-    public OtvVergisi hesapla(Alisveris alisveris, Kullanici kullanici) {
+    @Override
+    public Vergi hesapla(Alisveris alisveris, Kullanici kullanici, Vergi... oncekiVergiler) {
         AracBilgisi aracBilgisi = alisveris.getAracBilgisi();
         UrunTuru urunTuru = alisveris.getUrunTuru();
-        BigDecimal matrah = alisveris.getTutar(); // vergisiz satış bedeli
+        BigDecimal matrah = alisveris.getTutar();
         AracTipi aracTipi = aracBilgisi != null ? aracBilgisi.getAracTipi() : null;
 
         BigDecimal otvOrani;
@@ -80,18 +83,25 @@ public class OtvVergisiHesaplayici {
     private BigDecimal uygulaKullaniciIndirimleri(BigDecimal mevcutOran, Kullanici kullanici) {
         BigDecimal yeniOran = mevcutOran;
 
-        if (kullanici.getYas() < 25) {
-            yeniOran = yeniOran.subtract(mevcutOran.multiply(BigDecimal.valueOf(0.05)));
+        if (kullanici.getYas() != null && kullanici.getYas() < 25) {
+            yeniOran = yeniOran.subtract(BigDecimal.valueOf(2));
         }
 
-        if ("OGRETMEN".equalsIgnoreCase(kullanici.getMeslek().name())) {
-            yeniOran = yeniOran.subtract(mevcutOran.multiply(BigDecimal.valueOf(0.03)));
+        if (kullanici.getMeslek() != null && kullanici.getMeslek().name().equals("OGRETMEN")) {
+            yeniOran = yeniOran.subtract(BigDecimal.valueOf(3));
         }
 
-        if ("KADIN".equalsIgnoreCase(kullanici.getCinsiyet().name()) && kullanici.getYas() > 40) {
-            yeniOran = yeniOran.subtract(mevcutOran.multiply(BigDecimal.valueOf(0.02)));
+        if (kullanici.getCinsiyet() != null &&
+                kullanici.getCinsiyet().name().equals("KADIN") &&
+                kullanici.getYas() != null &&
+                kullanici.getYas() > 40) {
+            yeniOran = yeniOran.subtract(BigDecimal.valueOf(1));
         }
 
-        return yeniOran.max(BigDecimal.ZERO); // Negatif olmasın
+        if (yeniOran.compareTo(BigDecimal.ZERO) < 0) {
+            yeniOran = BigDecimal.ZERO;
+        }
+
+        return yeniOran;
     }
-}
+} 

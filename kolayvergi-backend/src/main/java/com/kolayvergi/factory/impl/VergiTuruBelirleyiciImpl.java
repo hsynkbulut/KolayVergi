@@ -5,6 +5,8 @@ import com.kolayvergi.entity.enums.VergiTuru;
 import com.kolayvergi.factory.VergiTuruBelirleyici;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -12,12 +14,25 @@ public class VergiTuruBelirleyiciImpl implements VergiTuruBelirleyici {
 
     @Override
     public List<VergiTuru> getVergiTurleri(UrunTuru urunTuru) {
-        return switch (urunTuru) {
-            case GIDA -> List.of(VergiTuru.KDV);
-            case OTOMOBIL -> List.of(VergiTuru.KDV, VergiTuru.OTV, VergiTuru.MTV);
-            case ELEKTRONIK, GIYIM, KOZMETIK -> List.of(VergiTuru.KDV);
-            case MOBILYA, BEYAZ_ESYA -> List.of(VergiTuru.KDV);
-            case KITAP -> List.of(); // Kitap vergiden muaf gibi kabul edebiliriz
-        };
+        List<VergiTuru> vergiTurleri = new ArrayList<>();
+
+        switch (urunTuru) {
+            case OTOMOBIL -> {
+                vergiTurleri.add(VergiTuru.OTV);
+                vergiTurleri.add(VergiTuru.KDV);
+                vergiTurleri.add(VergiTuru.MTV);
+            }
+            case GIDA, KITAP -> {
+                vergiTurleri.add(VergiTuru.KDV);
+            }
+            case ELEKTRONIK, GIYIM, BEYAZ_ESYA, KOZMETIK, MOBILYA -> {
+                vergiTurleri.add(VergiTuru.KDV);
+                if (urunTuru.getLuksKatSayisi().compareTo(BigDecimal.ONE) > 0) {
+                    vergiTurleri.add(VergiTuru.OTV);
+                }
+            }
+        }
+
+        return vergiTurleri;
     }
 }

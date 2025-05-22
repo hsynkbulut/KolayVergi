@@ -1,10 +1,8 @@
 package com.kolayvergi.entity.vergi;
 
+import com.kolayvergi.entity.Alisveris;
 import com.kolayvergi.entity.enums.UrunTuru;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

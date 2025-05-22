@@ -3,12 +3,12 @@ package com.kolayvergi.service.impl.vergi;
 import com.kolayvergi.dto.mapper.MtvVergisiMapper;
 import com.kolayvergi.dto.response.vergi.MtvVergisiResponse;
 import com.kolayvergi.entity.Alisveris;
-import com.kolayvergi.entity.AracBilgisi;
 import com.kolayvergi.entity.Kullanici;
 import com.kolayvergi.entity.vergi.MtvVergisi;
-import com.kolayvergi.hesaplayici.MtvVergisiHesaplayici;
-import com.kolayvergi.repository.MtvVergisiRepository;
+import com.kolayvergi.entity.vergi.Vergi;
+import com.kolayvergi.repository.vergi.MtvVergisiRepository;
 import com.kolayvergi.service.vergi.MtvVergisiService;
+import com.kolayvergi.strategy.VergiHesaplamaStrategy;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,18 +24,13 @@ public class MtvVergisiServiceImpl implements MtvVergisiService {
 
     private final MtvVergisiRepository mtvVergisiRepository;
     private final MtvVergisiMapper mtvVergisiMapper;
-    private final MtvVergisiHesaplayici mtvVergisiHesaplayici;
+    private final VergiHesaplamaStrategy mtvVergisiHesaplamaStrategy;
 
     @Override
     @Transactional
     public MtvVergisi createMtvVergisi(Alisveris alisveris, Kullanici kullanici) {
-        AracBilgisi aracBilgisi = alisveris.getAracBilgisi();
-        if (aracBilgisi == null) {
-            throw new IllegalStateException("Otomobil ürün kategorisi için araç bilgisi zorunludur.");
-        }
-
-        MtvVergisi mtvVergisi = mtvVergisiHesaplayici.hesapla(kullanici, alisveris);
-        return mtvVergisiRepository.save(mtvVergisi);
+        Vergi vergi = mtvVergisiHesaplamaStrategy.hesapla(alisveris, kullanici);
+        return mtvVergisiRepository.save((MtvVergisi) vergi);
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.kolayvergi.repository;
+package com.kolayvergi.repository.vergi;
 
 import com.kolayvergi.entity.vergi.KdvVergisi;
 import org.springframework.data.jpa.repository.JpaRepository;
