@@ -24,7 +24,7 @@ public final class AuthSwaggerExample {
 
     public static final String REGISTER_REQUEST = """
             {
-                "tckn": "12345678901",
+                "tckn": "10000000146",
                 "ad": "Ahmet",
                 "soyad": "Yılmaz",
                 "email": "ahmet.yilmaz@example.com",
@@ -39,7 +39,7 @@ public final class AuthSwaggerExample {
     public static final String UPDATE_PROFILE_REQUEST = """
             {
                 "vkn": "1234567890",
-                "tckn": "12345678901",
+                "tckn": "10000000146",
                 "ad": "Hamdi",
                 "soyad": "Yılmaz",
                 "email": "hamdi.yilmaz@example.com",
