@@ -3,9 +3,11 @@ package com.kolayvergi.odemeYontemi;
 import com.kolayvergi.dto.request.BorcUpdateRequest;
 import com.kolayvergi.dto.response.BorcResponse;
 import com.kolayvergi.dto.response.OdemeSonucu;
+import com.kolayvergi.entity.Kullanici;
 import com.kolayvergi.entity.Taksit;
 import com.kolayvergi.entity.enums.OdemeTuru;
 import com.kolayvergi.service.BorcService;
+import com.kolayvergi.service.KullaniciService;
 import com.kolayvergi.service.OdemePlaniService;
 import com.kolayvergi.service.TaksitService;
 import lombok.RequiredArgsConstructor;
@@ -20,8 +22,10 @@ public class NakitOdeme implements OdemeYontemi {
     private final TaksitService taksitService;
     private final OdemePlaniService odemePlaniService;
     private final BorcService borcService;
+    protected final BorcUtils borcUtils;
+    protected final KullaniciService kullaniciService;
 
-    //TODO: NakitOdeme ve abstract faizli odemede cok benzer 2 method var. Refactor edilecek.
+
     @Override
     public OdemeSonucu hesaplaVeOde(Taksit taksit, OdemeTuru odemeTuru, LocalDate odemeTarihi, BigDecimal kullaniciOdemeTutari) {
         OdemeSonucu sonuc = sadeceHesapla(taksit, odemeTarihi);
@@ -36,17 +40,10 @@ public class NakitOdeme implements OdemeYontemi {
         odemePlaniService.updateOdemePlaniAfterPayment(taksit, guncellenmisTutar);
 
         //TODO: Bu borc kismi refactor edilebilir aynisi taksitServiceImpl ve AbstractFaizli odeme dede var.
-        Long kullaniciId = taksit.getOdemePlani().getAlisveris().getKullanici().getId();
+        Kullanici kullanici = kullaniciService.getCurrentUser();
+        Long kullaniciId = kullanici.getId();
 
-        BorcUpdateRequest borcUpdateRequest = new BorcUpdateRequest();
-        BorcResponse dbBorc = borcService.getBorcByKullaniciId(kullaniciId);
-        if(dbBorc != null) {
-            borcUpdateRequest.setKullaniciId(kullaniciId);
-            borcUpdateRequest.setKalanBorc(dbBorc.getKalanBorc().subtract(guncellenmisTutar));
-            borcService.updateBorc(dbBorc.getId(), borcUpdateRequest);
-        }
-
-
+        borcUtils.kalanBorcuGuncelle(kullaniciId, sonuc.getMevcutTaksitTutari());
 
         return sonuc;
     }

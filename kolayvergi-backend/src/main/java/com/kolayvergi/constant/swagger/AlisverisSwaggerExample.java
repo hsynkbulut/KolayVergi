@@ -10,8 +10,8 @@ public final class AlisverisSwaggerExample {
     public static final String OTOMOBIL_ALISVERIS_REQUEST = """
             {
                 "urunTuru": "OTOMOBIL",
-                "tutar": 500000.00,
-                "taksitSayisi": 12,
+                "tutar": 1250.00,
+                "taksitSayisi": 4,
                 "aracBilgisi": {
                     "marka": "BMW",
                     "model": "320i",
@@ -37,7 +37,7 @@ public final class AlisverisSwaggerExample {
     public static final String OTOMOBIL_ALISVERIS_RESPONSE = """
             {
                 "urunTuru": "OTOMOBIL",
-                "tutar": 500000.00,
+                "tutar": 1250.00,
                 "taksitSayisi": 12,
                 "aracBilgisi": {
                     "marka": "BMW",
