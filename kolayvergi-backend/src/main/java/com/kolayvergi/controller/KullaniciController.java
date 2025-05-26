@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
+import java.util.UUID;
 
 @RequestMapping(ApiConstants.KULLANICILAR)
 @Tag(name = "Kullanıcı İşlemleri", description = "Kullanıcı yönetimi için API endpoint'leri")
@@ -37,14 +38,14 @@ public interface KullaniciController {
                     )
             )
     )
-    ResponseEntity<KullaniciResponse> getKullaniciById(@PathVariable Long id);
+    ResponseEntity<KullaniciResponse> getKullaniciById(@PathVariable UUID id);
 
-    @DeleteMapping(ApiConstants.DELETE)
-    @PreAuthorize("hasRole('ADMIN') or @kullaniciServiceImpl.isCurrentUser(#id)")
+    @DeleteMapping(ApiConstants.DELETE_ME)
+    @PreAuthorize("isAuthenticated()")
     @Operation(summary = SwaggerConstants.DELETE_KULLANICI_SUMMARY, description = SwaggerConstants.DELETE_KULLANICI_DESC)
     @ApiResponse(responseCode = "204", description = "Kullanıcı başarıyla silindi")
     @ApiResponse(responseCode = "404", description = "Kullanıcı bulunamadı")
-    ResponseEntity<Void> deleteKullanici(@PathVariable Long id);
+    ResponseEntity<Void> deleteKullanici();
 
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")

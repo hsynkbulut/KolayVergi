@@ -14,6 +14,8 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RequestMapping(ApiConstants.ALISVERISLER)
 @Tag(name = "Alışveriş İşlemleri", description = "Alışveriş için API endpoint'leri")
 public interface AlisverisController {
@@ -55,7 +57,7 @@ public interface AlisverisController {
     )
     @ApiResponse(responseCode = "404", description = "Alışveriş bulunamadı")
     @GetMapping(ApiConstants.ID)
-    ResponseEntity<AlisverisResponse> getAlisverisById(@PathVariable("id") Long id);
+    ResponseEntity<AlisverisResponse> getAlisverisById(@PathVariable("id") UUID id);
 
     @Operation(
             summary = SwaggerConstants.UPDATE_ALISVERIS_SUMMARY,
@@ -72,7 +74,7 @@ public interface AlisverisController {
     @ApiResponse(responseCode = "404", description = "Alışveriş bulunamadı")
     @PutMapping(ApiConstants.ID)
     ResponseEntity<AlisverisResponse> updateAlisveris(
-            @PathVariable("id") Long id,
+            @PathVariable("id") UUID id,
             @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     description = "Alışveriş güncelleme isteği",
                     content = @Content(examples = {
@@ -89,5 +91,5 @@ public interface AlisverisController {
     @ApiResponse(responseCode = "204", description = "Alışveriş başarıyla silindi")
     @ApiResponse(responseCode = "404", description = "Alışveriş bulunamadı")
     @DeleteMapping(ApiConstants.ID)
-    ResponseEntity<Void> deleteAlisveris(@PathVariable("id") Long id);
+    ResponseEntity<Void> deleteAlisveris(@PathVariable("id") UUID id);
 }

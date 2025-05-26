@@ -4,11 +4,12 @@ import com.kolayvergi.dto.response.KullaniciResponse;
 import com.kolayvergi.entity.Kullanici;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface KullaniciService {
-    KullaniciResponse getKullaniciById(Long id);
-    void deleteKullanici(Long id);
-    Kullanici getKullanici(Long id);
+    KullaniciResponse getKullaniciById(UUID id);
+    void deleteKullanici();
+    Kullanici getKullanici(UUID id);
     List<KullaniciResponse> getAllKullanicilar();
     Kullanici getCurrentUser();
 }

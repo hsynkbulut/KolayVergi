@@ -6,9 +6,10 @@ import com.kolayvergi.entity.Kullanici;
 import com.kolayvergi.entity.vergi.MtvVergisi;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface MtvVergisiService {
     MtvVergisi createMtvVergisi(Alisveris alisveris, Kullanici kullanici);
-    List<MtvVergisiResponse> getAllByAlisverisId(Long alisverisId);
-    MtvVergisiResponse getMtvVergisiById(Long id);
+    List<MtvVergisiResponse> getAllByAlisverisId(UUID alisverisId);
+    MtvVergisiResponse getMtvVergisiById(UUID id);
 }

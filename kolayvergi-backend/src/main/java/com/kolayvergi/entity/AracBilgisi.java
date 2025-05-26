@@ -1,5 +1,6 @@
 package com.kolayvergi.entity;
 
+import com.kolayvergi.converter.*;
 import com.kolayvergi.entity.base.BaseEntity;
 import com.kolayvergi.entity.enums.*;
 import jakarta.persistence.*;
@@ -8,7 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
+@Table(name = "arac_bilgileri")
 @Entity
 @Getter
 @Setter
@@ -18,22 +19,22 @@ public class AracBilgisi extends BaseEntity {
     private String marka;
     private String model;
 
-    @Enumerated(EnumType.STRING)
+    @Convert(converter = IlkTescilYiliConverter.class)
     private IlkTescilYili ilkTescilYili;
 
-    @Enumerated(EnumType.STRING)
+    @Convert(converter = MotorSilindirHacmiConverter.class)
     private MotorSilindirHacmi motorSilindirHacmi;
 
-    @Enumerated(EnumType.STRING)
+    @Convert(converter = AracTipiConverter.class)
     private AracTipi aracTipi;
 
-    @Enumerated(EnumType.STRING)
+    @Convert(converter = AracYasiConverter.class)
     private AracYasi aracYasi;
 
-    @Enumerated(EnumType.STRING)
+    @Convert(converter = AracKapasitesiConverter.class)
     private AracKapasitesi aracKapasitesi;
 
-    @Enumerated(EnumType.STRING)
+    @Convert(converter = AracAgirligiConverter.class)
     private AracAgirligi aracAgirligi;
 
     @OneToOne(fetch = FetchType.LAZY)

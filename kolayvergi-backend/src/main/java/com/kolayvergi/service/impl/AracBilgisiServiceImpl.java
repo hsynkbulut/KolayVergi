@@ -13,6 +13,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.UUID;
+
 @Transactional(readOnly = true)
 @Service
 @RequiredArgsConstructor
@@ -41,14 +43,14 @@ public class AracBilgisiServiceImpl implements AracBilgisiService {
     }
 
     @Override
-    public AracBilgisiResponse getAracBilgisiById(Long id) {
+    public AracBilgisiResponse getAracBilgisiById(UUID id) {
         AracBilgisi arac = aracBilgisiRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Araç bilgisi bulunamadı: " + id));
         return aracBilgisiMapper.aracBilgisiToAracBilgisiResponse(arac);
     }
 
     @Override
-    public AracBilgisiResponse getAracBilgisiByAlisverisId(Long alisverisId) {
+    public AracBilgisiResponse getAracBilgisiByAlisverisId(UUID alisverisId) {
         AracBilgisi arac = aracBilgisiRepository.findByAlisverisId(alisverisId)
                 .orElseThrow(() -> new EntityNotFoundException("Bu alışverişe ait araç bilgisi bulunamadı."));
         return aracBilgisiMapper.aracBilgisiToAracBilgisiResponse(arac);

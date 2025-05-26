@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Transactional(readOnly = true)
 @Service
@@ -34,7 +35,7 @@ public class OtvVergisiServiceImpl implements OtvVergisiService {
     }
 
     @Override
-    public List<OtvVergisiResponse> getAllByAlisverisId(Long alisverisId) {
+    public List<OtvVergisiResponse> getAllByAlisverisId(UUID alisverisId) {
         List<OtvVergisiResponse> list = new ArrayList<>();
         for (OtvVergisi otvVergisi : otvVergisiRepository.findByAlisverisId(alisverisId)) {
             OtvVergisiResponse otvVergisiResponse = otvVergisiMapper.otvVergisiToOtvVergisiResponse(otvVergisi);
@@ -44,7 +45,7 @@ public class OtvVergisiServiceImpl implements OtvVergisiService {
     }
 
     @Override
-    public OtvVergisiResponse getOtvVergisiById(Long id) {
+    public OtvVergisiResponse getOtvVergisiById(UUID id) {
         OtvVergisi vergi = otvVergisiRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("ÖTV Vergisi bulunamadı: " + id));
         return otvVergisiMapper.otvVergisiToOtvVergisiResponse(vergi);

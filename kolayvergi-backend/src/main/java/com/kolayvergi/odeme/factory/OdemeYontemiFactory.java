@@ -1,10 +1,10 @@
-package com.kolayvergi.odemeYontemi.factory;
+package com.kolayvergi.odeme.factory;
 
 import com.kolayvergi.entity.enums.OdemeTuru;
-import com.kolayvergi.odemeYontemi.KrediKartiOdeme;
-import com.kolayvergi.odemeYontemi.KrediOdeme;
-import com.kolayvergi.odemeYontemi.NakitOdeme;
-import com.kolayvergi.odemeYontemi.OdemeYontemi;
+import com.kolayvergi.odeme.yontemler.KrediKartiOdeme;
+import com.kolayvergi.odeme.yontemler.KrediOdeme;
+import com.kolayvergi.odeme.yontemler.NakitOdeme;
+import com.kolayvergi.odeme.yontemler.OdemeYontemi;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;

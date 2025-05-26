@@ -50,6 +50,7 @@ public class KdvVergisiHesaplamaStrategy implements VergiHesaplamaStrategy {
         kdvVergisi.setMatrah(tabanTutar);
         kdvVergisi.setOran(kdvOrani);
         kdvVergisi.setTutar(kdvTutari);
+        kdvVergisi.setUrunTuru(urunTuru);
 
         return kdvVergisi;
     }

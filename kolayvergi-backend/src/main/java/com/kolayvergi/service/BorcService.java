@@ -5,12 +5,13 @@ import com.kolayvergi.dto.request.BorcUpdateRequest;
 import com.kolayvergi.dto.response.BorcResponse;
 
 import java.util.Optional;
+import java.util.UUID;
 
 public interface BorcService {
 
     BorcResponse createBorc(BorcCreateRequest borc);
-    BorcResponse getBorc(Long id);
-    BorcResponse getBorcByKullaniciId(Long kullaniciId);
-    Optional<BorcResponse> getBorcByKullaniciIdSafely(Long kullaniciId);
-    BorcResponse updateBorc(Long id, BorcUpdateRequest updateBorc);
+    BorcResponse getBorc(UUID id);
+    BorcResponse getBorcByKullaniciId(UUID kullaniciId);
+    Optional<BorcResponse> getBorcByKullaniciIdSafely(UUID kullaniciId);
+    BorcResponse updateBorc(UUID id, BorcUpdateRequest updateBorc);
 }

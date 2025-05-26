@@ -1,34 +1,34 @@
-package com.kolayvergi.odemeYontemi;
+package com.kolayvergi.odeme.yontemler;
 
-import com.kolayvergi.dto.request.BorcUpdateRequest;
-import com.kolayvergi.dto.response.BorcResponse;
 import com.kolayvergi.dto.response.OdemeSonucu;
 import com.kolayvergi.entity.Kullanici;
 import com.kolayvergi.entity.Taksit;
 import com.kolayvergi.entity.enums.OdemeTuru;
+import com.kolayvergi.odeme.utils.BorcUtils;
 import com.kolayvergi.service.BorcService;
 import com.kolayvergi.service.KullaniciService;
 import com.kolayvergi.service.OdemePlaniService;
 import com.kolayvergi.service.TaksitService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.UUID;
 
 @RequiredArgsConstructor
-@Component
-public class NakitOdeme implements OdemeYontemi {
-    private final TaksitService taksitService;
-    private final OdemePlaniService odemePlaniService;
-    private final BorcService borcService;
+public abstract class AbstractFaizliOdeme implements OdemeYontemi {
+
+    protected final BigDecimal faizOrani;
+    protected final TaksitService taksitService;
+    protected final OdemePlaniService odemePlaniService;
+    protected final BorcService borcService;
     protected final BorcUtils borcUtils;
     protected final KullaniciService kullaniciService;
 
 
     @Override
     public OdemeSonucu hesaplaVeOde(Taksit taksit, OdemeTuru odemeTuru, LocalDate odemeTarihi, BigDecimal kullaniciOdemeTutari) {
-        OdemeSonucu sonuc = sadeceHesapla(taksit, odemeTarihi);
+        OdemeSonucu sonuc = hesapla(taksit, odemeTarihi);
 
         if (sonuc.getGuncellenmisTutar().compareTo(kullaniciOdemeTutari) != 0) {
             throw new IllegalArgumentException("Girilen tutar beklenen tutardan farkli!");
@@ -38,36 +38,36 @@ public class NakitOdeme implements OdemeYontemi {
 
         taksitService.updateTaksitForPayment(taksit, odemeTuru, guncellenmisTutar);
         odemePlaniService.updateOdemePlaniAfterPayment(taksit, guncellenmisTutar);
-
-        //TODO: Bu borc kismi refactor edilebilir aynisi taksitServiceImpl ve AbstractFaizli odeme dede var.
         Kullanici kullanici = kullaniciService.getCurrentUser();
-        Long kullaniciId = kullanici.getId();
+        UUID kullaniciId = kullanici.getId();
 
         borcUtils.kalanBorcuGuncelle(kullaniciId, sonuc.getMevcutTaksitTutari());
-
         return sonuc;
     }
 
     @Override
     public OdemeSonucu sadeceHesapla(Taksit taksit, LocalDate odemeTarihi) {
+        return hesapla(taksit, odemeTarihi);
+    }
+
+    protected OdemeSonucu hesapla(Taksit taksit, LocalDate odemeTarihi) {
         BigDecimal mevcut = taksit.getTaksitTutari();
+        BigDecimal faiz = mevcut.multiply(faizOrani).divide(BigDecimal.valueOf(100));
         BigDecimal indirim = BigDecimal.ZERO;
         BigDecimal ceza = BigDecimal.ZERO;
         boolean indirimVar = false;
         boolean cezaVar = false;
 
-        LocalDate sonOdemeTarihi = taksit.getSonOdemeTarihi();
-
-        if (odemeTarihi.isBefore(sonOdemeTarihi)) {
-            indirim = mevcut.multiply(BigDecimal.valueOf(0.03));
+        if (odemeTarihi.isBefore(taksit.getSonOdemeTarihi())) {
+            indirim = mevcut.multiply(BigDecimal.valueOf(0.05));
             indirimVar = true;
-        } else if (odemeTarihi.isAfter(sonOdemeTarihi)) {
-            ceza = mevcut.multiply(BigDecimal.valueOf(0.05));
+        } else if (odemeTarihi.isAfter(taksit.getSonOdemeTarihi())) {
+            ceza = mevcut.multiply(BigDecimal.valueOf(0.10));
             cezaVar = true;
         }
 
-        BigDecimal toplam = mevcut.add(ceza).subtract(indirim);
+        BigDecimal toplam = mevcut.add(faiz).add(ceza).subtract(indirim);
 
-        return new OdemeSonucu(mevcut, toplam, BigDecimal.ZERO, indirim, ceza, false, indirimVar, cezaVar);
+        return new OdemeSonucu(mevcut, toplam, faiz, indirim, ceza, true, indirimVar, cezaVar);
     }
 }

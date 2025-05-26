@@ -1,5 +1,6 @@
-package com.kolayvergi.odemeYontemi;
+package com.kolayvergi.odeme.yontemler;
 
+import com.kolayvergi.odeme.utils.BorcUtils;
 import com.kolayvergi.service.BorcService;
 import com.kolayvergi.service.KullaniciService;
 import com.kolayvergi.service.OdemePlaniService;

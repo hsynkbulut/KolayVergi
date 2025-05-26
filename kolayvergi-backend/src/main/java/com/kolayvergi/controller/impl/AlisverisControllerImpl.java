@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.UUID;
+
 @RestController
 @RequiredArgsConstructor
 public class AlisverisControllerImpl implements AlisverisController {
@@ -22,19 +24,19 @@ public class AlisverisControllerImpl implements AlisverisController {
     }
 
     @Override
-    public ResponseEntity<AlisverisResponse> getAlisverisById(Long id) {
+    public ResponseEntity<AlisverisResponse> getAlisverisById(UUID id) {
         AlisverisResponse response = alisverisService.getAlisveris(id);
         return ResponseEntity.ok(response);
     }
 
     @Override
-    public ResponseEntity<AlisverisResponse> updateAlisveris(Long id, AlisverisCreateRequest request) {
+    public ResponseEntity<AlisverisResponse> updateAlisveris(UUID id, AlisverisCreateRequest request) {
         AlisverisResponse response = alisverisService.updateAlisveris(id, request);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @Override
-    public ResponseEntity<Void> deleteAlisveris(Long id) {
+    public ResponseEntity<Void> deleteAlisveris(UUID id) {
         alisverisService.deleteAlisveris(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

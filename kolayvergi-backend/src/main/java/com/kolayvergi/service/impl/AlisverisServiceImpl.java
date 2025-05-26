@@ -7,27 +7,19 @@ import com.kolayvergi.entity.Alisveris;
 import com.kolayvergi.entity.AracBilgisi;
 import com.kolayvergi.entity.Kullanici;
 import com.kolayvergi.entity.enums.UrunTuru;
-import com.kolayvergi.entity.enums.VergiTuru;
-import com.kolayvergi.entity.vergi.KdvVergisi;
-import com.kolayvergi.entity.vergi.MtvVergisi;
-import com.kolayvergi.entity.vergi.OtvVergisi;
-import com.kolayvergi.entity.vergi.Vergi;
-import com.kolayvergi.factory.VergiTuruBelirleyici;
 import com.kolayvergi.repository.AlisverisRepository;
 import com.kolayvergi.service.AlisverisService;
 import com.kolayvergi.service.AracBilgisiService;
 import com.kolayvergi.service.KullaniciService;
 import com.kolayvergi.service.OdemePlaniService;
-import com.kolayvergi.service.vergi.*;
+import com.kolayvergi.service.vergi.VergiHesaplamaService;
+import com.kolayvergi.service.vergi.VergiHesaplamaSonuc;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Set;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -39,10 +31,6 @@ public class AlisverisServiceImpl implements AlisverisService {
     private final AlisverisMapper alisverisMapper;
     private final AracBilgisiService aracBilgisiService;
     private final OdemePlaniService odemePlaniService;
-    private final KdvVergisiService kdvVergisiService;
-    private final OtvVergisiService otvVergisiService;
-    private final MtvVergisiService mtvVergisiService;
-    private final VergiTuruBelirleyici vergiTuruBelirleyici;
     private final VergiHesaplamaService vergiHesaplamaService;
 
     @Override
@@ -74,7 +62,7 @@ public class AlisverisServiceImpl implements AlisverisService {
     }
 
     @Override
-    public AlisverisResponse getAlisveris(Long id) {
+    public AlisverisResponse getAlisveris(UUID id) {
         Alisveris alisveris = alisverisRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Alışveriş bulunamadı: " + id));
         return alisverisMapper.alisverisToAlisverisResponse(alisveris);
@@ -82,14 +70,14 @@ public class AlisverisServiceImpl implements AlisverisService {
 
     @Override
     @Transactional()
-    public AlisverisResponse updateAlisveris(Long id, AlisverisCreateRequest request) {
+    public AlisverisResponse updateAlisveris(UUID id, AlisverisCreateRequest request) {
         deleteAlisveris(id);
         return createAlisveris(request);
     }
 
     @Transactional()
     @Override
-    public void deleteAlisveris(Long id) {
+    public void deleteAlisveris(UUID id) {
         if (!alisverisRepository.existsById(id)) {
             throw new EntityNotFoundException("Silinecek alışveriş bulunamadı: " + id);
         }

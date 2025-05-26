@@ -6,10 +6,11 @@ import com.kolayvergi.entity.enums.OdemeTuru;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.UUID;
 
 public interface TaksitService {
 
-    List<Taksit> createInitialTaksitler(Long kullaniciId, OdemePlani odemePlani);
+    List<Taksit> createInitialTaksitler(UUID kullaniciId, OdemePlani odemePlani);
     
     Taksit getTaksitByTaksitNo(String taksitNo);
 

@@ -7,10 +7,11 @@ import java.security.MessageDigest;
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.UUID;
 
 @Component
 public class TaksitNoGenerator {
-    public String generateTaksitNo(Long kullaniciId, int index) {
+    public String generateTaksitNo(UUID kullaniciId, int index) {
         String timestamp = generateTimeStamp();
         String formattedKullaniciId = formatUserId(kullaniciId);
         String formattedIndex = String.format("%04d", index);
@@ -23,12 +24,25 @@ public class TaksitNoGenerator {
         return LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmm"));
     }
 
-    private String formatUserId(Long userId) {
-        if (userId < 1 || userId > 999) {
-            throw new IllegalArgumentException("UserId 1-999 arasında olmalı.");
-        }
-        return String.format("%03d", userId);
+    private String formatUserId(UUID userId) {
+        int hashValue = Math.abs(userId.hashCode() % 999) + 1;
+        return String.format("%03d", hashValue);
     }
+
+    /*
+    * Yaptığım değişiklikler:
+    formatUserId metodunu UUID için uygun hale getirdim
+    UUID'nin hashCode() metodunu kullanarak 1-999 arasında bir sayı üretiyoruz
+    Math.abs() ile negatif değerleri pozitife çeviriyoruz
+    % 999 ile 0-998 arasında bir sayı elde ediyoruz
+    + 1 ile 1-999 arasında bir sayı elde ediyoruz
+    Son olarak bu sayıyı 3 haneli string formatına çeviriyoruz
+    Bu değişiklik ile:
+    UUID'den her zaman 1-999 arasında bir sayı üretilecek
+    Aynı UUID için her zaman aynı sayı üretilecek
+    Taksit numarası formatı korunacak
+    *
+    */
 
     private String generateCheckIndex(String timestamp, String userId, String sequence) {
         String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
