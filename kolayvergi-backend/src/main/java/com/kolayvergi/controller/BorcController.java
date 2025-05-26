@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.UUID;
+
 @RequestMapping(path = ApiConstants.BORCLAR)
 @Tag(name = "Borç İşlemleri", description = "Borç yönetimi için API endpoint'leri")
 public interface BorcController {
@@ -36,5 +38,5 @@ public interface BorcController {
     )
     @ApiResponse(responseCode = "404", description = "Borç bulunamadı")
     @GetMapping(path = ApiConstants.ID)
-    ResponseEntity<BorcResponse> getBorcById(@PathVariable(name = "id") Long id);
+    ResponseEntity<BorcResponse> getBorcById(@PathVariable(name = "id") UUID id);
 }

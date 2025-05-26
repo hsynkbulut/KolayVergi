@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Transactional(readOnly = true)
 @Service
@@ -34,7 +35,7 @@ public class MtvVergisiServiceImpl implements MtvVergisiService {
     }
 
     @Override
-    public List<MtvVergisiResponse> getAllByAlisverisId(Long alisverisId) {
+    public List<MtvVergisiResponse> getAllByAlisverisId(UUID alisverisId) {
         List<MtvVergisiResponse> list = new ArrayList<>();
         for (MtvVergisi mtvVergisi : mtvVergisiRepository.findByAlisverisId(alisverisId)) {
             MtvVergisiResponse mtvVergisiResponse = mtvVergisiMapper.mtvVergisiToMtvVergisiResponse(mtvVergisi);
@@ -44,7 +45,7 @@ public class MtvVergisiServiceImpl implements MtvVergisiService {
     }
 
     @Override
-    public MtvVergisiResponse getMtvVergisiById(Long id) {
+    public MtvVergisiResponse getMtvVergisiById(UUID id) {
         MtvVergisi vergi = mtvVergisiRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("MTV Vergisi bulunamadı: " + id));
         return mtvVergisiMapper.mtvVergisiToMtvVergisiResponse(vergi);

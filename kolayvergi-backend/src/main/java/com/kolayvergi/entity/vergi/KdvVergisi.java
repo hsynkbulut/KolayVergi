@@ -1,6 +1,5 @@
 package com.kolayvergi.entity.vergi;
 
-import com.kolayvergi.entity.Alisveris;
 import com.kolayvergi.entity.enums.UrunTuru;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

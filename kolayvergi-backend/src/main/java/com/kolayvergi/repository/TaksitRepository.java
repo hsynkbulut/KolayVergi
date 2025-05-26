@@ -6,9 +6,10 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
-public interface TaksitRepository extends JpaRepository<Taksit, Long> {
+public interface TaksitRepository extends JpaRepository<Taksit, UUID> {
 
     @Query("SELECT t FROM Taksit t WHERE t.taksitNo = :taksitNo")
     Optional<Taksit> findByTaksitNo(String taksitNo);

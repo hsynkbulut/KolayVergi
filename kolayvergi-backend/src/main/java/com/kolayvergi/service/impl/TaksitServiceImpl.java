@@ -22,6 +22,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Transactional(readOnly = true)
 @Service
@@ -35,7 +36,7 @@ public class TaksitServiceImpl implements TaksitService {
 
     @Override
     @Transactional
-    public List<Taksit> createInitialTaksitler(Long kullaniciId, OdemePlani odemePlani) {
+    public List<Taksit> createInitialTaksitler(UUID kullaniciId, OdemePlani odemePlani) {
         int taksitSayisi = odemePlani.getToplamTaksitSayisi();
         BigDecimal toplamTutar = odemePlani.getToplamOdenecekTutar();
 

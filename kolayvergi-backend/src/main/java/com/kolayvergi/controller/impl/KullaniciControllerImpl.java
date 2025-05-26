@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -17,13 +18,13 @@ public class KullaniciControllerImpl implements KullaniciController {
     private final KullaniciService kullaniciService;
 
     @Override
-    public ResponseEntity<KullaniciResponse> getKullaniciById(Long id) {
+    public ResponseEntity<KullaniciResponse> getKullaniciById(UUID id) {
         return ResponseEntity.status(HttpStatus.OK).body(kullaniciService.getKullaniciById(id));
     }
 
     @Override
-    public ResponseEntity<Void> deleteKullanici(Long id) {
-        kullaniciService.deleteKullanici(id);
+    public ResponseEntity<Void> deleteKullanici() {
+        kullaniciService.deleteKullanici();
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 

@@ -6,9 +6,10 @@ import com.kolayvergi.entity.Kullanici;
 import com.kolayvergi.entity.vergi.OtvVergisi;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface OtvVergisiService {
     OtvVergisi createOtvVergisi(Alisveris alisveris, Kullanici kullanici);
-    List<OtvVergisiResponse> getAllByAlisverisId(Long alisverisId);
-    OtvVergisiResponse getOtvVergisiById(Long id);
+    List<OtvVergisiResponse> getAllByAlisverisId(UUID alisverisId);
+    OtvVergisiResponse getOtvVergisiById(UUID id);
 }

@@ -1,4 +1,4 @@
-package com.kolayvergi.odemeYontemi;
+package com.kolayvergi.odeme.yontemler;
 
 import com.kolayvergi.dto.response.OdemeSonucu;
 import com.kolayvergi.entity.Taksit;

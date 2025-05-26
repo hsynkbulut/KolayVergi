@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Transactional(readOnly = true)
 @Service
@@ -35,7 +36,7 @@ public class KdvVergisiServiceImpl implements KdvVergisiService {
     }
 
     @Override
-    public List<KdvVergisiResponse> getAllByAlisverisId(Long alisverisId) {
+    public List<KdvVergisiResponse> getAllByAlisverisId(UUID alisverisId) {
         List<KdvVergisiResponse> list = new ArrayList<>();
         for (KdvVergisi kdvVergisi : kdvVergisiRepository.findByAlisverisId(alisverisId)) {
             KdvVergisiResponse kdvVergisiResponse = kdvVergisiMapper.kdvVergisiToKdvVergisiResponse(kdvVergisi);
@@ -45,7 +46,7 @@ public class KdvVergisiServiceImpl implements KdvVergisiService {
     }
 
     @Override
-    public KdvVergisiResponse getKdvVergisiById(Long id) {
+    public KdvVergisiResponse getKdvVergisiById(UUID id) {
         KdvVergisi vergi = kdvVergisiRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("KDV Vergisi bulunamadı: " + id));
         return kdvVergisiMapper.kdvVergisiToKdvVergisiResponse(vergi);

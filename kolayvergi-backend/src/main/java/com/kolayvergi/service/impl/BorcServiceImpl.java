@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -35,26 +36,25 @@ public class BorcServiceImpl implements BorcService {
     }
 
     @Override
-    public BorcResponse getBorc(Long id) {
+    public BorcResponse getBorc(UUID id) {
         return borcMapper.borcToBorcResponse(getBorcById(id));
     }
 
     @Override
-    public BorcResponse getBorcByKullaniciId(Long kullaniciId) {
+    public BorcResponse getBorcByKullaniciId(UUID kullaniciId) {
         return borcRepository.getBorcByKullaniciId(kullaniciId)
                 .map(borcMapper::borcToBorcResponse)
                 .orElseThrow(() -> new EntityNotFoundException("Borc bulunamadı. Kullanıcı ID: " + kullaniciId));
     }
 
-    public Optional<BorcResponse> getBorcByKullaniciIdSafely(Long kullaniciId) {
+    public Optional<BorcResponse> getBorcByKullaniciIdSafely(UUID kullaniciId) {
         return borcRepository.getBorcByKullaniciId(kullaniciId)
                 .map(borcMapper::borcToBorcResponse);
     }
 
-
     @Transactional()
     @Override
-    public BorcResponse updateBorc(Long id, BorcUpdateRequest updateBorcRequest) {
+    public BorcResponse updateBorc(UUID id, BorcUpdateRequest updateBorcRequest) {
         Borc borc = getBorcById(id);
         Optional.ofNullable(updateBorcRequest.getToplamBorc()).ifPresent(borc::setToplamBorc);
         Optional.ofNullable(updateBorcRequest.getKalanBorc()).ifPresent(borc::setKalanBorc);
@@ -62,7 +62,7 @@ public class BorcServiceImpl implements BorcService {
         return borcMapper.borcToBorcResponse(borcRepository.save(borc));
     }
 
-    private Borc getBorcById(Long id) {
+    private Borc getBorcById(UUID id) {
         return borcRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Borc bulunamadı. ID: " + id));
     }

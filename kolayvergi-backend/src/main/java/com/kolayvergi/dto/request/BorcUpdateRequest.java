@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -14,7 +15,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class BorcUpdateRequest {
 //    @NotNull(message = "UserId boş bırakılamaz")
-    private Long kullaniciId;
+    private UUID kullaniciId;
 
     @NotNull(message = "Toplam borç alanı boş bırakılamaz")
     private BigDecimal toplamBorc;

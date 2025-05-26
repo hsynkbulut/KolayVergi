@@ -1,4 +1,4 @@
-package com.kolayvergi.odemeYontemi;
+package com.kolayvergi.odeme.utils;
 
 import com.kolayvergi.dto.request.BorcUpdateRequest;
 import com.kolayvergi.dto.response.BorcResponse;
@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
@@ -15,7 +16,7 @@ public class BorcUtils {
     private final BorcService borcService;
     private final TaksitService taksitService;
 
-    public void kalanBorcuGuncelle(Long kullaniciId, BigDecimal odemeTutari) {
+    public void kalanBorcuGuncelle(UUID kullaniciId, BigDecimal odemeTutari) {
         BorcResponse dbBorc = borcService.getBorcByKullaniciId(kullaniciId);
         if (dbBorc != null) {
             BorcUpdateRequest update = new BorcUpdateRequest();

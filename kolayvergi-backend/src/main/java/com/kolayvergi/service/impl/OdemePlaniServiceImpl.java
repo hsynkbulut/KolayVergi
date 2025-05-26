@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.UUID;
 
 @Transactional()
 @Service
@@ -27,7 +28,7 @@ public class OdemePlaniServiceImpl implements OdemePlaniService {
     @Override
     public OdemePlani createOdemePlaniForAlisveris(Alisveris alisveris, BigDecimal vergiTutari) {
 
-        Long kullaniciId = kullaniciService.getCurrentUser().getId();
+        UUID kullaniciId = kullaniciService.getCurrentUser().getId();
         BigDecimal odenecekTutar = vergiTutari.add(alisveris.getTutar());
 
         OdemePlani odemePlani = new OdemePlani();

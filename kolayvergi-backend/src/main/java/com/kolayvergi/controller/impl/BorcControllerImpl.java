@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.UUID;
+
 @RestController
 @RequiredArgsConstructor
 public class BorcControllerImpl implements BorcController {
@@ -15,7 +17,7 @@ public class BorcControllerImpl implements BorcController {
     private final BorcService borcService;
 
     @Override
-    public ResponseEntity<BorcResponse> getBorcById(Long id) {
+    public ResponseEntity<BorcResponse> getBorcById(UUID id) {
         return ResponseEntity.status(HttpStatus.OK).body(borcService.getBorc(id));
     }
 }
