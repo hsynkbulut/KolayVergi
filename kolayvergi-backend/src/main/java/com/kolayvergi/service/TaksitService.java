@@ -15,4 +15,8 @@ public interface TaksitService {
     Taksit getTaksitByTaksitNo(String taksitNo);
 
     Taksit updateTaksitForPayment(Taksit taksit, OdemeTuru odemeTuru, BigDecimal guncellenmisTutar);
+
+    List<Taksit> getAllTaksitler();
+
+    List<Taksit> getCurrentUserTaksitler();
 }

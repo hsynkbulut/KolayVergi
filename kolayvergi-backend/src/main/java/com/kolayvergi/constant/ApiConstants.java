@@ -6,6 +6,7 @@ public class ApiConstants {
     public static final String BORCLAR = API_BASE + "/borclar";
     public static final String ALISVERISLER = API_BASE + "/alisverisler";
     public static final String ODEMELER = API_BASE + "/odemeler";
+    public static final String TAKSITLER = API_BASE + "/taksitler";
     public static final String AUTH = API_BASE + "/auth";
     public static final String ID = "/{id}";
     public static final String DELETE = "/{id}/delete";
