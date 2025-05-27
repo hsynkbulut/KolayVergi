@@ -14,6 +14,7 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RequestMapping(ApiConstants.ALISVERISLER)
@@ -92,4 +93,19 @@ public interface AlisverisController {
     @ApiResponse(responseCode = "404", description = "Alışveriş bulunamadı")
     @DeleteMapping(ApiConstants.ID)
     ResponseEntity<Void> deleteAlisveris(@PathVariable("id") UUID id);
+
+    @Operation(
+            summary = SwaggerConstants.GET_ALISVERISLER_BY_KULLANICI_ID_SUMMARY,
+            description = SwaggerConstants.GET_ALISVERISLER_BY_KULLANICI_ID_DESC
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "Alışverişler başarıyla getirildi",
+            content = @Content(examples = {
+                @ExampleObject(name = "Alışverişler Response")
+            })
+    )
+    @ApiResponse(responseCode = "404", description = "Alışverişler bulunamadı")
+    @GetMapping(ApiConstants.BENIM_ALISVERISLERIM)
+    ResponseEntity<List<AlisverisResponse>> getCurrentUserAlisverisler();
 }

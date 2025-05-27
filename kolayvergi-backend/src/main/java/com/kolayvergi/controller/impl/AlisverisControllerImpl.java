@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -39,5 +40,11 @@ public class AlisverisControllerImpl implements AlisverisController {
     public ResponseEntity<Void> deleteAlisveris(UUID id) {
         alisverisService.deleteAlisveris(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @Override
+    public ResponseEntity<List<AlisverisResponse>> getCurrentUserAlisverisler() {
+        List<AlisverisResponse> responseList = alisverisService.getCurrentUserAlisverisler();
+        return ResponseEntity.ok(responseList);
     }
 }

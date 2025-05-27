@@ -20,6 +20,7 @@ public interface AlisverisMapper {
     Alisveris aliverisCreateRequestToAlisveris(AlisverisCreateRequest alisverisCreateRequest);
 
     @Mapping(source = "aracBilgisi", target = "aracBilgisi", qualifiedByName = "mapAracBilgisi")
+    @Mapping(source = "id", target = "id")
     AlisverisResponse alisverisToAlisverisResponse(Alisveris alisveris);
 
     @Named("mapAracBilgisi")

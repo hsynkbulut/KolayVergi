@@ -19,7 +19,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -82,5 +84,14 @@ public class AlisverisServiceImpl implements AlisverisService {
             throw new EntityNotFoundException("Silinecek alışveriş bulunamadı: " + id);
         }
         alisverisRepository.deleteById(id);
+    }
+
+    @Override
+    public List<AlisverisResponse> getCurrentUserAlisverisler() {
+        Kullanici kullanici = kullaniciService.getCurrentUser();
+        List<Alisveris> alisverisler = alisverisRepository.findAllByKullaniciId(kullanici.getId());
+        return alisverisler.stream()
+                .map(alisverisMapper::alisverisToAlisverisResponse)
+                .collect(Collectors.toList());
     }
 }

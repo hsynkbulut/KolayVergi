@@ -16,6 +16,7 @@ public class ApiConstants {
     public static final String AUTH_REGISTER = "/register";
     public static final String TAKSIT_ODEME = "/taksit-odeme";
     public static final String TAKSIT_ODEME_DETAY = "/{taksitNo}";
+    public static final String BENIM_ALISVERISLERIM = "/benim-alisverislerim";
 
 
     private ApiConstants() {
