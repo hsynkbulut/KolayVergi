@@ -1,8 +1,16 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import Layout from './components/layout/Layout';
+
+const Page = ({ title }) => (
+  <div className="flex flex-col items-center justify-center w-full h-full gap-2">
+    <div className="text-2xl font-bold text-blue-700">{title}</div>
+    <div className="text-base text-gray-600">{title} sayfasındasınız</div>
+  </div>
+);
 
 function App() {
   return (
@@ -15,7 +23,49 @@ function App() {
             path="/"
             element={
               <ProtectedRoute>
-                <div>Ana Sayfa</div>
+                <Layout currentPath="/">
+                  <Page title="Ana Sayfa" />
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <Layout currentPath="/profile">
+                  <Page title="Profilim" />
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/borclarim"
+            element={
+              <ProtectedRoute>
+                <Layout currentPath="/borclarim">
+                  <Page title="Borçlarım" />
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/alisverislerim"
+            element={
+              <ProtectedRoute>
+                <Layout currentPath="/alisverislerim">
+                  <Page title="Alışverişlerim" />
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/taksit-odeme"
+            element={
+              <ProtectedRoute>
+                <Layout currentPath="/taksit-odeme">
+                  <Page title="Taksit Ödeme" />
+                </Layout>
               </ProtectedRoute>
             }
           />
@@ -23,7 +73,9 @@ function App() {
             path="/admin"
             element={
               <ProtectedRoute requiredRoles={['ROLE_ADMIN']}>
-                <div>Admin Sayfası</div>
+                <Layout currentPath="/admin">
+                  <Page title="Admin Sayfası" />
+                </Layout>
               </ProtectedRoute>
             }
           />
