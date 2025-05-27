@@ -4,6 +4,9 @@ import ProtectedRoute from './components/ProtectedRoute';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Layout from './components/layout/Layout';
+import AlisverisListesi from './pages/alisveris/AlisverisListesi';
+import AlisverisDetay from './pages/alisveris/AlisverisDetay';
+import AlisverisEkle from './pages/alisveris/AlisverisEkle';
 
 const Page = ({ title }) => (
   <div className="flex flex-col items-center justify-center w-full h-full gap-2">
@@ -54,7 +57,27 @@ function App() {
             element={
               <ProtectedRoute>
                 <Layout currentPath="/alisverislerim">
-                  <Page title="Alışverişlerim" />
+                  <AlisverisListesi />
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/alisverislerim/:id"
+            element={
+              <ProtectedRoute>
+                <Layout currentPath="/alisverislerim">
+                  <AlisverisDetay />
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/alisveris/yeni"
+            element={
+              <ProtectedRoute>
+                <Layout currentPath="/alisverislerim">
+                  <AlisverisEkle />
                 </Layout>
               </ProtectedRoute>
             }
