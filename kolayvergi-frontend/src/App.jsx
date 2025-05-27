@@ -7,6 +7,8 @@ import Layout from './components/layout/Layout';
 import AlisverisListesi from './pages/alisveris/AlisverisListesi';
 import AlisverisDetay from './pages/alisveris/AlisverisDetay';
 import AlisverisEkle from './pages/alisveris/AlisverisEkle';
+import Borclarim from './pages/Borclarim';
+import TaksitOdeme from "./pages/TaksitOdeme";
 
 const Page = ({ title }) => (
   <div className="flex flex-col items-center justify-center w-full h-full gap-2">
@@ -47,7 +49,7 @@ function App() {
             element={
               <ProtectedRoute>
                 <Layout currentPath="/borclarim">
-                  <Page title="Borçlarım" />
+                  <Borclarim />
                 </Layout>
               </ProtectedRoute>
             }
@@ -87,7 +89,7 @@ function App() {
             element={
               <ProtectedRoute>
                 <Layout currentPath="/taksit-odeme">
-                  <Page title="Taksit Ödeme" />
+                  <TaksitOdeme />
                 </Layout>
               </ProtectedRoute>
             }

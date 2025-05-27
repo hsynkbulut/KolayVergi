@@ -11,6 +11,7 @@ import com.kolayvergi.service.BorcService;
 import com.kolayvergi.service.KullaniciService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,8 +37,10 @@ public class BorcServiceImpl implements BorcService {
     }
 
     @Override
-    public BorcResponse getBorc(UUID id) {
-        return borcMapper.borcToBorcResponse(getBorcById(id));
+    public BorcResponse getBorc() {
+        Kullanici kullanici = kullaniciService.getCurrentUser();
+        UUID kullaniciId = kullanici.getId();
+        return getBorcByKullaniciId(kullaniciId);
     }
 
     @Override

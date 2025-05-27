@@ -17,7 +17,7 @@ public class BorcControllerImpl implements BorcController {
     private final BorcService borcService;
 
     @Override
-    public ResponseEntity<BorcResponse> getBorcById(UUID id) {
-        return ResponseEntity.status(HttpStatus.OK).body(borcService.getBorc(id));
+    public ResponseEntity<BorcResponse> getBorcById() {
+        return ResponseEntity.status(HttpStatus.OK).body(borcService.getBorc());
     }
 }
