@@ -4,6 +4,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Layout from './components/layout/Layout';
+import Borclarim from './pages/Borclarim';
 
 const Page = ({ title }) => (
   <div className="flex flex-col items-center justify-center w-full h-full gap-2">
@@ -44,7 +45,7 @@ function App() {
             element={
               <ProtectedRoute>
                 <Layout currentPath="/borclarim">
-                  <Page title="Borçlarım" />
+                  <Borclarim />
                 </Layout>
               </ProtectedRoute>
             }
