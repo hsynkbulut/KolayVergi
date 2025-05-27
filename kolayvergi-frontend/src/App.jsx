@@ -4,6 +4,9 @@ import ProtectedRoute from './components/ProtectedRoute';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Layout from './components/layout/Layout';
+import AlisverisListesi from './pages/alisveris/AlisverisListesi';
+import AlisverisDetay from './pages/alisveris/AlisverisDetay';
+import AlisverisEkle from './pages/alisveris/AlisverisEkle';
 import Borclarim from './pages/Borclarim';
 import TaksitOdeme from "./pages/TaksitOdeme";
 
@@ -56,7 +59,27 @@ function App() {
             element={
               <ProtectedRoute>
                 <Layout currentPath="/alisverislerim">
-                  <Page title="Alışverişlerim" />
+                  <AlisverisListesi />
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/alisverislerim/:id"
+            element={
+              <ProtectedRoute>
+                <Layout currentPath="/alisverislerim">
+                  <AlisverisDetay />
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/alisveris/yeni"
+            element={
+              <ProtectedRoute>
+                <Layout currentPath="/alisverislerim">
+                  <AlisverisEkle />
                 </Layout>
               </ProtectedRoute>
             }

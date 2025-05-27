@@ -1,9 +1,9 @@
 import Icon from './Icon';
 
-const Button = ({ children, type = 'primary', icon, className = '', ...props }) => {
+const Button = ({ children, type = 'button', variant = 'primary', icon, className = '', ...props }) => {
   let base = 'inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg font-semibold shadow-md transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-blue-400';
   let color = '';
-  switch (type) {
+  switch (variant) {
     case 'secondary':
       color = 'bg-white text-blue-600 border border-blue-600 hover:bg-blue-50';
       break;
@@ -17,7 +17,7 @@ const Button = ({ children, type = 'primary', icon, className = '', ...props }) 
       color = 'bg-blue-600 text-white hover:bg-blue-700';
   }
   return (
-    <button {...props} className={`${base} ${color} ${className}`} disabled={type === 'disabled' || props.disabled}>
+    <button type={type} {...props} className={`${base} ${color} ${className}`} disabled={variant === 'disabled' || props.disabled}>
       {icon && <Icon name={icon} className="w-5 h-5" />}
       {children}
     </button>
