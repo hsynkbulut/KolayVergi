@@ -37,6 +37,6 @@ public interface BorcController {
         )
     )
     @ApiResponse(responseCode = "404", description = "Borç bulunamadı")
-    @GetMapping(path = ApiConstants.ID)
-    ResponseEntity<BorcResponse> getBorcById(@PathVariable(name = "id") UUID id);
+    @GetMapping()
+    ResponseEntity<BorcResponse> getBorcById();
 }

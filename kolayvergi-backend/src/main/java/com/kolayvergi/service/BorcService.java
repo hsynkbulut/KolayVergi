@@ -10,7 +10,7 @@ import java.util.UUID;
 public interface BorcService {
 
     BorcResponse createBorc(BorcCreateRequest borc);
-    BorcResponse getBorc(UUID id);
+    BorcResponse getBorc();
     BorcResponse getBorcByKullaniciId(UUID kullaniciId);
     Optional<BorcResponse> getBorcByKullaniciIdSafely(UUID kullaniciId);
     BorcResponse updateBorc(UUID id, BorcUpdateRequest updateBorc);
