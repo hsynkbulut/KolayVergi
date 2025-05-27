@@ -44,6 +44,10 @@ public class SwaggerConstants {
     public static final String UPDATE_PROFILE_SUMMARY = "Profil güncelleme";
     public static final String UPDATE_PROFILE_DESC = "Giriş yapmış kullanıcının kendi bilgilerini günceller";
 
+    // AlisverisController ile ilgili yeni endpoint için
+    public static final String GET_ALISVERISLER_BY_KULLANICI_ID_SUMMARY = "Kullanıcıya ait tüm alışverişleri getir";
+    public static final String GET_ALISVERISLER_BY_KULLANICI_ID_DESC = "Belirli bir kullanıcıya ait tüm alışverişlerin listesini döner";
+
     private SwaggerConstants() {
         throw new UnsupportedOperationException("Bu bir yardımcı sınıftır ve nesnesi oluşturulamaz!");
     }
