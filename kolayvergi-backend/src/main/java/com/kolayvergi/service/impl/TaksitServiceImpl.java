@@ -83,8 +83,6 @@ public class TaksitServiceImpl implements TaksitService {
             borcService.createBorc(createRequest);
         }
 
-
-
         return taksitler;
     }
 
@@ -102,5 +100,16 @@ public class TaksitServiceImpl implements TaksitService {
         taksit.setOdemeTuru(odemeTuru);
         taksit.setTaksitTutari(guncellenmisTutar);
         return taksitRepository.save(taksit);
+    }
+
+    @Override
+    public List<Taksit> getAllTaksitler() {
+        return taksitRepository.findAll();
+    }
+
+    @Override
+    public List<Taksit> getCurrentUserTaksitler() {
+        UUID currentUserId = kullaniciService.getCurrentUser().getId();
+        return taksitRepository.findByOdemePlani_Alisveris_KullaniciId(currentUserId);
     }
 }
