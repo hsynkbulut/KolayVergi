@@ -61,7 +61,6 @@ public class BorcServiceImpl implements BorcService {
         Borc borc = getBorcById(id);
         Optional.ofNullable(updateBorcRequest.getToplamBorc()).ifPresent(borc::setToplamBorc);
         Optional.ofNullable(updateBorcRequest.getKalanBorc()).ifPresent(borc::setKalanBorc);
-
         return borcMapper.borcToBorcResponse(borcRepository.save(borc));
     }
 
@@ -69,4 +68,11 @@ public class BorcServiceImpl implements BorcService {
         return borcRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Borc bulunamadı. ID: " + id));
     }
+
+    @Transactional
+    @Override
+    public void deleteBorcByKullaniciId(UUID kullaniciId) {
+        borcRepository.deleteByKullaniciId(kullaniciId);
+    }
+
 }

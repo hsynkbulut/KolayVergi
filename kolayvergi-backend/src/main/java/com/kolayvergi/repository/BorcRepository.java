@@ -10,4 +10,5 @@ import java.util.UUID;
 @Repository
 public interface BorcRepository extends JpaRepository<Borc, UUID> {
     Optional<Borc> getBorcByKullaniciId(UUID kullaniciId);
+    void deleteByKullaniciId(UUID kullaniciId);
 }

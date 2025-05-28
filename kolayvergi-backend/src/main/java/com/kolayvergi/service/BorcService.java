@@ -14,4 +14,5 @@ public interface BorcService {
     BorcResponse getBorcByKullaniciId(UUID kullaniciId);
     Optional<BorcResponse> getBorcByKullaniciIdSafely(UUID kullaniciId);
     BorcResponse updateBorc(UUID id, BorcUpdateRequest updateBorc);
+    void deleteBorcByKullaniciId(UUID kullaniciId);
 }
