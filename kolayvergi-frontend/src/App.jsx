@@ -36,16 +36,6 @@ function App() {
             }
           />
           <Route
-            path="/profile"
-            element={
-              <ProtectedRoute>
-                <Layout currentPath="/profile">
-                  <Page title="Profilim" />
-                </Layout>
-              </ProtectedRoute>
-            }
-          />
-          <Route
             path="/borclarim"
             element={
               <ProtectedRoute>
