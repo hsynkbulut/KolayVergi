@@ -2,16 +2,13 @@ package com.kolayvergi.service.impl;
 
 import com.kolayvergi.dto.mapper.AlisverisMapper;
 import com.kolayvergi.dto.request.AlisverisCreateRequest;
+import com.kolayvergi.dto.request.BorcUpdateRequest;
 import com.kolayvergi.dto.response.AlisverisResponse;
-import com.kolayvergi.entity.Alisveris;
-import com.kolayvergi.entity.AracBilgisi;
-import com.kolayvergi.entity.Kullanici;
+import com.kolayvergi.entity.*;
+import com.kolayvergi.entity.enums.OdemeDurumu;
 import com.kolayvergi.entity.enums.UrunTuru;
 import com.kolayvergi.repository.AlisverisRepository;
-import com.kolayvergi.service.AlisverisService;
-import com.kolayvergi.service.AracBilgisiService;
-import com.kolayvergi.service.KullaniciService;
-import com.kolayvergi.service.OdemePlaniService;
+import com.kolayvergi.service.*;
 import com.kolayvergi.service.vergi.VergiHesaplamaService;
 import com.kolayvergi.service.vergi.VergiHesaplamaSonuc;
 import jakarta.persistence.EntityNotFoundException;
@@ -19,6 +16,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -34,6 +33,7 @@ public class AlisverisServiceImpl implements AlisverisService {
     private final AracBilgisiService aracBilgisiService;
     private final OdemePlaniService odemePlaniService;
     private final VergiHesaplamaService vergiHesaplamaService;
+    private final BorcService borcService;
 
     @Override
     @Transactional
@@ -70,19 +70,32 @@ public class AlisverisServiceImpl implements AlisverisService {
         return alisverisMapper.alisverisToAlisverisResponse(alisveris);
     }
 
-    @Override
-    @Transactional()
-    public AlisverisResponse updateAlisveris(UUID id, AlisverisCreateRequest request) {
-        deleteAlisveris(id);
-        return createAlisveris(request);
-    }
-
     @Transactional()
     @Override
     public void deleteAlisveris(UUID id) {
         if (!alisverisRepository.existsById(id)) {
             throw new EntityNotFoundException("Silinecek alışveriş bulunamadı: " + id);
         }
+        Alisveris dbAlisveris = alisverisRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Alışveriş bulunamadı: " + id));
+        Kullanici kullanici = kullaniciService.getCurrentUser();
+        BigDecimal odenecekTutar = dbAlisveris.getOdemePlani().getToplamOdenecekTutar();
+        BigDecimal odenmisTutar = BigDecimal.ZERO;
+        List<Taksit> taksitler = dbAlisveris.getOdemePlani().getTaksitler();
+        BigDecimal taksitTutari = odenecekTutar.divide(
+                BigDecimal.valueOf(dbAlisveris.getTaksitSayisi()),
+                MathContext.DECIMAL128
+        );
+        for (Taksit taksit : taksitler) {
+            if (taksit.getDurum() == OdemeDurumu.ODENDI) {
+                odenmisTutar = odenmisTutar.add(taksitTutari);
+            }
+        }
+
+        Borc dbBorc = kullanici.getBorc();
+        BigDecimal kalanBorc = odenecekTutar.subtract(odenmisTutar);
+        dbBorc.setToplamBorc(dbBorc.getToplamBorc().subtract(odenecekTutar));
+        dbBorc.setKalanBorc(dbBorc.getKalanBorc().subtract(kalanBorc));
         alisverisRepository.deleteById(id);
     }
 
@@ -93,5 +106,12 @@ public class AlisverisServiceImpl implements AlisverisService {
         return alisverisler.stream()
                 .map(alisverisMapper::alisverisToAlisverisResponse)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional()
+    public AlisverisResponse updateAlisveris(UUID id, AlisverisCreateRequest request) {
+        deleteAlisveris(id);
+        return createAlisveris(request);
     }
 }

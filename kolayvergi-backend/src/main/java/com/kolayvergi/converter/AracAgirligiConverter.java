@@ -27,4 +27,4 @@ public class AracAgirligiConverter implements AttributeConverter<AracAgirligi, S
         }
         throw new IllegalArgumentException("Geçersiz araç ağırlığı: " + dbData);
     }
-} 
+}
