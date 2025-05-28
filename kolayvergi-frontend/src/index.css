@@ -27,11 +27,73 @@ a:hover {
 }
 
 body {
+  @apply bg-white text-gray-900;
   margin: 0;
   display: flex;
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+}
+
+.dark body {
+  background-color: #23272f;
+  color: #e5e7eb;
+}
+
+.dark .bg-white {
+  background-color: #23272f !important;
+}
+
+.dark .bg-blue-50 {
+  background-color: #232b3a !important;
+}
+
+.dark .bg-blue-100 {
+  background-color: #2d3443 !important;
+}
+
+.dark .text-gray-900 {
+  color: #e5e7eb !important;
+}
+
+.dark .text-gray-700 {
+  color: #cbd5e1 !important;
+}
+
+.dark .text-gray-500 {
+  color: #94a3b8 !important;
+}
+
+.dark .border-gray-100 {
+  border-color: #353a45 !important;
+}
+
+.dark .border-gray-200 {
+  border-color: #353a45 !important;
+}
+
+.dark .shadow-xl, .dark .shadow-2xl, .dark .shadow-sm {
+  box-shadow: 0 2px 16px 0 rgba(0,0,0,0.4) !important;
+}
+
+.dark .bg-blue-500 {
+  background-color: #2563eb !important;
+}
+
+.dark .bg-red-50 {
+  background-color: #3a232b !important;
+}
+
+.dark .bg-green-50 {
+  background-color: #233a2b !important;
+}
+
+.dark .bg-purple-500 {
+  background-color: #6d28d9 !important;
+}
+
+.dark .bg-orange-500 {
+  background-color: #ea580c !important;
 }
 
 h1 {
@@ -69,4 +131,17 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}
+
+.dark input,
+.dark textarea,
+.dark select {
+  color: #f8fafc !important;
+  background-color: #23272f !important;
+}
+
+.dark input::placeholder,
+.dark textarea::placeholder {
+  color: #a0aec0 !important;
+  opacity: 1;
 }

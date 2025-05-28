@@ -2,6 +2,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import Button from '../ui/Button';
 import Icon from '../ui/Icon';
+import ThemeToggle from '../layout/ThemeToggle';
 
 const Navbar = ({ currentPath, onSidebarToggle, isSidebarOpen }) => {
   const { user, logout } = useAuth();
@@ -48,6 +49,7 @@ const Navbar = ({ currentPath, onSidebarToggle, isSidebarOpen }) => {
         </div>
         {/* Sağ: Kullanıcı ve Çıkış */}
         <div className="flex items-center gap-4 flex-shrink-0">
+          <ThemeToggle />
           <div className="flex items-center gap-2 bg-blue-50 px-3 py-1 rounded-full">
             <Icon name="FiUser" className="w-5 h-5 text-blue-600" />
             <span className="text-gray-700 text-sm md:text-base font-medium select-none truncate max-w-[160px]">{user?.email}</span>
