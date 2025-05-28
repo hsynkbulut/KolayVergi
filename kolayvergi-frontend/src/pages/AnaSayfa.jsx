@@ -89,9 +89,24 @@ const AnaSayfa = () => {
     },
   ];
 
+  // Ürün türü label fonksiyonu
+  const urunTuruLabel = (value) => {
+    if (value === 'OTOMOBIL') return 'Otomobil';
+    const map = {
+      GIDA: 'Gıda',
+      ELEKTRONIK: 'Elektronik',
+      GIYIM: 'Giyim',
+      KITAP: 'Kitap',
+      KOZMETIK: 'Kozmetik',
+      MOBILYA: 'Mobilya',
+      BEYAZ_ESYA: 'Beyaz Eşya',
+    };
+    return map[value] || value;
+  };
+
   // Son alışverişler tablosu için kolonlar
   const columns = [
-    { header: "Ürün Türü", accessor: "urunTuru", cell: v => v === 'OTOMOBIL' ? 'Otomobil' : 'Diğer Ürün' },
+    { header: "Ürün Türü", accessor: "urunTuru", cell: v => urunTuruLabel(v) },
     { header: "Tutar", accessor: "tutar", cell: v => v.toLocaleString('tr-TR') + " ₺" },
     { header: "Taksit", accessor: "taksitSayisi", cell: v => v + " Taksit" },
     {

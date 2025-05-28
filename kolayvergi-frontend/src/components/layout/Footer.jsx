@@ -1,4 +1,11 @@
+import React, { useState } from 'react';
+import Modal from '../ui/Modal';
+
 const Footer = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isPrivacyModalOpen, setIsPrivacyModalOpen] = useState(false);
+  const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
+
   return (
     <footer className="w-full bg-blue-50 text-blue-900 border-t mt-8">
       <div className="max-w-7xl mx-auto px-4 md:px-8 py-8 flex flex-col md:flex-row items-center justify-between gap-6">
@@ -7,10 +14,10 @@ const Footer = () => {
           <span className="text-sm text-blue-800 mt-1">Vergi işlemlerinizde güvenli ve hızlı çözüm.</span>
         </div>
         <div className="flex flex-wrap items-center gap-5 text-sm">
-          <a href="mailto:destek@kolayvergi.com" className="hover:underline hover:text-blue-700 transition-colors">İletişim</a>
-          <a href="#" className="hover:underline hover:text-blue-700 transition-colors">Yardım</a>
-          <a href="#" className="hover:underline hover:text-blue-700 transition-colors">Gizlilik Politikası</a>
-          <a href="#" className="hover:underline hover:text-blue-700 transition-colors">Kullanım Şartları</a>
+          <a href="/iletisim" className="hover:underline hover:text-blue-700 transition-colors">İletişim</a>
+          <a href="#" onClick={() => setIsHelpModalOpen(true)} className="hover:underline hover:text-blue-700 transition-colors">Yardım</a>
+          <a href="#" onClick={() => setIsPrivacyModalOpen(true)} className="hover:underline hover:text-blue-700 transition-colors">Gizlilik Politikası</a>
+          <a href="#" onClick={() => setIsModalOpen(true)} className="hover:underline hover:text-blue-700 transition-colors">Kullanım Şartları</a>
         </div>
         <div className="flex items-center gap-4">
           <a href="https://www.linkedin.com/company/kolayvergi" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="hover:text-blue-700 transition-colors">
@@ -27,6 +34,106 @@ const Footer = () => {
           &copy; {new Date().getFullYear()} KolayVergi. Tüm hakları saklıdır.
         </div>
       </div>
+
+      <Modal open={isModalOpen} onClose={() => setIsModalOpen(false)} title="Kullanım Şartları">
+        <div className="prose max-w-none">
+          <p className="mb-4">
+            KolayVergi uygulamasını kullanarak aşağıdaki şartları kabul etmiş olursunuz:
+          </p>
+          <ul className="list-disc pl-5 space-y-2">
+            <li>Uygulamayı yalnızca yasal amaçlar için kullanacağınızı taahhüt edersiniz.</li>
+            <li>Verdiğiniz tüm bilgilerin doğru ve güncel olduğundan emin olmalısınız.</li>
+            <li>Hesap güvenliğinizden ve şifrenizin gizliliğinden siz sorumlusunuz.</li>
+            <li>Uygulama üzerinden yapılan tüm işlemlerin yasal ve etik kurallara uygun olması gerekmektedir.</li>
+            <li>KolayVergi, kullanıcı verilerinin güvenliği ve gizliliği konusunda gerekli önlemleri alır, ancak internet üzerinden yapılan işlemlerde mutlak güvenlik garantisi verilemez.</li>
+          </ul>
+          <p className="mt-4">
+            Bu şartlar, uygulamanın kullanımı sırasında güncellenebilir. Güncel şartları takip etmek sizin sorumluluğunuzdadır.
+          </p>
+        </div>
+      </Modal>
+
+      <Modal open={isPrivacyModalOpen} onClose={() => setIsPrivacyModalOpen(false)} title="Gizlilik Politikası">
+        <div className="text-sm md:text-base leading-relaxed">
+          <p className="mb-4">
+            KolayVergi olarak kişisel verilerinizin güvenliği ve gizliliği bizim için önemlidir. Bu gizlilik politikası, uygulamamızı kullanırken verilerinizin nasıl toplandığını, kullanıldığını ve korunduğunu açıklar.
+          </p>
+
+          <div className="font-semibold mt-4 mb-2 text-blue-900">Toplanan Veriler</div>
+          <ul className="list-disc pl-5 space-y-1 mb-4">
+            <li>Kimlik bilgileri (ad, soyad, e-posta adresi)</li>
+            <li>Vergi ve borç bilgileri</li>
+            <li>Alışveriş geçmişi ve ödeme bilgileri</li>
+          </ul>
+
+          <div className="font-semibold mt-4 mb-2 text-blue-900">Verilerin Kullanımı</div>
+          <ul className="list-disc pl-5 space-y-1 mb-4">
+            <li>Hizmetlerimizi sunmak ve geliştirmek</li>
+            <li>Hesabınızı yönetmek ve güvenliğini sağlamak</li>
+            <li>Yasal yükümlülüklerimizi yerine getirmek</li>
+          </ul>
+
+          <div className="font-semibold mt-4 mb-2 text-blue-900">Veri Güvenliği</div>
+          <p className="mb-2">
+            Verilerinizi korumak için endüstri standardı güvenlik önlemleri kullanıyoruz:
+          </p>
+          <ul className="list-disc pl-5 space-y-1 mb-4">
+            <li>SSL şifreleme ile güvenli veri iletişimi</li>
+            <li>Düzenli güvenlik güncellemeleri ve denetimleri</li>
+            <li>Erişim kontrolü ve yetkilendirme sistemleri</li>
+          </ul>
+
+          <div className="font-semibold mt-4 mb-2 text-blue-900">Çerezler ve İzleme</div>
+          <p className="mb-2">
+            Sitemizde çerezler kullanılmaktadır. Bu çerezler:
+          </p>
+          <ul className="list-disc pl-5 space-y-1 mb-4">
+            <li>Oturum yönetimi ve güvenlik</li>
+            <li>Hizmet kalitesini iyileştirme</li>
+          </ul>
+
+          <div className="font-semibold mt-4 mb-2 text-blue-900">Haklarınız</div>
+          <p className="mb-2">
+            KVKK kapsamında aşağıdaki haklara sahipsiniz:
+          </p>
+          <ul className="list-disc pl-5 space-y-1 mb-4">
+            <li>Verilerinize erişim ve düzeltme talep etme</li>
+            <li>Verilerinizin silinmesini isteme</li>
+            <li>Veri işlemeye itiraz etme</li>
+            <li>Verilerinizin aktarılmasını talep etme</li>
+          </ul>
+
+          <p className="mt-4 text-xs text-gray-600">
+            Bu gizlilik politikası, 28.05.2025 tarihinden itibaren geçerlidir. Politikamızda değişiklik yapılması durumunda, değişiklikler bu sayfada yayınlanacaktır.
+          </p>
+        </div>
+      </Modal>
+
+      <Modal open={isHelpModalOpen} onClose={() => setIsHelpModalOpen(false)} title="Yardım & Sıkça Sorulan Sorular">
+        <div className="text-sm md:text-base leading-relaxed">
+          <div className="font-semibold mb-2 text-blue-900">Sıkça Sorulan Sorular</div>
+          <div className="mb-3">
+            <b>Giriş yapamıyorum, ne yapmalıyım?</b>
+            <div className="ml-2 mb-2">E-posta ve şifrenizi doğru girdiğinizden emin olun. Şifrenizi unuttuysanız "Şifremi Unuttum" bağlantısını kullanın.</div>
+            <b>Borçlarımı nereden görebilirim?</b>
+            <div className="ml-2 mb-2">Ana menüdeki "Borçlarım" bölümünden tüm borç ve taksitlerinizi görüntüleyebilirsiniz.</div>
+            <b>Alışveriş eklerken hata alıyorum, ne yapmalıyım?</b>
+            <div className="ml-2 mb-2">Zorunlu alanları eksiksiz doldurduğunuzdan ve internet bağlantınızın olduğundan emin olun. Sorun devam ederse destek ekibimize ulaşın.</div>
+            <b>Destek ekibine nasıl ulaşabilirim?</b>
+            <div className="ml-2 mb-2">"İletişim" bölümünden bize e-posta gönderebilir veya <a href="mailto:destek@kolayvergi.com" className="text-blue-700 underline">destek@kolayvergi.com</a> adresini kullanabilirsiniz.</div>
+          </div>
+          <div className="font-semibold mb-2 text-blue-900">Kısa Kullanım Rehberi</div>
+          <ul className="list-disc pl-5 space-y-1 mb-4">
+            <li><b>Ana Sayfa:</b> Genel özet ve hızlı erişim menüsü.</li>
+            <li><b>Borçlarım:</b> Tüm borç ve taksitlerinizi görüntüleyin.</li>
+            <li><b>Alışverişlerim:</b> Geçmiş alışverişlerinizi ve detaylarını inceleyin.</li>
+            <li><b>Taksit Ödeme:</b> Borç taksitlerinizi kolayca ödeyin.</li>
+          </ul>
+          <div className="mt-2 text-xs text-gray-600">
+            Daha fazla yardım için <a href="mailto:destek@kolayvergi.com" className="text-blue-700 underline">destek@kolayvergi.com</a> adresine e-posta gönderebilirsiniz.
+          </div>
+        </div>
+      </Modal>
     </footer>
   );
 };

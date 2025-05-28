@@ -10,6 +10,7 @@ import AlisverisEkle from './pages/alisveris/AlisverisEkle';
 import Borclarim from './pages/Borclarim';
 import TaksitOdeme from "./pages/TaksitOdeme";
 import AnaSayfa from "./pages/AnaSayfa";
+import Iletisim from './pages/Iletisim';
 
 const Page = ({ title }) => (
   <div className="flex flex-col items-center justify-center w-full h-full gap-2">
@@ -81,6 +82,16 @@ function App() {
               <ProtectedRoute>
                 <Layout currentPath="/taksit-odeme">
                   <TaksitOdeme />
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/iletisim"
+            element={
+              <ProtectedRoute>
+                <Layout currentPath="/iletisim">
+                  <Iletisim />
                 </Layout>
               </ProtectedRoute>
             }

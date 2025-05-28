@@ -29,6 +29,21 @@ const AlisverisDetay = () => {
     }
   };
 
+  // Ürün türü label fonksiyonu
+  const urunTuruLabel = (value) => {
+    if (value === 'OTOMOBIL') return 'Otomobil';
+    const map = {
+      GIDA: 'Gıda',
+      ELEKTRONIK: 'Elektronik',
+      GIYIM: 'Giyim',
+      KITAP: 'Kitap',
+      KOZMETIK: 'Kozmetik',
+      MOBILYA: 'Mobilya',
+      BEYAZ_ESYA: 'Beyaz Eşya',
+    };
+    return map[value] || value;
+  };
+
   if (loading) return <div className="text-center py-8">Yükleniyor...</div>;
   if (error) return <div className="text-center text-red-500 py-8">{error}</div>;
   if (!alisveris) return null;
@@ -56,7 +71,7 @@ const AlisverisDetay = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4">
           <div>
             <div className="text-gray-700 font-semibold">Ürün Türü</div>
-            <div className="text-blue-900 font-bold text-lg mt-1">{alisveris.urunTuru === 'OTOMOBIL' ? 'Otomobil' : 'Diğer Ürün'}</div>
+            <div className="text-blue-900 font-bold text-lg mt-1">{urunTuruLabel(alisveris.urunTuru)}</div>
           </div>
           <div>
             <div className="text-gray-700 font-semibold">Tutar</div>
