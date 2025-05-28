@@ -63,11 +63,25 @@ export const AlisverisTablosu = () => {
     }
   };
 
+  const urunTuruLabel = (value) => {
+    if (value === 'OTOMOBIL') return 'Otomobil';
+    const map = {
+      GIDA: 'Gıda',
+      ELEKTRONIK: 'Elektronik',
+      GIYIM: 'Giyim',
+      KITAP: 'Kitap',
+      KOZMETIK: 'Kozmetik',
+      MOBILYA: 'Mobilya',
+      BEYAZ_ESYA: 'Beyaz Eşya',
+    };
+    return map[value] || value;
+  };
+
   const columns = [
     {
       header: 'Ürün Türü',
       accessor: 'urunTuru',
-      cell: (value) => value === 'OTOMOBIL' ? 'Otomobil' : 'Diğer Ürün'
+      cell: (value) => urunTuruLabel(value)
     },
     {
       header: 'Tutar',

@@ -1,100 +1,58 @@
-# KolayVergi
+# KolayVergi Frontend
 
-KolayVergi, vergi hesaplamalarını ve taksit ödemelerini kolaylaştırmak için geliştirilmiş modern bir web uygulamasıdır. Bu proje, vergi mükelleflerinin vergi hesaplamalarını ve taksit ödemelerini hızlı ve doğru bir şekilde yapabilmelerini sağlar.
+KolayVergi uygulamasının frontend (kullanıcı arayüzü) kısmı, React ve modern web teknolojileriyle geliştirilmiştir. Kullanıcıların borç, taksit ve alışveriş işlemlerini hızlı ve kolay şekilde yönetmesini sağlar.
 
-## 🚀 Özellikler
+---
 
-- Vergi hesaplama araçları
-- Taksit ödeme sistemi
-- Kullanıcı dostu arayüz
-- Güvenli kimlik doğrulama
-- Borç takip sistemi
-- Alışveriş vergisi hesaplama
-- Responsive tasarım
+## 🚩 Proje Amacı
+- Kullanıcı dostu, hızlı ve modern bir arayüz sunmak
+- Vergi, borç ve taksit işlemlerini kolaylaştırmak
+- Responsive ve erişilebilir bir deneyim sağlamak
+
+---
 
 ## 🛠️ Kullanılan Teknolojiler
-
-### Frontend
-- React.js
-- Vite
-- TypeScript
+- React.js (Vite ile hızlı geliştirme)
 - Tailwind CSS
 - React Router
 - Axios
+- Context API (kullanıcı oturumu ve global state)
 
-### Backend
-- Spring Boot
-- Java
-- PostgreSQL
-- JWT Authentication
-- Spring Security
-- Swagger/OpenAPI
+---
 
-## 📋 API Endpoints
+## 🚀 Kurulum ve Çalıştırma
 
-### Kimlik Doğrulama İşlemleri
-- `POST /api/v1/auth/login` - Kullanıcı girişi
-- `POST /api/v1/auth/refresh` - Token yenileme
-- `POST /api/v1/auth/register` - Yeni kullanıcı kaydı
-- `PUT /api/v1/auth/update` - Profil güncelleme
-
-### Kullanıcı İşlemleri
-- `GET /api/v1/kullanicilar/{id}` - Kullanıcı bilgilerini getir
-- `DELETE /api/v1/kullanicilar/{id}/delete` - Kullanıcı sil
-- `GET /api/v1/kullanicilar` - Tüm kullanıcıları listele (Admin)
-
-### Alışveriş İşlemleri
-- `POST /api/v1/alisverisler` - Yeni alışveriş oluştur
-- `GET /api/v1/alisverisler/{id}` - Alışveriş detaylarını getir
-- `PUT /api/v1/alisverisler/{id}` - Alışveriş bilgilerini güncelle
-- `DELETE /api/v1/alisverisler/{id}` - Alışveriş kaydını sil
-
-### Borç İşlemleri
-- `GET /api/v1/borclar/{id}` - Borç detaylarını getir
-
-### Taksit Ödeme İşlemleri
-- `POST /api/v1/odemeler/taksit-odeme` - Taksit ödemesi yap
-- `GET /api/v1/odemeler/{taksitNo}` - Taksit ödeme detaylarını getir
-
-## 🚀 Kurulum
-
-1. Projeyi klonlayın:
+### 1. Bağımlılıkları Yükleyin
 ```bash
-git clone https://github.com/your-username/kolayvergi.git
-```
-
-2. Frontend bağımlılıklarını yükleyin:
-```bash
-cd kolayvergi-frontend
 npm install
 ```
 
-3. Backend bağımlılıklarını yükleyin:
+### 2. Geliştirme Sunucusunu Başlatın
 ```bash
-cd kolayvergi-backend
-mvn install
-```
-
-4. Uygulamayı başlatın:
-```bash
-# Frontend
 npm run dev
-
-# Backend
-mvn spring-boot:run
 ```
+- Uygulama varsayılan olarak [http://localhost:5173](http://localhost:5173) adresinde çalışır.
 
-## 👥 Katkıda Bulunanlar
 
-- [Hüseyin Karabulut](https://github.com/hsynkbulut) - Frontend Geliştirici
-- [Mustafa Fatih Güçlüer](https://github.com/mfgucluer) - Backend Geliştirici
+---
 
-## 📝 Lisans
+## 📁 Önemli Dizinler
+- `src/` : Tüm kaynak kodları
+  - `components/` : Ortak ve sayfa bileşenleri
+  - `pages/` : Sayfa bazlı bileşenler (ör. AnaSayfa, Borclarim, Alisverislerim)
+  - `context/` : Global state ve oturum yönetimi
+  - `services/` : API istekleri ve yardımcı servisler
+  - `assets/` : Görseller ve statik dosyalar
 
-Bu proje MIT lisansı altında lisanslanmıştır. Detaylar için [LICENSE](LICENSE) dosyasına bakın.
+---
+
+## ⚠️ Notlar
+- Backend (Spring Boot) projesi ayrı bir dizinde çalıştırılmalıdır.
+- Geliştirme sırasında Tailwind CSS ve Vite hot-reload desteğiyle hızlıca değişiklik yapabilirsiniz.
+
+---
 
 ## 📞 İletişim
+- Hüseyin Karabulut: [hsyn.kbulut@gmail.com](mailto:hsyn.kbulut@gmail.com)
+- Mustafa Fatih Güçlüer: [mfgucluer1@hotmail.com](mailto:mfgucluer1@hotmail.com)
 
-Proje ile ilgili sorularınız için:
-- Hüseyin Karabulut: [GitHub](https://github.com/hsynkbulut)
-- Mustafa Fatih Güçlüer: [GitHub](https://github.com/mfgucluer)
