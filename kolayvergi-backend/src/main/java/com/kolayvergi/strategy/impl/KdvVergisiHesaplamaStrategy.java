@@ -24,7 +24,7 @@ public class KdvVergisiHesaplamaStrategy implements VergiHesaplamaStrategy {
         UrunTuru urunTuru = alisveris.getUrunTuru();
 
         AracBilgisi aracBilgisi = alisveris.getAracBilgisi();
-        if (aracBilgisi == null) {
+        if (alisveris.getUrunTuru() == UrunTuru.OTOMOBIL && aracBilgisi == null) {
             throw new IllegalArgumentException("KDV Vergisi hesaplanabilmesi için araç bilgisi bulunmalıdır.");
         }
 
