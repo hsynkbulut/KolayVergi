@@ -3,6 +3,7 @@ import axiosInstance from "../services/axios.config";
 import Table from "../components/ui/Table";
 import Button from "../components/ui/Button";
 import Modal from "../components/ui/Modal";
+import Icon from "../components/ui/Icon";
 
 const ODEME_TURLERI = [
   { value: "NAKIT", label: "Nakit" },
@@ -22,14 +23,19 @@ const TaksitOdeme = () => {
   const [odemeError, setOdemeError] = useState("");
   const [odemeSuccess, setOdemeSuccess] = useState("");
 
-  // Taksitleri çek
+  const parseTaksitNoDate = (taksitNo) => {
+    const str = taksitNo.substring(0, 12);
+    const dateStr = `${str.substring(0,4)}-${str.substring(4,6)}-${str.substring(6,8)}T${str.substring(8,10)}:${str.substring(10,12)}`;
+    return new Date(dateStr);
+  };
+
   const fetchTaksitler = () => {
     setLoading(true);
     axiosInstance
       .get("/taksitler")
       .then((res) => {
-        // Son ödeme tarihine göre sırala
-        const sorted = [...res.data].sort((a, b) => new Date(a.sonOdemeTarihi) - new Date(b.sonOdemeTarihi));
+        // taksitNo'nun ilk 12 karakterine göre sırala (oluşturma tarihi ve saati)
+        const sorted = [...res.data].sort((a, b) => parseTaksitNoDate(a.taksitNo) - parseTaksitNoDate(b.taksitNo));
         setTaksitler(sorted);
         setLoading(false);
       })
@@ -96,6 +102,22 @@ const TaksitOdeme = () => {
     setOdemeLoading(false);
   };
 
+  const columns = [
+    { header: "Taksit No", accessor: "taksitNo" },
+    { header: "Tutar", accessor: "taksitTutari", cell: v => v + " ₺" },
+    { header: "Son Ödeme Tarihi", accessor: "sonOdemeTarihi" },
+    { header: "Durum", accessor: "durum" },
+    { header: "Ödeme Türü", accessor: "odemeTuru" },
+    {
+      header: "İşlem",
+      accessor: "id",
+      cell: (_, row) =>
+        row.durum === "ODENMEDI"
+          ? <Button onClick={() => openPopup(row)} className="bg-gradient-to-r from-[#2563eb] to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold rounded-lg px-4 py-2 shadow-md flex items-center gap-2"><Icon name="FiCreditCard" className="w-5 h-5" />Öde</Button>
+          : <span className="inline-flex items-center justify-center bg-green-100 text-green-700 px-4 py-2 rounded-lg text-base font-semibold shadow-sm">Ödendi</span>
+    }
+  ];
+
   if (loading)
     return (
       <div className="flex items-center justify-center h-[60vh]">
@@ -110,77 +132,58 @@ const TaksitOdeme = () => {
     );
 
   return (
-    <div className="flex flex-col items-center min-h-[80vh] bg-red-200 py-8 px-4">
-      <h2 className="text-3xl font-bold text-blue-900 mt-16 mb-2">Taksit Ödeme</h2>
-      <p className="mb-8 text-gray-700">Taksit Ödeme sayfasındasınız</p>
-      <div className="w-full max-w-5xl mx-auto">
-        <Table>
-          <thead>
-            <tr>
-              <th className="px-4 py-2">Taksit No</th>
-              <th className="px-4 py-2">Tutar</th>
-              <th className="px-4 py-2">Son Ödeme Tarihi</th>
-              <th className="px-4 py-2">Durum</th>
-              <th className="px-4 py-2">Ödeme Türü</th>
-              <th className="px-4 py-2">İşlem</th>
-            </tr>
-          </thead>
-          <tbody>
-            {taksitler.map((t) => (
-              <tr key={t.taksitNo} className="text-center">
-                <td className="px-4 py-2">{t.taksitNo}</td>
-                <td className="px-4 py-2">{t.taksitTutari} ₺</td>
-                <td className="px-4 py-2">{t.sonOdemeTarihi}</td>
-                <td className="px-4 py-2">{t.durum}</td>
-                <td className="px-4 py-2">{t.odemeTuru}</td>
-                <td className="px-4 py-2">
-                  {t.durum === "ODENMEDI" ? (
-                    <Button onClick={() => openPopup(t)}>Öde</Button>
-                  ) : (
-                    <span className="text-green-600 font-semibold">Ödendi</span>
-                  )}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </Table>
+    <div className="w-full flex flex-col items-center justify-center py-8 px-2">
+      <div className="flex flex-col items-center mb-8">
+        <div className="bg-blue-100 rounded-full p-4 mb-3 shadow-sm">
+          <Icon name="FiCreditCard" className="w-10 h-10 text-blue-500" />
+        </div>
+        <h2 className="text-3xl font-extrabold text-gray-900 mb-2 text-center">Taksit Ödeme</h2>
+        <p className="mb-8 text-gray-500 text-center text-base">Taksitlerinizi kolayca ödeyin!</p>
+      </div>
+      <div className="w-full max-w-5xl mx-auto bg-blue-50 rounded-2xl shadow-xl p-8">
+        <Table columns={columns} data={taksitler} emptyMessage="Kayıt bulunamadı" />
       </div>
       {/* Pop-up */}
       <Modal open={popupOpen} onClose={() => setPopupOpen(false)}>
-        <h3 className="text-xl font-bold mb-4">Taksit Ödeme</h3>
-        <div className="mb-2">Taksit No: <span className="font-mono">{selectedTaksit?.taksitNo}</span></div>
-        <div className="mb-4">
-          <label className="mr-2 font-semibold">Ödeme Türü:</label>
-          <select
-            className="border rounded px-2 py-1"
-            value={odemeTuru}
-            onChange={e => setOdemeTuru(e.target.value)}
-            disabled={odemeLoading}
-          >
-            {ODEME_TURLERI.map(opt => (
-              <option key={opt.value} value={opt.value}>{opt.label}</option>
-            ))}
-          </select>
-        </div>
-        <Button onClick={handleGetOdemeBilgisi} disabled={odemeLoading || !selectedTaksit} className="mb-4">
-          Taksit Ödeme Bilgisi Getir
-        </Button>
-        {odemeLoading && <div className="text-blue-600 mb-2">Yükleniyor...</div>}
-        {odemeError && <div className="text-red-500 mb-2">{odemeError}</div>}
-        {odemeBilgisi && (
-          <div className="bg-gray-50 rounded p-4 mb-4">
-            <div><b>Güncellenmiş Tutar:</b> {odemeBilgisi.guncellenmisTutar} ₺</div>
-            <div><b>Faiz:</b> {odemeBilgisi.faizMiktari} ₺</div>
-            <div><b>İndirim:</b> {odemeBilgisi.indirimMiktari} ₺</div>
-            <div><b>Cezai Miktar:</b> {odemeBilgisi.cezaMiktari} ₺</div>
+        <div className="flex flex-col items-center text-center p-2">
+          <div className="bg-blue-100 rounded-full p-4 mb-3 shadow-sm">
+            <Icon name="FiCreditCard" className="w-8 h-8 text-blue-500" />
           </div>
-        )}
-        {odemeBilgisi && (
-          <Button onClick={handleOde} disabled={odemeLoading || odemeBilgisi.guncellenmisTutar == null}>
-            {odemeLoading ? "Ödeniyor..." : "Öde"}
+          <h3 className="text-xl font-bold mb-2 text-gray-900">Taksit Ödeme</h3>
+          <div className="mb-2 text-gray-700">Taksit No: <span className="font-mono font-semibold text-blue-700">{selectedTaksit?.taksitNo}</span></div>
+          <div className="mb-4">
+            <label className="mr-2 font-semibold">Ödeme Türü:</label>
+            <select
+              className="border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-300 focus:border-blue-500 transition"
+              value={odemeTuru}
+              onChange={e => setOdemeTuru(e.target.value)}
+              disabled={odemeLoading}
+            >
+              {ODEME_TURLERI.map(opt => (
+                <option key={opt.value} value={opt.value}>{opt.label}</option>
+              ))}
+            </select>
+          </div>
+          <Button onClick={handleGetOdemeBilgisi} disabled={odemeLoading || !selectedTaksit} className="mb-4 bg-gradient-to-r from-[#2563eb] to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold rounded-lg px-6 py-2 shadow-md flex items-center gap-2">
+            <Icon name="FiSearch" className="w-5 h-5" /> Taksit Ödeme Bilgisi Getir
           </Button>
-        )}
-        {odemeSuccess && <div className="text-green-600 mt-4">{odemeSuccess}</div>}
+          {odemeLoading && <div className="text-blue-600 mb-2">Yükleniyor...</div>}
+          {odemeError && <div className="text-red-500 mb-2">{odemeError}</div>}
+          {odemeBilgisi && (
+            <div className="bg-gray-50 rounded-xl p-4 mb-4 w-full max-w-xs mx-auto text-left">
+              <div className="mb-1"><b>Güncellenmiş Tutar:</b> {odemeBilgisi.guncellenmisTutar} ₺</div>
+              <div className="mb-1"><b>Faiz:</b> {odemeBilgisi.faizMiktari} ₺</div>
+              <div className="mb-1"><b>İndirim:</b> {odemeBilgisi.indirimMiktari} ₺</div>
+              <div className="mb-1"><b>Cezai Miktar:</b> {odemeBilgisi.cezaMiktari} ₺</div>
+            </div>
+          )}
+          {odemeBilgisi && (
+            <Button onClick={handleOde} disabled={odemeLoading || odemeBilgisi.guncellenmisTutar == null} className="bg-gradient-to-r from-[#2563eb] to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold rounded-lg px-8 py-2 shadow-md flex items-center gap-2 mt-2">
+              <Icon name="FiCheckCircle" className="w-5 h-5" /> {odemeLoading ? "Ödeniyor..." : "Öde"}
+            </Button>
+          )}
+          {odemeSuccess && <div className="text-green-600 mt-4 font-semibold">{odemeSuccess}</div>}
+        </div>
       </Modal>
     </div>
   );
