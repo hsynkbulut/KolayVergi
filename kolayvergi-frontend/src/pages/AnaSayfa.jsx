@@ -44,10 +44,22 @@ const AnaSayfa = () => {
     );
   if (error)
     return (
-      <div className="flex items-center justify-center h-[60vh]">
-        <div className="text-red-500 text-lg font-semibold">{error}</div>
+      <div className="flex flex-col items-center justify-center h-[60vh] gap-4">
+        <Icon name="FiAlertTriangle" className="w-16 h-16 text-red-400" />
+        <div className="text-red-500 text-lg font-semibold">Veriler alınırken bir hata oluştu. Lütfen daha sonra tekrar deneyin.</div>
       </div>
     );
+
+  // Eğer borç ve alışveriş verisi de yoksa (ilk girişte veya hiç veri yoksa)
+  if (!borc && (!sonAlisverisler || sonAlisverisler.length === 0)) {
+    return (
+      <div className="flex flex-col items-center justify-center h-[60vh] gap-4">
+        <Icon name="FiInbox" className="w-20 h-20 text-blue-300" />
+        <div className="text-gray-500 text-xl font-semibold">Henüz herhangi bir veriniz bulunmuyor.</div>
+        <div className="text-gray-400">Alışveriş ekleyerek veya borç oluşturarak başlayabilirsiniz.</div>
+      </div>
+    );
+  }
 
   // Hızlı erişim menüsü butonları
   const hizliErisimButonlari = [
@@ -159,22 +171,29 @@ const AnaSayfa = () => {
               </div>
               <h3 className="text-lg font-semibold text-gray-900">Borç Özeti</h3>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="bg-blue-50 rounded-xl p-4">
-                <p className="text-sm text-gray-600 mb-1">Toplam Borç</p>
-                <p className="text-xl font-bold text-blue-700">{borc?.toplamBorc?.toLocaleString('tr-TR')} ₺</p>
+            {borc ? (
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="bg-blue-50 rounded-xl p-4">
+                  <p className="text-sm text-gray-600 mb-1">Toplam Borç</p>
+                  <p className="text-xl font-bold text-blue-700">{borc?.toplamBorc?.toLocaleString('tr-TR')} ₺</p>
+                </div>
+                <div className="bg-red-50 rounded-xl p-4">
+                  <p className="text-sm text-gray-600 mb-1">Kalan Borç</p>
+                  <p className="text-xl font-bold text-red-700">{borc?.kalanBorc?.toLocaleString('tr-TR')} ₺</p>
+                </div>
+                <div className="bg-green-50 rounded-xl p-4">
+                  <p className="text-sm text-gray-600 mb-1">Ödenen Borç</p>
+                  <p className="text-xl font-bold text-green-700">
+                    {(borc?.toplamBorc - borc?.kalanBorc)?.toLocaleString('tr-TR')} ₺
+                  </p>
+                </div>
               </div>
-              <div className="bg-red-50 rounded-xl p-4">
-                <p className="text-sm text-gray-600 mb-1">Kalan Borç</p>
-                <p className="text-xl font-bold text-red-700">{borc?.kalanBorc?.toLocaleString('tr-TR')} ₺</p>
+            ) : (
+              <div className="flex flex-col items-center justify-center py-8">
+                <Icon name="FiInbox" className="w-12 h-12 text-blue-200 mb-2" />
+                <div className="text-gray-400 text-base">Henüz borç kaydınız bulunmuyor.</div>
               </div>
-              <div className="bg-green-50 rounded-xl p-4">
-                <p className="text-sm text-gray-600 mb-1">Ödenen Borç</p>
-                <p className="text-xl font-bold text-green-700">
-                  {(borc?.toplamBorc - borc?.kalanBorc)?.toLocaleString('tr-TR')} ₺
-                </p>
-              </div>
-            </div>
+            )}
           </div>
 
           {/* Son Alışverişler Tablosu */}

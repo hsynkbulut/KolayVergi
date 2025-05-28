@@ -14,7 +14,6 @@ const Navbar = ({ currentPath, onSidebarToggle, isSidebarOpen }) => {
 
   const navLinks = [
     { to: '/', label: 'Ana Sayfa' },
-    { to: '/profile', label: 'Profilim' },
     ...(user?.roles?.includes('ROLE_ADMIN') ? [{ to: '/admin', label: 'Kullanıcılar' }] : []),
   ];
 
