@@ -28,7 +28,7 @@ const Layout = ({ children, currentPath }) => {
         {/* Main içerik */}
         <main className={`flex-1 min-w-0 flex items-center justify-center transition-all duration-200 ${sidebarOpen ? 'md:ml-64' : ''}`}> 
           <div className="w-full max-w-5xl bg-white rounded-2xl shadow-lg p-8 my-10">
-            {children}
+          {children}
           </div>
         </main>
       </div>

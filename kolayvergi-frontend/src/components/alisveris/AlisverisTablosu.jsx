@@ -53,11 +53,11 @@ export const AlisverisTablosu = () => {
   const handleModalSil = async () => {
     if (!silId) return;
     setSilLoading(true);
-    try {
+      try {
       await alisverisService.deleteAlisveris(silId);
-      fetchAlisverisler();
-    } catch (err) {
-      console.error('Alışveriş silinirken hata:', err);
+        fetchAlisverisler();
+      } catch (err) {
+        console.error('Alışveriş silinirken hata:', err);
     } finally {
       handleModalClose();
     }
@@ -123,10 +123,10 @@ export const AlisverisTablosu = () => {
 
   return (
     <>
-      <Table
-        columns={columns}
-        data={alisverisler}
-        emptyMessage="Henüz alışveriş bulunmuyor."
+    <Table
+      columns={columns}
+      data={alisverisler}
+      emptyMessage="Henüz alışveriş bulunmuyor."
         className="rounded-2xl shadow-lg border border-blue-100"
         theadClassName="bg-blue-50 text-lg font-bold text-gray-700"
         trClassName="border-b border-gray-100"
