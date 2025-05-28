@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { alisverisService } from '../../services/alisverisService';
 import Button from '../../components/ui/Button';
+import Icon from '../../components/ui/Icon';
 
 const initialForm = {
   urunTuru: '',
@@ -136,16 +137,30 @@ const AlisverisEkle = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-2xl">
-      <h1 className="text-2xl font-semibold mb-6 text-gray-800">Yeni Alışveriş Ekle</h1>
-      <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow p-6 space-y-4">
+    <div className="w-full max-w-3xl mx-auto px-2 py-8">
+      <button
+        type="button"
+        onClick={() => navigate(-1)}
+        className="flex items-center gap-2 text-blue-600 hover:text-blue-800 font-medium mb-4"
+      >
+        <Icon name="FiArrowLeft" className="w-5 h-5" />
+        <span>Geri</span>
+      </button>
+      <div className="flex flex-col items-center mb-8">
+        <div className="bg-blue-100 rounded-full p-4 mb-3 shadow-sm">
+          <Icon name="FiShoppingBag" className="w-10 h-10 text-blue-500" />
+        </div>
+        <h1 className="text-3xl font-extrabold text-gray-900 mb-2 text-center">Yeni Alışveriş Ekle</h1>
+        <p className="text-gray-500 text-center text-base">Yeni alışverişini kolayca ekle!</p>
+      </div>
+      <form onSubmit={handleSubmit} className="w-full bg-blue-50 rounded-2xl shadow-xl p-8 space-y-6">
         <div>
-          <label className="block mb-1 font-medium">Ürün Türü</label>
+          <label className="block mb-1 font-semibold text-gray-700">Ürün Türü</label>
           <select
             name="urunTuru"
             value={form.urunTuru}
             onChange={handleUrunTuruChange}
-            className="w-full border rounded px-3 py-2"
+            className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-300 focus:border-blue-500 transition"
             required
           >
             <option value="">Seçiniz</option>
@@ -153,71 +168,82 @@ const AlisverisEkle = () => {
           </select>
         </div>
         <div>
-          <label className="block mb-1 font-medium">Tutar (₺)</label>
+          <label className="block mb-1 font-semibold text-gray-700">Tutar (₺)</label>
           <input
             type="number"
             name="tutar"
             value={form.tutar}
             onChange={handleChange}
-            className="w-full border rounded px-3 py-2"
+            className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-300 focus:border-blue-500 transition"
             required
             min="1"
+            placeholder="Tutar giriniz"
           />
         </div>
         <div>
-          <label className="block mb-1 font-medium">Taksit Sayısı</label>
+          <label className="block mb-1 font-semibold text-gray-700">Taksit Sayısı</label>
           <input
             type="number"
             name="taksitSayisi"
             value={form.taksitSayisi}
             onChange={handleChange}
-            className="w-full border rounded px-3 py-2"
+            className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-300 focus:border-blue-500 transition"
             required
             min="1"
+            placeholder="Taksit sayısı giriniz"
           />
         </div>
         {form.urunTuru === 'OTOMOBIL' && (
-          <div className="border rounded p-4 bg-gray-50">
-            <div className="font-semibold mb-2">Araç Bilgisi</div>
-            <div className="grid grid-cols-2 gap-4">
-              <input type="text" name="aracBilgisi.marka" value={form.aracBilgisi.marka} onChange={handleChange} placeholder="Marka" className="border rounded px-3 py-2" required />
-              <input type="text" name="aracBilgisi.model" value={form.aracBilgisi.model} onChange={handleChange} placeholder="Model" className="border rounded px-3 py-2" required />
-              <select name="aracBilgisi.ilkTescilYili" value={form.aracBilgisi.ilkTescilYili} onChange={handleChange} className="border rounded px-3 py-2" required>
+          <div className="border rounded-xl p-5 bg-white mt-2">
+            <div className="flex items-center gap-2 font-semibold mb-4 text-blue-700">
+              <Icon name="FiTruck" className="w-5 h-5" />
+              Araç Bilgisi
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <input type="text" name="aracBilgisi.marka" value={form.aracBilgisi.marka} onChange={handleChange} placeholder="Marka" className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-200 focus:border-blue-400 transition" required />
+              <input type="text" name="aracBilgisi.model" value={form.aracBilgisi.model} onChange={handleChange} placeholder="Model" className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-200 focus:border-blue-400 transition" required />
+              <select name="aracBilgisi.ilkTescilYili" value={form.aracBilgisi.ilkTescilYili} onChange={handleChange} className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-200 focus:border-blue-400 transition" required>
                 <option value="">İlk Tescil Yılı</option>
                 {ILK_TESCIL_YILI_OPTIONS.map(opt => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
               </select>
-              <select name="aracBilgisi.motorSilindirHacmi" value={form.aracBilgisi.motorSilindirHacmi} onChange={handleChange} className="border rounded px-3 py-2" required>
+              <select name="aracBilgisi.motorSilindirHacmi" value={form.aracBilgisi.motorSilindirHacmi} onChange={handleChange} className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-200 focus:border-blue-400 transition" required>
                 <option value="">Motor Silindir Hacmi</option>
                 {MOTOR_SILINDIR_HACMI_OPTIONS.map(opt => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
               </select>
-              <select name="aracBilgisi.aracTipi" value={form.aracBilgisi.aracTipi} onChange={handleChange} className="border rounded px-3 py-2" required>
+              <select name="aracBilgisi.aracTipi" value={form.aracBilgisi.aracTipi} onChange={handleChange} className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-200 focus:border-blue-400 transition" required>
                 <option value="">Araç Tipi</option>
                 {ARAC_TIPI_OPTIONS.map(opt => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
               </select>
-              <select name="aracBilgisi.aracYasi" value={form.aracBilgisi.aracYasi} onChange={handleChange} className="border rounded px-3 py-2" required>
+              <select name="aracBilgisi.aracYasi" value={form.aracBilgisi.aracYasi} onChange={handleChange} className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-200 focus:border-blue-400 transition" required>
                 <option value="">Araç Yaşı</option>
                 {ARAC_YASI_OPTIONS.map(opt => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
               </select>
-              <select name="aracBilgisi.aracKapasitesi" value={form.aracBilgisi.aracKapasitesi} onChange={handleChange} className="border rounded px-3 py-2" required>
+              <select name="aracBilgisi.aracKapasitesi" value={form.aracBilgisi.aracKapasitesi} onChange={handleChange} className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-200 focus:border-blue-400 transition">
                 <option value="">Araç Kapasitesi</option>
                 {ARAC_KAPASITESI_OPTIONS.map(opt => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
               </select>
-              <select name="aracBilgisi.aracAgirligi" value={form.aracBilgisi.aracAgirligi} onChange={handleChange} className="border rounded px-3 py-2" required>
+              <select name="aracBilgisi.aracAgirligi" value={form.aracBilgisi.aracAgirligi} onChange={handleChange} className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-200 focus:border-blue-400 transition">
                 <option value="">Araç Ağırlığı</option>
                 {ARAC_AGIRLIGI_OPTIONS.map(opt => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
               </select>
             </div>
           </div>
         )}
-        {error && <div className="text-red-500 text-center">{error}</div>}
-        {success && <div className="text-green-600 text-center">{success}</div>}
-        <div className="flex justify-end gap-2 mt-6">
-          <Button type="secondary" onClick={() => navigate(-1)} disabled={loading}>
-            Vazgeç
-          </Button>
-          <Button type="primary" htmlType="submit" disabled={loading}>
-            {loading ? 'Kaydediliyor...' : 'Kaydet'}
-          </Button>
+        {error && <div className="text-red-600 text-center font-medium mt-2">{error}</div>}
+        {success && <div className="text-green-600 text-center font-medium mt-2">{success}</div>}
+        <div className="flex justify-center mt-6">
+          <button
+            type="submit"
+            disabled={loading}
+            className="flex items-center gap-2 bg-gradient-to-r from-[#2563eb] to-blue-700 hover:from-blue-700 hover:to-blue-800 focus:ring-2 focus:ring-blue-300 text-white font-semibold rounded-lg px-8 py-3 shadow-md transition-all duration-200 outline-none text-lg active:scale-95"
+          >
+            {loading ? (
+              <Icon name="FiLoader" className="w-5 h-5 animate-spin" />
+            ) : (
+              <Icon name="FiCheckCircle" className="w-5 h-5" />
+            )}
+            Kaydet
+          </button>
         </div>
       </form>
     </div>

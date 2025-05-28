@@ -7,7 +7,7 @@ const Layout = ({ children, currentPath }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div className="min-h-screen w-screen flex flex-col">
+    <div className="min-h-screen w-screen flex flex-col bg-gradient-to-br from-blue-50 via-pink-50 to-purple-100">
       <header className="w-screen">
         <Navbar
           currentPath={currentPath}
@@ -26,8 +26,10 @@ const Layout = ({ children, currentPath }) => {
           ></div>
         )}
         {/* Main içerik */}
-        <main className={`flex-1 min-w-0 bg-red-100 flex items-center justify-center transition-all duration-200 ${sidebarOpen ? 'md:ml-64' : ''}`}>
-          {children}
+        <main className={`flex-1 min-w-0 flex items-center justify-center transition-all duration-200 ${sidebarOpen ? 'md:ml-64' : ''}`}> 
+          <div className="w-full max-w-5xl bg-white rounded-2xl shadow-lg p-8 my-10">
+            {children}
+          </div>
         </main>
       </div>
       <footer className="w-screen">

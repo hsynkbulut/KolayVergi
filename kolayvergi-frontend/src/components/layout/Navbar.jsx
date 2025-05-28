@@ -53,7 +53,14 @@ const Navbar = ({ currentPath, onSidebarToggle, isSidebarOpen }) => {
             <Icon name="FiUser" className="w-5 h-5 text-blue-600" />
             <span className="text-gray-700 text-sm md:text-base font-medium select-none truncate max-w-[160px]">{user?.email}</span>
           </div>
-          <Button onClick={handleLogout} icon="FiLogOut" type="secondary">Çıkış</Button>
+          <button
+            onClick={handleLogout}
+            title="Çıkış"
+            className="flex items-center justify-center px-5 py-2 rounded-xl bg-gray-100 shadow-md hover:bg-red-50 focus:ring-2 focus:ring-red-200 transition-all duration-150 group"
+          >
+            <Icon name="FiLogOut" className="w-6 h-6 text-red-500 group-hover:text-red-600" />
+            <span className="sr-only">Çıkış</span>
+          </button>
         </div>
       </div>
     </nav>
