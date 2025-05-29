@@ -2,14 +2,10 @@
 
 KolayVergi, vergi mükelleflerinin borç, taksit ve alışveriş işlemlerini kolayca yönetebilmesi için geliştirilmiş modern ve güvenli bir web uygulamasıdır. Amacı, kullanıcıların vergi ve borç takibini dijital ortamda hızlı, anlaşılır ve erişilebilir şekilde yapmasını sağlamaktır. Hem bireysel kullanıcılar hem de yöneticiler (admin) için uygundur.
 
----
-
 ## 🚩 Proje Hakkında Genel Bilgi
 
 - **Amaç:** Vergi ve borç işlemlerini dijitalleştirerek kullanıcıların iş yükünü azaltmak, taksit ve ödeme süreçlerini kolaylaştırmak.
 - **Çözdüğü Problem:** Klasik ve karmaşık vergi/borç takip süreçlerini sadeleştirir, kullanıcıya anlık ve güvenli erişim sunar.
-
----
 
 ## ⭐ Proje Özellikleri
 
@@ -20,8 +16,6 @@ KolayVergi, vergi mükelleflerinin borç, taksit ve alışveriş işlemlerini ko
 - Taksit ödeme ve geçmiş görüntüleme
 - Modern, responsive ve kullanıcı dostu arayüz
 
-
----
 
 ## 🛠️ Kullanılan Teknolojiler
 
@@ -43,8 +37,6 @@ KolayVergi, vergi mükelleflerinin borç, taksit ve alışveriş işlemlerini ko
 ### Veritabanı
 - **PostgreSQL** (JDBC ile bağlantı, Spring Data JPA ile yönetim)
 
----
-
 ## 📚 API Endpointleri (Özet Tablo)
 
 | Yöntem | Endpoint                        | Açıklama                        | Kimler Erişebilir |
@@ -60,17 +52,15 @@ KolayVergi, vergi mükelleflerinin borç, taksit ve alışveriş işlemlerini ko
 | GET    | /api/v1/alisverisler/{id}       | Alışveriş detay                 | Kullanıcı         |
 | PUT    | /api/v1/alisverisler/{id}       | Alışveriş güncelle              | Kullanıcı         |
 | DELETE | /api/v1/alisverisler/{id}       | Alışveriş sil                   | Kullanıcı         |
+| GET    | /api/v1/alisverisler/benim-alisverislerim | Kullanıcının alışverişleri | Kullanıcı         |
+| GET    | /api/v1/taksitler               | Kullanıcının taksitleri         | Kullanıcı         |
 | GET    | /api/v1/borclar/{id}            | Borç detayları                  | Kullanıcı         |
 | POST   | /api/v1/odemeler/taksit-odeme   | Taksit öde                      | Kullanıcı         |
 | GET    | /api/v1/odemeler/{taksitNo}     | Taksit ödeme detayı             | Kullanıcı         |
 
----
-
 ## 🗂️ Veritabanı Şeması
 
   ![Veritabanı Şeması](assets/screenshots/veritabani-semasi.png)
-
----
 
 ## 🖼️ Kullanıcı Arayüzü (UI) Ekran Görüntüleri
 
@@ -101,7 +91,17 @@ KolayVergi, vergi mükelleflerinin borç, taksit ve alışveriş işlemlerini ko
 - Borçlarım
   ![Taksit Ödeme](assets/screenshots/borclarim.png)
 
----
+- İletişim
+  ![İletişim](assets/screenshots/iletisim.png)
+
+- Yardım
+  ![Yardım](assets/screenshots/yardim.png)
+
+- Gizlilik Politikası
+  ![Gizlilik Politikası](assets/screenshots/gizlilik-politikasi.png)
+
+- Kullanım Şartları
+  ![Kullanım Şartları](assets/screenshots/kullanim-sartlari.png)
 
 ## 🚀 Projenin Kurulumu (Kurulum Rehberi)
 
@@ -145,8 +145,6 @@ cd kolayvergi
 - pgAdmin arayüzüne erişmek için: `http://localhost:5050`
 - Frontend varsayılan olarak `http://localhost:5173` adresinde çalışır.
 
----
-
 ### 3. Manuel Kurulum (Docker olmadan)
 
 #### Backend
@@ -167,8 +165,6 @@ npm run dev
 - PostgreSQL kurulu olmalı.
 - `application.properties` dosyasında veritabanı bağlantı bilgilerinizi güncelleyin.
 
----
-
 ## 👥 Katkıda Bulunanlar / Takım Üyeleri
 
 - **Hüseyin Karabulut**  
@@ -179,27 +175,20 @@ npm run dev
   [@mfgucluer](https://github.com/mfgucluer)  
   [LinkedIn](https://www.linkedin.com/in/mfgucluer/)
 
----
-
 ## 📞 İletişim Bilgileri
 - Hüseyin Karabulut: [hsyn.kbulut@gmail.com](mailto:hsyn.kbulut@gmail.com)
 - Mustafa Fatih Güçlüer: [mfgucluer1@hotmail.com](mailto:mfgucluer1@hotmail.com)
 
 - GitHub Issues üzerinden de soru ve önerilerinizi iletebilirsiniz.
----
 
 ## 📝 Lisans
 
 Bu proje BSD 3-Clause License ile lisanslanmıştır. Detaylar için [LICENSE](LICENSE) dosyasına bakabilirsiniz.
 
----
-
 ## ⚠️ Önemli Notlar ve Yapılandırma Uyarısı
 
 - `docker-compose.yml` dosyasındaki veritabanı adı, kullanıcı adı, şifre gibi ayarları kendi ihtiyacınıza göre değiştirebilirsiniz.
 - **Dikkat:** Bu ayarların birebir aynısı `kolayvergi-backend/src/main/resources/application.properties` dosyasında da olmalıdır. Yani bir tarafta değişiklik yaparsanız, diğer tarafta da aynı değişikliği yapmalısınız. Aksi halde backend uygulaması veritabanına bağlanamaz.
-
----
 
 ## 📖 Swagger API Dokümantasyonu
 
