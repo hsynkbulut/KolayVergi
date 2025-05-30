@@ -6,7 +6,7 @@ import com.kolayvergi.entity.enums.VergiTuru;
 import com.kolayvergi.entity.vergi.KdvVergisi;
 import com.kolayvergi.entity.vergi.MtvVergisi;
 import com.kolayvergi.entity.vergi.OtvVergisi;
-import com.kolayvergi.factory.VergiTuruBelirleyici;
+import com.kolayvergi.service.factory.VergiTuruBelirleyici;
 import com.kolayvergi.service.vergi.KdvVergisiService;
 import com.kolayvergi.service.vergi.MtvVergisiService;
 import com.kolayvergi.service.vergi.OtvVergisiService;

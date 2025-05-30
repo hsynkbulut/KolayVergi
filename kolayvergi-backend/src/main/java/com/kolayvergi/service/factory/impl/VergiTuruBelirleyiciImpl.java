@@ -1,8 +1,8 @@
-package com.kolayvergi.factory.impl;
+package com.kolayvergi.service.factory.impl;
 
 import com.kolayvergi.entity.enums.UrunTuru;
 import com.kolayvergi.entity.enums.VergiTuru;
-import com.kolayvergi.factory.VergiTuruBelirleyici;
+import com.kolayvergi.service.factory.VergiTuruBelirleyici;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;

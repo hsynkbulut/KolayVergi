@@ -1,4 +1,4 @@
-package com.kolayvergi.factory;
+package com.kolayvergi.service.factory;
 
 import com.kolayvergi.entity.enums.UrunTuru;
 import com.kolayvergi.entity.enums.VergiTuru;
