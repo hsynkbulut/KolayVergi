@@ -1,21 +1,20 @@
 import axiosInstance from './axios.config';
 
+const updateAlisveris = (id, data) => axiosInstance.put(`/alisverisler/${id}`, data);
+const getAlisverisById = (id) => axiosInstance.get(`/alisverisler/${id}`);
+
 const alisverisService = {
   getAllAlisverisler: () => {
     return axiosInstance.get('/alisverisler');
   },
 
-  getAlisverisById: (id) => {
-    return axiosInstance.get(`/alisverisler/${id}`);
-  },
+  getAlisverisById,
 
   createAlisveris: (data) => {
     return axiosInstance.post('/alisverisler', data);
   },
 
-  updateAlisveris: (id, data) => {
-    return axiosInstance.put(`/alisverisler/${id}`, data);
-  },
+  updateAlisveris,
 
   deleteAlisveris: (id) => {
     return axiosInstance.delete(`/alisverisler/${id}`);

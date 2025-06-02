@@ -42,20 +42,20 @@ public class AlisverisServiceImpl implements AlisverisService {
         Alisveris alisveris = alisverisMapper.aliverisCreateRequestToAlisveris(request);
         alisveris.setKullanici(kullanici);
 
-        Alisveris savedAlisveris = alisverisRepository.save(alisveris);
+        Alisveris dbAlisveris = alisverisRepository.save(alisveris);
 
         if (request.getUrunTuru() == UrunTuru.OTOMOBIL) {
             if (request.getAracBilgisi() == null) {
                 throw new IllegalArgumentException(AlisverisConstants.OTOMOBIL_ARAC_BILGISI_ZORUNLU);
             }
             AracBilgisi aracBilgisi = aracBilgisiService.createAracBilgisiForAlisveris(request.getAracBilgisi());
-            savedAlisveris.setAracBilgisi(aracBilgisi);
+            dbAlisveris.setAracBilgisi(aracBilgisi);
         }
 
-        VergiHesaplamaSonuc sonuc = vergiHesaplamaService.hesaplaVergiler(savedAlisveris, kullanici);
-        odemePlaniService.createOdemePlaniForAlisveris(savedAlisveris, sonuc.getToplamVergiTutari());
+        VergiHesaplamaSonuc sonuc = vergiHesaplamaService.hesaplaVergiler(dbAlisveris, kullanici);
+        odemePlaniService.createOdemePlaniForAlisveris(dbAlisveris, sonuc.getToplamVergiTutari());
         
-        return alisverisMapper.alisverisToAlisverisResponse(savedAlisveris);
+        return alisverisMapper.alisverisToAlisverisResponse(dbAlisveris);
     }
 
     @Override

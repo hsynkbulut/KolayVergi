@@ -90,8 +90,7 @@ public class AuthServiceImpl implements AuthService {
         kullanici.setRol(Role.ROLE_USER);
         kullanici.setVkn(vknGenerator.generateUniqueVkn());
 
-        Kullanici savedKullanici = kullaniciRepository.save(kullanici);
-        return kullaniciMapper.kullaniciToKullaniciResponse(savedKullanici);
+        return kullaniciMapper.kullaniciToKullaniciResponse(kullaniciRepository.save(kullanici));
     }
 
     @Override
@@ -103,8 +102,7 @@ public class AuthServiceImpl implements AuthService {
                 .orElseThrow(() -> new RuntimeException(KullaniciConstants.KULLANICI_BULUNAMADI));
 
         kullaniciMapper.updateKullaniciFromRequest(request, kullanici);
-        Kullanici updatedKullanici = kullaniciRepository.save(kullanici);
-        return kullaniciMapper.kullaniciToKullaniciResponse(updatedKullanici);
+        return kullaniciMapper.kullaniciToKullaniciResponse(kullaniciRepository.save(kullanici));
     }
 
 } 

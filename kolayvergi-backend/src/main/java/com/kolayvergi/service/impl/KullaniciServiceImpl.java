@@ -27,15 +27,13 @@ public class KullaniciServiceImpl implements KullaniciService {
 
     @Override
     public KullaniciResponse getKullaniciById(UUID id) {
-        Kullanici kullanici = getKullanici(id);
-        return kullaniciMapper.kullaniciToKullaniciResponse(kullanici);
+        return kullaniciMapper.kullaniciToKullaniciResponse(getKullanici(id));
     }
 
     @Override
     @Transactional
     public void deleteKullanici() {
-        Kullanici currentUser = getCurrentUser();
-        kullaniciRepository.delete(currentUser);
+        kullaniciRepository.delete(getCurrentUser());
     }
 
     @Override
@@ -53,8 +51,7 @@ public class KullaniciServiceImpl implements KullaniciService {
 
     public boolean isCurrentUser(UUID userId) {
         try {
-            Kullanici currentUser = getCurrentUser();
-            return currentUser.getId().equals(userId);
+            return getCurrentUser().getId().equals(userId);
         } catch (Exception e) {
             return false;
         }
