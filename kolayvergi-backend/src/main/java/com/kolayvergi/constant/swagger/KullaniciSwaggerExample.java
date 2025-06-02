@@ -6,8 +6,6 @@ public final class KullaniciSwaggerExample {
         throw new IllegalStateException("Constant class");
     }
 
-
-    // Response örnekleri
     public static final String KULLANICI_RESPONSE = """
             {
                 "ad": "Ahmet",

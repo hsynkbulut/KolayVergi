@@ -1,6 +1,7 @@
 package com.kolayvergi.dto.request;
 
 import com.kolayvergi.entity.enums.*;
+import com.kolayvergi.constant.ValidationConstants;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotNull;
@@ -12,7 +13,7 @@ import java.util.UUID;
 @Getter
 @Setter
 public class AracBilgisiUpdateRequest {
-    @NotNull(message = "ID bilgisi boş olamaz.")
+    @NotNull(message = ValidationConstants.ID_BOS_OLAMAZ)
     private UUID id;
 
     private String marka;

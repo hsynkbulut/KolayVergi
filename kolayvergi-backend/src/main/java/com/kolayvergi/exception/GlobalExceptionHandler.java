@@ -1,5 +1,6 @@
 package com.kolayvergi.exception;
 
+import com.kolayvergi.constant.MessageConstants;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
@@ -28,8 +29,8 @@ public class GlobalExceptionHandler {
         ApiError<Map<String, List<String>>> apiError = createApiError(
                 errorMap,
                 HttpStatus.BAD_REQUEST,
-                "Gönderdiğiniz verilerde eksiklik veya hata var.",
-                "Validation hatası oluştu.",
+                MessageConstants.GONDERILEN_VERILERDE_HATA,
+                MessageConstants.VALIDATION_HATASI,
                 request.getRequestURI()
         );
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiError);
@@ -40,7 +41,7 @@ public class GlobalExceptionHandler {
         ApiError<String> apiError = createApiError(
                 null,
                 HttpStatus.NOT_FOUND,
-                "İstenen kayıt bulunamadı.",
+                MessageConstants.KAYIT_BULUNAMADI,
                 ex.getMessage(),
                 request.getRequestURI()
         );
@@ -52,7 +53,7 @@ public class GlobalExceptionHandler {
         ApiError<String> apiError = createApiError(
                 null,
                 HttpStatus.BAD_REQUEST,
-                "URL parametrelerinden biri eksik.",
+                MessageConstants.URL_PARAMETRE_EKSIK,
                 ex.getMessage(),
                 request.getRequestURI()
         );
@@ -64,7 +65,7 @@ public class GlobalExceptionHandler {
         ApiError<String> apiError = createApiError(
                 null,
                 HttpStatus.BAD_REQUEST,
-                "Geçersiz veri gönderildi.",
+                MessageConstants.GECERSIZ_VERI,
                 ex.getMessage(),
                 request.getRequestURI()
         );
@@ -76,7 +77,7 @@ public class GlobalExceptionHandler {
         ApiError<String> apiError = createApiError(
                 null,
                 HttpStatus.INTERNAL_SERVER_ERROR,
-                "Sistemde bir hata oluştu.",
+                MessageConstants.SISTEM_HATASI,
                 ex.getMessage(),
                 request.getRequestURI()
         );
@@ -84,11 +85,11 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ApiError<String>> handleGenericException(Exception ex, HttpServletRequest request) {
+    public ResponseEntity<ApiError<String>> handleException(Exception ex, HttpServletRequest request) {
         ApiError<String> apiError = createApiError(
                 null,
                 HttpStatus.INTERNAL_SERVER_ERROR,
-                "Beklenmeyen bir hata oluştu. Lütfen daha sonra tekrar deneyin.",
+                MessageConstants.BEKLENMEYEN_HATA,
                 ex.getMessage(),
                 request.getRequestURI()
         );

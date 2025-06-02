@@ -2,6 +2,7 @@ package com.kolayvergi.entity;
 
 import com.kolayvergi.entity.base.BaseEntity;
 import com.kolayvergi.entity.enums.UrunTuru;
+import com.kolayvergi.entity.enums.VergiTuru;
 import com.kolayvergi.entity.vergi.OtvVergisi;
 import com.kolayvergi.entity.vergi.KdvVergisi;
 import com.kolayvergi.entity.vergi.MtvVergisi;
@@ -12,12 +13,11 @@ import java.math.BigDecimal;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
-@Table(name = "alisveris")
+@Table(name = "alisverisler")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-//@Builder -> Alisveris Mapper'da hataya sebep oldu. Sebebi notion ortakta...
 public class Alisveris extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -28,13 +28,14 @@ public class Alisveris extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private UrunTuru urunTuru;
 
-    @Column(name = "tutar", nullable = false, precision = 12, scale = 2)//precision ve scale tutar'in virgulden once sonra kac basamak olacagini belirler.
+    @Column(name = "tutar", nullable = false, precision = 12, scale = 2)
     private BigDecimal tutar;
 
     @Column(name = "taksit_sayisi", nullable = false)
     private Integer taksitSayisi;
 
-    @OneToOne(mappedBy = "alisveris", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "arac_bilgisi_id")
     private AracBilgisi aracBilgisi;
 
     @OneToOne(mappedBy = "alisveris", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)

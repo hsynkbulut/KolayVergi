@@ -1,5 +1,6 @@
 package com.kolayvergi.odeme.yontemler;
 
+import com.kolayvergi.constant.OdemeConstants;
 import com.kolayvergi.dto.response.OdemeSonucu;
 import com.kolayvergi.entity.Kullanici;
 import com.kolayvergi.entity.Taksit;
@@ -13,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -31,7 +33,7 @@ public abstract class AbstractFaizliOdeme implements OdemeYontemi {
         OdemeSonucu sonuc = hesapla(taksit, odemeTarihi);
 
         if (sonuc.getGuncellenmisTutar().compareTo(kullaniciOdemeTutari) != 0) {
-            throw new IllegalArgumentException("Girilen tutar beklenen tutardan farkli!");
+            throw new IllegalArgumentException(OdemeConstants.TUTAR_FARKLI);
         }
 
         BigDecimal guncellenmisTutar = sonuc.getGuncellenmisTutar();

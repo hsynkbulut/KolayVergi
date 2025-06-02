@@ -1,5 +1,6 @@
 package com.kolayvergi.dto.request;
 
+import com.kolayvergi.constant.ValidationConstants;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,12 +15,11 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BorcUpdateRequest {
-//    @NotNull(message = "UserId boş bırakılamaz")
     private UUID kullaniciId;
 
-    @NotNull(message = "Toplam borç alanı boş bırakılamaz")
+    @NotNull(message = ValidationConstants.TOPLAM_BORC_BOS_OLAMAZ)
     private BigDecimal toplamBorc;
 
-    @NotNull(message = "Kalan borç alanı boş bırakılamaz")
+    @NotNull(message = ValidationConstants.KALAN_BORC_BOS_OLAMAZ)
     private BigDecimal kalanBorc;
 }

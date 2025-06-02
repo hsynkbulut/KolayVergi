@@ -1,6 +1,6 @@
 package com.kolayvergi.generator;
 
-
+import com.kolayvergi.constant.VknConstants;
 import com.kolayvergi.repository.KullaniciRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -15,11 +15,9 @@ public class VknGenerator {
     private final Random random = new Random();
 
     public String generate() {
-        // İlk rakam 1-9 arası olmalı
         StringBuilder vkn = new StringBuilder();
         vkn.append(random.nextInt(9) + 1); // 1-9
 
-        // Kalan 9 rakam 0-9 arası
         for (int i = 0; i < 9; i++) {
             vkn.append(random.nextInt(10)); // 0-9
         }
@@ -33,7 +31,7 @@ public class VknGenerator {
 
         while (kullaniciRepository.existsByVkn(vkn)) {
             if (denemeSayisi >= 50) {
-                throw new RuntimeException("Benzersiz VKN üretilemedi.");
+                throw new RuntimeException(VknConstants.BENZERSIZ_VKN_OLUSTURULAMADI);
             }
 
             vkn = generate();

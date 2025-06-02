@@ -1,5 +1,6 @@
 package com.kolayvergi.entity;
 
+import com.kolayvergi.constant.KullaniciConstants;
 import com.kolayvergi.entity.base.BaseEntity;
 import com.kolayvergi.entity.enums.Cinsiyet;
 import com.kolayvergi.entity.enums.Meslek;
@@ -11,6 +12,7 @@ import jakarta.validation.constraints.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.math.BigDecimal;
 import java.util.Collection;
@@ -33,36 +35,36 @@ public class Kullanici extends BaseEntity implements UserDetails {
     @ValidTCKN
     private String tckn;
 
-    @NotBlank(message = "Ad boş olamaz.")
+    @NotBlank(message = KullaniciConstants.AD_BOS_OLAMAZ)
     private String ad;
 
-    @NotBlank(message = "Soyad boş olamaz.")
+    @NotBlank(message = KullaniciConstants.SOYAD_BOS_OLAMAZ)
     private String soyad;
 
-    @Email(message = "Geçerli bir e-posta adresi giriniz.")
-    @NotBlank(message = "Email boş olamaz.")
+    @NotBlank(message = KullaniciConstants.EMAIL_BOS_OLAMAZ)
+    @Email(message = KullaniciConstants.GECERLI_EMAIL)
     @Column(unique = true, nullable = false)
     private String email;
 
-    @NotBlank(message = "Şifre boş olamaz.")
+    @NotBlank(message = KullaniciConstants.SIFRE_BOS_OLAMAZ)
     @Column(nullable = false)
     private String sifre;
 
-    @NotNull(message = "Yaş boş olamaz.")
-    @Min(value = 18, message = "18 yaşından küçük kullanıcı kayıt olamaz.")
-    @Max(value = 150, message = "Yaş 150'den büyük olamaz.")
+    @NotNull(message = KullaniciConstants.YAS_BOS_OLAMAZ)
+    @Min(value = 18, message = KullaniciConstants.YAS_18_KUCUK_OLAMAZ)
+    @Max(value = 150, message = KullaniciConstants.YAS_150_BUYUK_OLAMAZ)
     private Integer yas;
 
-    @NotNull(message = "Cinsiyet boş olamaz.")
+    @NotNull(message = KullaniciConstants.CINSIYET_BOS_OLAMAZ)
     @Enumerated(EnumType.STRING)
     private Cinsiyet cinsiyet;
 
-    @NotNull(message = "Meslek boş olamaz.")
+    @NotNull(message = KullaniciConstants.MESLEK_BOS_OLAMAZ)
     @Enumerated(EnumType.STRING)
     private Meslek meslek;
 
-    @NotNull(message = "Maaş boş olamaz.")
-    @DecimalMin(value = "0.0", inclusive = false, message = "Maaş sıfırdan büyük olmalıdır.")
+    @NotNull(message = KullaniciConstants.MAAS_BOS_OLAMAZ)
+    @DecimalMin(value = "0.0", inclusive = false, message = KullaniciConstants.MAAS_SIFIRDAN_BUYUK_OLMALI)
     private BigDecimal maas;
 
     @OneToMany(mappedBy = "kullanici", cascade = CascadeType.ALL)

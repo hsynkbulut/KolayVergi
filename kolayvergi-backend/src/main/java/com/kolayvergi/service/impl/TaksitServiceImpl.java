@@ -1,5 +1,6 @@
 package com.kolayvergi.service.impl;
 
+import com.kolayvergi.constant.OdemeConstants;
 import com.kolayvergi.dto.request.BorcCreateRequest;
 import com.kolayvergi.dto.request.BorcUpdateRequest;
 import com.kolayvergi.dto.response.BorcResponse;
@@ -42,8 +43,8 @@ public class TaksitServiceImpl implements TaksitService {
 
         BigDecimal taksitTutari = toplamTutar.divide(
                 BigDecimal.valueOf(taksitSayisi),
-                2, // virgülden sonra kaç basamak olacak
-                RoundingMode.HALF_UP // nasıl yuvarlanacak (en güvenli standart yöntem)
+                2, 
+                RoundingMode.HALF_UP
         );
 
         List<Taksit> taksitler = new ArrayList<>();
@@ -56,13 +57,12 @@ public class TaksitServiceImpl implements TaksitService {
             taksit.setSonOdemeTarihi(LocalDate.now().plusMonths(i + 1));
             taksit.setOdemeTarihi(null);
             taksit.setDurum(OdemeDurumu.ODENMEDI);
-            taksit.setOdemeTuru(OdemeTuru.NAKIT); // ❗️ Her taksit için bağımsız ödeme türü atanacak ileride. Liste seklinde alinacak
+            taksit.setOdemeTuru(OdemeTuru.NAKIT); 
             taksitler.add(taksit);
         }
 
         taksitRepository.saveAll(taksitler);
 
-        //borc olusturma
         Optional<BorcResponse> optionalBorc = borcService.getBorcByKullaniciIdSafely(kullaniciId);
 
         if (optionalBorc.isPresent()) {
@@ -89,7 +89,7 @@ public class TaksitServiceImpl implements TaksitService {
     @Override
     public Taksit getTaksitByTaksitNo(String taksitNo) {
         return taksitRepository.findByTaksitNo(taksitNo)
-                .orElseThrow(() -> new RuntimeException("Taksit bulunamadı: " + taksitNo));
+                .orElseThrow(() -> new RuntimeException(String.format(OdemeConstants.TAKSIT_BULUNAMADI, taksitNo)));
     }
 
     @Override

@@ -9,8 +9,7 @@ import com.kolayvergi.entity.AracBilgisi;
 import java.util.UUID;
 
 public interface AracBilgisiService {
-    AracBilgisi createAracBilgisiForAlisveris(Alisveris alisveris, AracBilgisiCreateRequest request);
+    AracBilgisi createAracBilgisiForAlisveris(AracBilgisiCreateRequest request);
     AracBilgisiResponse updateAracBilgisi(AracBilgisiUpdateRequest request);
     AracBilgisiResponse getAracBilgisiById(UUID id);
-    AracBilgisiResponse getAracBilgisiByAlisverisId(UUID alisverisId);
 }

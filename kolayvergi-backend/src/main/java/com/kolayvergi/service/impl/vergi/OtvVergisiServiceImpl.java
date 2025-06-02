@@ -1,5 +1,6 @@
 package com.kolayvergi.service.impl.vergi;
 
+import com.kolayvergi.constant.VergiConstants;
 import com.kolayvergi.dto.mapper.OtvVergisiMapper;
 import com.kolayvergi.dto.response.vergi.OtvVergisiResponse;
 import com.kolayvergi.entity.Alisveris;
@@ -47,7 +48,7 @@ public class OtvVergisiServiceImpl implements OtvVergisiService {
     @Override
     public OtvVergisiResponse getOtvVergisiById(UUID id) {
         OtvVergisi vergi = otvVergisiRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("ÖTV Vergisi bulunamadı: " + id));
+                .orElseThrow(() -> new EntityNotFoundException(String.format(VergiConstants.OTV_VERGISI_BULUNAMADI, id)));
         return otvVergisiMapper.otvVergisiToOtvVergisiResponse(vergi);
     }
 }

@@ -1,6 +1,5 @@
 export const validateRegisterForm = (form) => {
   const errors = {};
-  // TCKN: 11 haneli, sadece rakam
   if (!/^[0-9]{11}$/.test(form.tckn)) {
     errors.tckn = 'TCKN 11 haneli ve sadece rakamlardan oluşmalıdır.';
   }

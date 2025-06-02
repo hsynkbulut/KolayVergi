@@ -1,13 +1,10 @@
 package com.kolayvergi.entity;
 
-import com.kolayvergi.converter.*;
 import com.kolayvergi.entity.base.BaseEntity;
 import com.kolayvergi.entity.enums.*;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+
 
 @Table(name = "arac_bilgileri")
 @Entity
@@ -16,28 +13,34 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AracBilgisi extends BaseEntity {
+
+    @Column(nullable = false)
     private String marka;
+
+    @Column(nullable = false)
     private String model;
 
-    @Convert(converter = IlkTescilYiliConverter.class)
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private IlkTescilYili ilkTescilYili;
 
-    @Convert(converter = MotorSilindirHacmiConverter.class)
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private MotorSilindirHacmi motorSilindirHacmi;
 
-    @Convert(converter = AracTipiConverter.class)
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private AracTipi aracTipi;
 
-    @Convert(converter = AracYasiConverter.class)
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private AracYasi aracYasi;
 
-    @Convert(converter = AracKapasitesiConverter.class)
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private AracKapasitesi aracKapasitesi;
 
-    @Convert(converter = AracAgirligiConverter.class)
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private AracAgirligi aracAgirligi;
-
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "alisveris_id", nullable = false, unique = true)
-    private Alisveris alisveris;
 }

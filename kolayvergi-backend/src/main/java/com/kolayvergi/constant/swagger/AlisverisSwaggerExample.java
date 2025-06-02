@@ -6,7 +6,6 @@ public final class AlisverisSwaggerExample {
         throw new IllegalStateException("Constant class");
     }
 
-    // Request örnekleri
     public static final String OTOMOBIL_ALISVERIS_REQUEST = """
             {
                 "urunTuru": "OTOMOBIL",
@@ -33,7 +32,6 @@ public final class AlisverisSwaggerExample {
             }
             """;
 
-    // Response örnekleri
     public static final String OTOMOBIL_ALISVERIS_RESPONSE = """
             {
                 "urunTuru": "OTOMOBIL",

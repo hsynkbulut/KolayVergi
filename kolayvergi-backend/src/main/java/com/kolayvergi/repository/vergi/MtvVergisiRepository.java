@@ -10,7 +10,5 @@ import java.util.UUID;
 @Repository
 public interface MtvVergisiRepository extends JpaRepository<MtvVergisi, UUID> {
 
-    // Belirli bir alışverişe bağlı tüm KDV vergilerini çekecek.
-    // ORNEK GET endpoint’i: /kdv/alisveris/{id}
     List<MtvVergisi> findByAlisverisId(UUID alisverisId);
 }

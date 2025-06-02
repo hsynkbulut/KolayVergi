@@ -29,7 +29,6 @@ const AlisverisDetay = () => {
     }
   };
 
-  // Ürün türü label fonksiyonu
   const urunTuruLabel = (value) => {
     if (value === 'OTOMOBIL') return 'Otomobil';
     const map = {

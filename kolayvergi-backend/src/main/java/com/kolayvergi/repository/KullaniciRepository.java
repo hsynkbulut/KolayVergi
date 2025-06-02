@@ -9,13 +9,10 @@ import java.util.UUID;
 
 @Repository
 public interface KullaniciRepository extends JpaRepository<Kullanici, UUID> {
-    boolean existsByVkn(String vkn); // VKN çakışma kontrolü için
+
+    boolean existsByVkn(String vkn);
+
     Optional<Kullanici> findByEmail(String email);
+
     boolean existsByEmail(String email);
-
-
- //    Optional<Kullanici> findByVkn(String vkn);
- //Optional<Kullanici> findByTckn(String tckn);
-
-
 }

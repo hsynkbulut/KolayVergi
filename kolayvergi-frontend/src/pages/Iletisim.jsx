@@ -14,7 +14,6 @@ const Iletisim = () => {
     e.preventDefault();
     setError('');
     setSuccess(false);
-    // Burada backend'e gönderme işlemi yapılabilir
     if (!form.ad || !form.email || !form.mesaj) {
       setError('Lütfen tüm alanları doldurun.');
       return;

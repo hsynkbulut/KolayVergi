@@ -7,12 +7,5 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface MtvVergisiMapper {
 
-//    @Mapping(target = "id", ignore = true)
-//    @Mapping(target = "alisveris", ignore = true)
-//    MtvVergisi mtvVergisiCreateRequestToMtvVergisi(MtvVergisiCreateRequest request);
-//
-//    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-//    void updateMtvVergisiFromMtvVergisiUpdateRequest(MtvVergisiUpdateRequest request, @MappingTarget MtvVergisi entity);
-
     MtvVergisiResponse mtvVergisiToMtvVergisiResponse(MtvVergisi mtvVergisi);
 }

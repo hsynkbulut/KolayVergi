@@ -2,6 +2,7 @@ package com.kolayvergi.dto.request;
 
 import com.kolayvergi.entity.enums.Cinsiyet;
 import com.kolayvergi.entity.enums.Meslek;
+import com.kolayvergi.constant.ValidationConstants;
 import com.kolayvergi.validator.annotation.ValidTCKN;
 import com.kolayvergi.validator.annotation.ValidVKN;
 import jakarta.validation.constraints.*;
@@ -20,33 +21,33 @@ public class KullaniciUpdateRequest {
     @ValidTCKN
     private String tckn;
 
-    @NotBlank(message = "Ad boş olamaz.")
+    @NotBlank(message = ValidationConstants.AD_BOS_OLAMAZ)
     private String ad;
 
-    @NotBlank(message = "Soyad boş olamaz.")
+    @NotBlank(message = ValidationConstants.SOYAD_BOS_OLAMAZ)
     private String soyad;
 
-    @Email(message = "Geçerli bir e-posta adresi giriniz.")
-    @NotBlank(message = "Email boş olamaz.")
+    @Email(message = ValidationConstants.GECERLI_EMAIL)
+    @NotBlank(message = ValidationConstants.EMAIL_BOS_OLAMAZ)
     private String email;
 
-    @NotBlank(message = "Şifre boş olamaz.")
-    @Size(min = 4, max = 16, message = "Şifre 4-16 karakter arası olmalıdır.")
+    @NotBlank(message = ValidationConstants.SIFRE_BOS_OLAMAZ)
+    @Size(min = 4, max = 16, message = ValidationConstants.SIFRE_UZUNLUK)
     private String sifre;
 
-    @NotNull(message = "Yaş boş olamaz.")
-    @Min(value = 18, message = "18 yaşından küçük kullanıcı kayıt olamaz.")
-    @Max(value = 150, message = "Yaş 150'den büyük olamaz.")
+    @NotNull(message = ValidationConstants.YAS_BOS_OLAMAZ)
+    @Min(value = 18, message = ValidationConstants.YAS_MIN)
+    @Max(value = 150, message = ValidationConstants.YAS_MAX)
     private Integer yas;
 
-    @NotNull(message = "Cinsiyet boş olamaz.")
+    @NotNull(message = ValidationConstants.CINSIYET_BOS_OLAMAZ)
     private Cinsiyet cinsiyet;
 
-    @NotNull(message = "Meslek boş olamaz.")
+    @NotNull(message = ValidationConstants.MESLEK_BOS_OLAMAZ)
     private Meslek meslek;
 
-    @NotNull(message = "Maaş boş olamaz.")
-    @DecimalMin(value = "0.0", inclusive = false, message = "Maaş sıfırdan büyük olmalıdır.")
+    @NotNull(message = ValidationConstants.MAAS_BOS_OLAMAZ)
+    @DecimalMin(value = "0.0", inclusive = false, message = ValidationConstants.MAAS_MIN)
     private BigDecimal maas;
 
 }

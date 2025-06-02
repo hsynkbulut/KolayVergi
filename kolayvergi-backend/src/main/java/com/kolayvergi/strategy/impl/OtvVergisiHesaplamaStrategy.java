@@ -66,13 +66,13 @@ public class OtvVergisiHesaplamaStrategy implements VergiHesaplamaStrategy {
 
     private BigDecimal hesaplaOtomobilOtvOrani(MotorSilindirHacmi hacim, BigDecimal matrah) {
         switch (hacim) {
-            case SIFIR_1300, _1301_1600:
+            case CM3_0_1300, CM3_1301_1600:
                 if (matrah.compareTo(BigDecimal.valueOf(184_000)) <= 0) return BigDecimal.valueOf(45);
                 if (matrah.compareTo(BigDecimal.valueOf(220_000)) <= 0) return BigDecimal.valueOf(50);
                 if (matrah.compareTo(BigDecimal.valueOf(250_000)) <= 0) return BigDecimal.valueOf(60);
                 if (matrah.compareTo(BigDecimal.valueOf(280_000)) <= 0) return BigDecimal.valueOf(70);
                 return BigDecimal.valueOf(80);
-            case _1601_1800, _1801_2000:
+            case CM3_1601_1800, CM3_1801_2000:
                 if (matrah.compareTo(BigDecimal.valueOf(170_000)) <= 0) return BigDecimal.valueOf(130);
                 return BigDecimal.valueOf(150);
             default:

@@ -1,5 +1,6 @@
 package com.kolayvergi.strategy.impl;
 
+import com.kolayvergi.constant.VergiConstants;
 import com.kolayvergi.entity.Alisveris;
 import com.kolayvergi.entity.AracBilgisi;
 import com.kolayvergi.entity.Kullanici;
@@ -25,11 +26,10 @@ public class KdvVergisiHesaplamaStrategy implements VergiHesaplamaStrategy {
 
         AracBilgisi aracBilgisi = alisveris.getAracBilgisi();
         if (alisveris.getUrunTuru() == UrunTuru.OTOMOBIL && aracBilgisi == null) {
-            throw new IllegalArgumentException("KDV Vergisi hesaplanabilmesi için araç bilgisi bulunmalıdır.");
+            throw new IllegalArgumentException(VergiConstants.KDV_ARAC_BILGISI_GEREKLI);
         }
 
         BigDecimal tabanTutar = matrah;
-        // ÖTV varsa, KDV'yi ÖTV sonrası tutar üzerinden hesapla
         for (Vergi oncekiVergi : oncekiVergiler) {
             if (oncekiVergi instanceof OtvVergisi) {
                 tabanTutar = tabanTutar.add(oncekiVergi.getTutar());
@@ -63,7 +63,7 @@ public class KdvVergisiHesaplamaStrategy implements VergiHesaplamaStrategy {
             case KOZMETIK -> BigDecimal.valueOf(20);
             case MOBILYA -> BigDecimal.valueOf(20);
             case OTOMOBIL -> BigDecimal.valueOf(20);
-            default -> throw new IllegalArgumentException("Ürün türü için KDV oranı tanımlı değil: " + urunTuru);
+            default -> throw new IllegalArgumentException(String.format(VergiConstants.KDV_ORANI_TANIMLI_DEGIL, urunTuru));
         };
     }
 

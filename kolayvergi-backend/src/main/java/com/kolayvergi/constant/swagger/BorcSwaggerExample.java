@@ -6,7 +6,6 @@ public final class BorcSwaggerExample {
         throw new IllegalStateException("Constant class");
     }
 
-    // Response örnekleri
     public static final String BORC_RESPONSE = """
             {
                 "id": 1,

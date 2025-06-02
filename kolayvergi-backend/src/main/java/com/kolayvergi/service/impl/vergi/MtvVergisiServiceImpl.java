@@ -1,5 +1,7 @@
 package com.kolayvergi.service.impl.vergi;
 
+import com.kolayvergi.constant.AlisverisConstants;
+import com.kolayvergi.constant.VergiConstants;
 import com.kolayvergi.dto.mapper.MtvVergisiMapper;
 import com.kolayvergi.dto.response.vergi.MtvVergisiResponse;
 import com.kolayvergi.entity.Alisveris;
@@ -47,7 +49,7 @@ public class MtvVergisiServiceImpl implements MtvVergisiService {
     @Override
     public MtvVergisiResponse getMtvVergisiById(UUID id) {
         MtvVergisi vergi = mtvVergisiRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("MTV Vergisi bulunamadı: " + id));
+                .orElseThrow(() -> new EntityNotFoundException(String.format(VergiConstants.MTV_VERGISI_BULUNAMADI, id)));
         return mtvVergisiMapper.mtvVergisiToMtvVergisiResponse(vergi);
     }
 }

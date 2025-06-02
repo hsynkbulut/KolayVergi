@@ -1,5 +1,6 @@
 package com.kolayvergi.service.impl;
 
+import com.kolayvergi.constant.KullaniciConstants;
 import com.kolayvergi.dto.mapper.KullaniciMapper;
 import com.kolayvergi.dto.response.KullaniciResponse;
 import com.kolayvergi.entity.Kullanici;
@@ -40,7 +41,7 @@ public class KullaniciServiceImpl implements KullaniciService {
     @Override
     public Kullanici getKullanici(UUID id) {
         return kullaniciRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Kullanıcı bulunamadı"));
+                .orElseThrow(() -> new EntityNotFoundException(String.format(KullaniciConstants.KULLANICI_ID_BULUNAMADI, id)));
     }
 
     @Override
@@ -62,6 +63,6 @@ public class KullaniciServiceImpl implements KullaniciService {
     public Kullanici getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return kullaniciRepository.findByEmail(authentication.getName())
-                .orElseThrow(() -> new EntityNotFoundException("Oturum açmış kullanıcı bulunamadı"));
+                .orElseThrow(() -> new EntityNotFoundException(KullaniciConstants.OTURUMDA_KULLANICI_BULUNAMADI));
     }
 }

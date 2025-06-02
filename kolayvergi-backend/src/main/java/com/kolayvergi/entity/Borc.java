@@ -1,6 +1,7 @@
 package com.kolayvergi.entity;
 
 import com.kolayvergi.entity.base.BaseEntity;
+import com.kolayvergi.constant.ValidationConstants;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -20,7 +21,7 @@ public class Borc extends BaseEntity {
     @JoinColumn(name = "kullanici_id", unique = true)
     private Kullanici kullanici;
 
-    @NotNull(message = "Toplam borç alanı boş olamaz!")
+    @NotNull(message = ValidationConstants.TOPLAM_BORC_BOS_OLAMAZ)
     @Column(name = "toplam_borc")
     private BigDecimal toplamBorc;
 

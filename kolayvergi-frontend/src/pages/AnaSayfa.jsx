@@ -18,13 +18,14 @@ const AnaSayfa = () => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        // Borç bilgilerini al
         const borcRes = await axiosInstance.get("/borclar");
         setBorc(borcRes.data);
 
-        // Son alışverişleri al
         const alisverisRes = await axiosInstance.get("/alisverisler/benim-alisverislerim");
-        setSonAlisverisler(alisverisRes.data.slice(0, 5));
+        const alisverisler = alisverisRes.data
+          .sort((a, b) => new Date(b.olusturulmaTarihi) - new Date(a.olusturulmaTarihi))
+          .slice(0, 5);
+        setSonAlisverisler(alisverisler);
 
         setLoading(false);
       } catch (err) {
@@ -50,7 +51,6 @@ const AnaSayfa = () => {
       </div>
     );
 
-  // Eğer borç ve alışveriş verisi de yoksa (ilk girişte veya hiç veri yoksa)
   if (!borc && (!sonAlisverisler || sonAlisverisler.length === 0)) {
     return (
       <div className="flex flex-col items-center justify-center h-[60vh] gap-4">
@@ -61,7 +61,6 @@ const AnaSayfa = () => {
     );
   }
 
-  // Hızlı erişim menüsü butonları
   const hizliErisimButonlari = [
     {
       icon: "FiShoppingCart",
@@ -89,7 +88,6 @@ const AnaSayfa = () => {
     },
   ];
 
-  // Ürün türü label fonksiyonu
   const urunTuruLabel = (value) => {
     if (value === 'OTOMOBIL') return 'Otomobil';
     const map = {
@@ -104,7 +102,6 @@ const AnaSayfa = () => {
     return map[value] || value;
   };
 
-  // Son alışverişler tablosu için kolonlar
   const columns = [
     { header: "Ürün Türü", accessor: "urunTuru", cell: v => urunTuruLabel(v) },
     { header: "Tutar", accessor: "tutar", cell: v => v.toLocaleString('tr-TR') + " ₺" },

@@ -34,7 +34,6 @@ const TaksitOdeme = () => {
     axiosInstance
       .get("/taksitler")
       .then((res) => {
-        // taksitNo'nun ilk 12 karakterine göre sırala (oluşturma tarihi ve saati)
         const sorted = [...res.data].sort((a, b) => parseTaksitNoDate(a.taksitNo) - parseTaksitNoDate(b.taksitNo));
         setTaksitler(sorted);
         setLoading(false);
@@ -49,7 +48,6 @@ const TaksitOdeme = () => {
     fetchTaksitler();
   }, []);
 
-  // Pop-up açıldığında state sıfırla
   const openPopup = (taksit) => {
     setSelectedTaksit(taksit);
     setOdemeTuru("NAKIT");
@@ -59,14 +57,12 @@ const TaksitOdeme = () => {
     setPopupOpen(true);
   };
 
-  // Taksit ödeme bilgisi getir
   const handleGetOdemeBilgisi = async () => {
     if (!selectedTaksit) return;
     setOdemeLoading(true);
     setOdemeError("");
     setOdemeBilgisi(null);
     try {
-      // Sadece taksitNo ve odemeTuru ile istek at
       const res = await axiosInstance.get(`/odemeler/${selectedTaksit.taksitNo}?odemeTuru=${odemeTuru}`);
       if (!res.data || res.data.guncellenmisTutar == null) {
         setOdemeError("Taksit ödeme bilgisi eksik veya hatalı.");
@@ -79,7 +75,6 @@ const TaksitOdeme = () => {
     setOdemeLoading(false);
   };
 
-  // Taksit öde
   const handleOde = async () => {
     if (!selectedTaksit || !odemeBilgisi || odemeBilgisi.guncellenmisTutar == null) return;
     setOdemeLoading(true);
