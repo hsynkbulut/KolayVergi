@@ -1,5 +1,6 @@
 package com.kolayvergi.security.service;
 
+import com.kolayvergi.constant.KullaniciConstants;
 import com.kolayvergi.repository.KullaniciRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,6 +17,6 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         return kullaniciRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("Kullanıcı bulunamadı: " + email));
+                .orElseThrow(() -> new UsernameNotFoundException(String.format(KullaniciConstants.KULLANICI_EMAIL_BULUNAMADI, email)));
     }
 } 

@@ -3,12 +3,8 @@ package com.kolayvergi.constant.swagger;
 public class SwaggerConstants {
 
     // Kullanıcı
-    public static final String CREATE_KULLANICI_SUMMARY = "Kullanıcı oluştur";
-    public static final String CREATE_KULLANICI_DESC = "Yeni bir kullanıcı oluşturur";
     public static final String GET_KULLANICI_SUMMARY = "Kullanıcı getir";
     public static final String GET_KULLANICI_DESC = "ID'ye göre kullanıcı bilgilerini getirir";
-    public static final String UPDATE_KULLANICI_SUMMARY = "Kullanıcı güncelle";
-    public static final String UPDATE_KULLANICI_DESC = "Kullanıcı bilgilerini günceller";
     public static final String DELETE_KULLANICI_SUMMARY = "Kullanıcı sil";
     public static final String DELETE_KULLANICI_DESC = "Kullanıcıyı sistemden siler";
     public static final String GET_ALL_KULLANICILAR_SUMMARY = "Tüm kullanıcıları listele";
@@ -44,7 +40,6 @@ public class SwaggerConstants {
     public static final String UPDATE_PROFILE_SUMMARY = "Profil güncelleme";
     public static final String UPDATE_PROFILE_DESC = "Giriş yapmış kullanıcının kendi bilgilerini günceller";
 
-    // AlisverisController ile ilgili yeni endpoint için
     public static final String GET_ALISVERISLER_BY_KULLANICI_ID_SUMMARY = "Kullanıcıya ait tüm alışverişleri getir";
     public static final String GET_ALISVERISLER_BY_KULLANICI_ID_DESC = "Belirli bir kullanıcıya ait tüm alışverişlerin listesini döner";
 

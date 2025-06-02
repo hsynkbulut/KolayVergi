@@ -1,5 +1,6 @@
 package com.kolayvergi.service.impl.vergi;
 
+import com.kolayvergi.constant.VergiConstants;
 import com.kolayvergi.dto.mapper.KdvVergisiMapper;
 import com.kolayvergi.dto.response.vergi.KdvVergisiResponse;
 import com.kolayvergi.entity.Alisveris;
@@ -48,7 +49,7 @@ public class KdvVergisiServiceImpl implements KdvVergisiService {
     @Override
     public KdvVergisiResponse getKdvVergisiById(UUID id) {
         KdvVergisi vergi = kdvVergisiRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("KDV Vergisi bulunamadı: " + id));
+                .orElseThrow(() -> new EntityNotFoundException(String.format(VergiConstants.KDV_VERGISI_BULUNAMADI, id)));
         return kdvVergisiMapper.kdvVergisiToKdvVergisiResponse(vergi);
     }
 }

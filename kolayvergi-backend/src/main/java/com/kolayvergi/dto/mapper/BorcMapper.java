@@ -13,6 +13,5 @@ public interface BorcMapper {
     @Mapping(target = "kullanici", ignore = true)
     Borc borcCreateRequestToBorc(BorcCreateRequest request);
 
-    Borc borcResponseToBorc(BorcResponse borcResponse);
     BorcResponse borcToBorcResponse(Borc borc);
 }

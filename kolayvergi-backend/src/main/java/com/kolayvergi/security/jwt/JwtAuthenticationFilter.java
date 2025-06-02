@@ -1,5 +1,6 @@
 package com.kolayvergi.security.jwt;
 
+import com.kolayvergi.constant.JwtConstants;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -40,15 +41,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         } catch (Exception ex) {
-            logger.error("JWT token doğrulaması yapılamadı", ex);
+            logger.error(JwtConstants.JWT_TOKEN_DOGRULAMA_YAPILAMADI, ex);
         }
 
         filterChain.doFilter(request, response);
     }
 
     private String getJwtFromRequest(HttpServletRequest request) {
-        String bearerToken = request.getHeader("Authorization");
-        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
+        String bearerToken = request.getHeader(JwtConstants.AUTHORIZATION);
+        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(JwtConstants.BEARER)) {
             return bearerToken.substring(7);
         }
         return null;

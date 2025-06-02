@@ -1,5 +1,6 @@
 package com.kolayvergi.odeme.factory;
 
+import com.kolayvergi.constant.OdemeConstants;
 import com.kolayvergi.entity.enums.OdemeTuru;
 import com.kolayvergi.odeme.yontemler.KrediKartiOdeme;
 import com.kolayvergi.odeme.yontemler.KrediOdeme;
@@ -31,7 +32,7 @@ public class OdemeYontemiFactory {
     public OdemeYontemi getYontem(OdemeTuru odemeTuru) {
         OdemeYontemi yontem = odemeYontemiMap.get(odemeTuru);
         if (yontem == null) {
-            throw new IllegalArgumentException("Geçersiz ödeme türü: " + odemeTuru);
+            throw new IllegalArgumentException(String.format(OdemeConstants.ODEME_TURU_GECERSIZ, odemeTuru));
         }
         return yontem;
     }

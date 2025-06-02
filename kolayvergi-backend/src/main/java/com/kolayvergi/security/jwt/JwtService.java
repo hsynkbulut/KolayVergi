@@ -1,5 +1,6 @@
 package com.kolayvergi.security.jwt;
 
+import com.kolayvergi.constant.JwtConstants;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
@@ -73,15 +74,15 @@ public class JwtService {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
             return true;
         } catch (SignatureException ex) {
-            log.error("Geçersiz JWT imzası");
+            log.error(JwtConstants.JWT_TOKEN_IMZASI_GECERSIZ);
         } catch (MalformedJwtException ex) {
-            log.error("Geçersiz JWT token");
+            log.error(JwtConstants.JWT_TOKEN_GECERSIZ);
         } catch (ExpiredJwtException ex) {
-            log.error("Süresi dolmuş JWT token");
+            log.error(JwtConstants.JWT_TOKEN_SURESI_DOLMUS);
         } catch (UnsupportedJwtException ex) {
-            log.error("Desteklenmeyen JWT token");
+            log.error(JwtConstants.JWT_TOKEN_DESTEKLENMIYOR);
         } catch (IllegalArgumentException ex) {
-            log.error("JWT claims string boş");
+            log.error(JwtConstants.JWT_CLAIMS_STRING_BOS);
         }
         return false;
     }

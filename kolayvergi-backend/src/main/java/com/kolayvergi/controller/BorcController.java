@@ -11,10 +11,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import java.util.UUID;
 
 @RequestMapping(path = ApiConstants.BORCLAR)
 @Tag(name = "Borç İşlemleri", description = "Borç yönetimi için API endpoint'leri")

@@ -1,6 +1,7 @@
 package com.kolayvergi.dto.request;
 
 import com.kolayvergi.entity.enums.UrunTuru;
+import com.kolayvergi.constant.ValidationConstants;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -16,15 +17,15 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class AlisverisUpdateRequest {
 
-    @NotNull(message = "Urun Turu alanı boş bırakılamaz")
+    @NotNull(message = ValidationConstants.URUN_TURU_BOS_OLAMAZ)
     private UrunTuru urunTuru;
 
     @Valid
-    private AracBilgisiCreateRequest aracBilgisi; // sadece OTOMOBIL için zorunlu
+    private AracBilgisiCreateRequest aracBilgisi;
 
-    @NotNull(message = "Tutar alanı boş bırakılamaz")
+    @NotNull(message = ValidationConstants.TUTAR_BOS_OLAMAZ)
     private BigDecimal tutar;
 
-    @NotNull(message = "Taksit sayısı boş bırakılamaz")
+    @NotNull(message = ValidationConstants.TAKSIT_SAYISI_BOS_OLAMAZ)
     private Integer taksitSayisi;
 }

@@ -29,16 +29,13 @@ public class VergiHesaplamaServiceImpl implements VergiHesaplamaService {
 
     @Override
     public VergiHesaplamaSonuc hesaplaVergiler(Alisveris alisveris, Kullanici kullanici) {
-        // Vergi türlerini belirle
         List<VergiTuru> vergiTurleri = vergiTuruBelirleyici.getVergiTurleri(alisveris.getUrunTuru());
         
-        // Vergileri hesapla ve kaydet
         BigDecimal toplamVergiTutari = BigDecimal.ZERO;
         OtvVergisi otvVergisi = null;
         KdvVergisi kdvVergisi = null;
         MtvVergisi mtvVergisi = null;
 
-        // Vergileri sırayla hesapla
         if (vergiTurleri.contains(VergiTuru.OTV)) {
             otvVergisi = otvVergisiService.createOtvVergisi(alisveris, kullanici);
             toplamVergiTutari = toplamVergiTutari.add(otvVergisi.getTutar());

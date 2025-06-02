@@ -1,10 +1,10 @@
 package com.kolayvergi.service.impl;
 
+import com.kolayvergi.constant.AracBilgisiConstants;
 import com.kolayvergi.dto.mapper.AracBilgisiMapper;
 import com.kolayvergi.dto.request.AracBilgisiCreateRequest;
 import com.kolayvergi.dto.request.AracBilgisiUpdateRequest;
 import com.kolayvergi.dto.response.AracBilgisiResponse;
-import com.kolayvergi.entity.Alisveris;
 import com.kolayvergi.entity.AracBilgisi;
 import com.kolayvergi.repository.AracBilgisiRepository;
 import com.kolayvergi.service.AracBilgisiService;
@@ -25,10 +25,8 @@ public class AracBilgisiServiceImpl implements AracBilgisiService {
 
     @Override
     @Transactional
-    public AracBilgisi createAracBilgisiForAlisveris(Alisveris alisveris, AracBilgisiCreateRequest request) {
+    public AracBilgisi createAracBilgisiForAlisveris(AracBilgisiCreateRequest request) {
         AracBilgisi arac = aracBilgisiMapper.AracBilgisiCreateRequestToAracBilgisi(request);
-        arac.setAlisveris(alisveris);
-        alisveris.setAracBilgisi(arac);
         return aracBilgisiRepository.save(arac);
     }
 
@@ -36,7 +34,7 @@ public class AracBilgisiServiceImpl implements AracBilgisiService {
     @Transactional
     public AracBilgisiResponse updateAracBilgisi(AracBilgisiUpdateRequest request) {
         AracBilgisi entity = aracBilgisiRepository.findById(request.getId())
-                .orElseThrow(() -> new EntityNotFoundException("Araç bilgisi bulunamadı: " + request.getId()));
+                .orElseThrow(() -> new EntityNotFoundException(String.format(AracBilgisiConstants.ARAC_BILGISI_BULUNAMADI, request.getId())));
 
         aracBilgisiMapper.updateAracBilgisiFromAracBilgisiUpdateRequest(request, entity);
         return aracBilgisiMapper.aracBilgisiToAracBilgisiResponse(aracBilgisiRepository.save(entity));
@@ -45,14 +43,7 @@ public class AracBilgisiServiceImpl implements AracBilgisiService {
     @Override
     public AracBilgisiResponse getAracBilgisiById(UUID id) {
         AracBilgisi arac = aracBilgisiRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Araç bilgisi bulunamadı: " + id));
-        return aracBilgisiMapper.aracBilgisiToAracBilgisiResponse(arac);
-    }
-
-    @Override
-    public AracBilgisiResponse getAracBilgisiByAlisverisId(UUID alisverisId) {
-        AracBilgisi arac = aracBilgisiRepository.findByAlisverisId(alisverisId)
-                .orElseThrow(() -> new EntityNotFoundException("Bu alışverişe ait araç bilgisi bulunamadı."));
+                .orElseThrow(() -> new EntityNotFoundException(String.format(AracBilgisiConstants.ARAC_BILGISI_BULUNAMADI, id)));
         return aracBilgisiMapper.aracBilgisiToAracBilgisiResponse(arac);
     }
 }

@@ -33,9 +33,7 @@ const Borclarim = () => {
       </div>
     );
 
-  // Ödenen borç miktarını hesapla
   const odenenBorc = borc?.toplamBorc - borc?.kalanBorc;
-  // Ödeme yüzdesini hesapla
   const odemeYuzdesi = ((odenenBorc / borc?.toplamBorc) * 100).toFixed(1);
 
   return (

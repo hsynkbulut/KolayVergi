@@ -1,5 +1,6 @@
 package com.kolayvergi.odeme.yontemler;
 
+import com.kolayvergi.constant.OdemeConstants;
 import com.kolayvergi.dto.response.OdemeSonucu;
 import com.kolayvergi.entity.Kullanici;
 import com.kolayvergi.entity.Taksit;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -25,13 +27,12 @@ public class NakitOdeme implements OdemeYontemi {
     protected final BorcUtils borcUtils;
     protected final KullaniciService kullaniciService;
 
-
     @Override
     public OdemeSonucu hesaplaVeOde(Taksit taksit, OdemeTuru odemeTuru, LocalDate odemeTarihi, BigDecimal kullaniciOdemeTutari) {
         OdemeSonucu sonuc = sadeceHesapla(taksit, odemeTarihi);
 
         if (sonuc.getGuncellenmisTutar().compareTo(kullaniciOdemeTutari) != 0) {
-            throw new IllegalArgumentException("Girilen tutar beklenen tutardan farkli!");
+            throw new IllegalArgumentException(OdemeConstants.TUTAR_FARKLI);
         }
 
         BigDecimal guncellenmisTutar = sonuc.getGuncellenmisTutar();
@@ -39,7 +40,6 @@ public class NakitOdeme implements OdemeYontemi {
         taksitService.updateTaksitForPayment(taksit, odemeTuru, guncellenmisTutar);
         odemePlaniService.updateOdemePlaniAfterPayment(taksit, guncellenmisTutar);
 
-        //TODO: Bu borc kismi refactor edilebilir aynisi taksitServiceImpl ve AbstractFaizli odeme dede var.
         Kullanici kullanici = kullaniciService.getCurrentUser();
         UUID kullaniciId = kullanici.getId();
 

@@ -8,14 +8,19 @@ public enum AracTipi {
     OTOBUS("Otobüs ve benzerleri"),
     KAMYON_KAMYONET_CEKICI("Kamyon-Kamyonet-Çekici ve benzerleri");
 
-    private final String label;
+    private final String value;
 
-    AracTipi(String label) {
-        this.label = label;
+    AracTipi(String value) {
+        this.value = value;
     }
 
     @JsonValue
-    public String getLabel() {
-        return label;
+    public String getValue() {
+        return value;
+    }
+
+    @Override
+    public String toString() {
+        return value;
     }
 }

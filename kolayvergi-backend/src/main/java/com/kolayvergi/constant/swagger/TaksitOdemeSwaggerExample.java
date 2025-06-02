@@ -6,7 +6,6 @@ public final class TaksitOdemeSwaggerExample {
         throw new IllegalStateException("Constant class");
     }
 
-    // Request örnekleri
     public static final String TAKSIT_ODEME_REQUEST = """
             {
                 "taksitNo": "20250430052200118QB0002",
@@ -15,7 +14,6 @@ public final class TaksitOdemeSwaggerExample {
             }
             """;
 
-    // Response örnekleri
     public static final String TAKSIT_ODEME_RESPONSE = """
             {
                 "sonOdemeTarihi": "2024-03-15",

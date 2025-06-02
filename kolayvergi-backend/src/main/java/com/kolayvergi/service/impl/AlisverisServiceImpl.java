@@ -1,8 +1,8 @@
 package com.kolayvergi.service.impl;
 
+import com.kolayvergi.constant.AlisverisConstants;
 import com.kolayvergi.dto.mapper.AlisverisMapper;
 import com.kolayvergi.dto.request.AlisverisCreateRequest;
-import com.kolayvergi.dto.request.BorcUpdateRequest;
 import com.kolayvergi.dto.response.AlisverisResponse;
 import com.kolayvergi.entity.*;
 import com.kolayvergi.entity.enums.OdemeDurumu;
@@ -41,32 +41,27 @@ public class AlisverisServiceImpl implements AlisverisService {
         Kullanici kullanici = kullaniciService.getCurrentUser();
         Alisveris alisveris = alisverisMapper.aliverisCreateRequestToAlisveris(request);
         alisveris.setKullanici(kullanici);
-        Alisveris dbAlisveris = alisverisRepository.save(alisveris);
+
+        Alisveris savedAlisveris = alisverisRepository.save(alisveris);
 
         if (request.getUrunTuru() == UrunTuru.OTOMOBIL) {
             if (request.getAracBilgisi() == null) {
-                throw new IllegalArgumentException("Otomobil kategorisinde araç bilgisi zorunludur.");
+                throw new IllegalArgumentException(AlisverisConstants.OTOMOBIL_ARAC_BILGISI_ZORUNLU);
             }
-            AracBilgisi aracBilgisi = aracBilgisiService.createAracBilgisiForAlisveris(dbAlisveris, request.getAracBilgisi());
-            dbAlisveris.setAracBilgisi(aracBilgisi);
-
-            // Alisverisin tekrar kaydedilmesi
-            dbAlisveris = alisverisRepository.save(dbAlisveris);
+            AracBilgisi aracBilgisi = aracBilgisiService.createAracBilgisiForAlisveris(request.getAracBilgisi());
+            savedAlisveris.setAracBilgisi(aracBilgisi);
         }
 
-        // Vergileri hesapla
-        VergiHesaplamaSonuc sonuc = vergiHesaplamaService.hesaplaVergiler(dbAlisveris, kullanici);
+        VergiHesaplamaSonuc sonuc = vergiHesaplamaService.hesaplaVergiler(savedAlisveris, kullanici);
+        odemePlaniService.createOdemePlaniForAlisveris(savedAlisveris, sonuc.getToplamVergiTutari());
         
-        // Ödeme planını oluştur
-        odemePlaniService.createOdemePlaniForAlisveris(dbAlisveris, sonuc.getToplamVergiTutari());
-
-        return alisverisMapper.alisverisToAlisverisResponse(dbAlisveris);
+        return alisverisMapper.alisverisToAlisverisResponse(savedAlisveris);
     }
 
     @Override
     public AlisverisResponse getAlisveris(UUID id) {
         Alisveris alisveris = alisverisRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Alışveriş bulunamadı: " + id));
+                .orElseThrow(() -> new EntityNotFoundException(String.format(AlisverisConstants.ALISVERIS_BULUNAMADI, id)));
         return alisverisMapper.alisverisToAlisverisResponse(alisveris);
     }
 
@@ -74,10 +69,10 @@ public class AlisverisServiceImpl implements AlisverisService {
     @Override
     public void deleteAlisveris(UUID id) {
         if (!alisverisRepository.existsById(id)) {
-            throw new EntityNotFoundException("Silinecek alışveriş bulunamadı: " + id);
+            throw new EntityNotFoundException(String.format(AlisverisConstants.SILINECEK_ALISVERIS_BULUNAMADI, id));
         }
         Alisveris dbAlisveris = alisverisRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Alışveriş bulunamadı: " + id));
+                .orElseThrow(() -> new EntityNotFoundException(String.format(AlisverisConstants.ALISVERIS_BULUNAMADI, id)));
         Kullanici kullanici = kullaniciService.getCurrentUser();
         BigDecimal odenecekTutar = dbAlisveris.getOdemePlani().getToplamOdenecekTutar();
         BigDecimal odenmisTutar = BigDecimal.ZERO;

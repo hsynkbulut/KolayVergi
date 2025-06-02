@@ -1,5 +1,7 @@
 package com.kolayvergi.service.impl;
 
+import com.kolayvergi.constant.AuthConstants;
+import com.kolayvergi.constant.KullaniciConstants;
 import com.kolayvergi.dto.mapper.KullaniciMapper;
 import com.kolayvergi.dto.request.KullaniciCreateRequest;
 import com.kolayvergi.dto.request.KullaniciUpdateRequest;
@@ -73,14 +75,14 @@ public class AuthServiceImpl implements AuthService {
 
             return new JwtResponse(newAccessToken, newRefreshToken, username, roles);
         }
-        throw new RuntimeException("Geçersiz refresh token");
+        throw new RuntimeException(AuthConstants.GECERSIZ_REFRESH_TOKEN);
     }
 
     @Override
     @Transactional
     public KullaniciResponse register(KullaniciCreateRequest request) {
         if (kullaniciRepository.existsByEmail(request.getEmail())) {
-            throw new RuntimeException("Bu email adresi zaten kullanılıyor");
+            throw new RuntimeException(AuthConstants.EMAIL_KULLANIMDA);
         }
 
         Kullanici kullanici = kullaniciMapper.kullaniciCreateRequestToKullanici(request);
@@ -98,7 +100,7 @@ public class AuthServiceImpl implements AuthService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
         Kullanici kullanici = kullaniciRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("Kullanıcı bulunamadı"));
+                .orElseThrow(() -> new RuntimeException(KullaniciConstants.KULLANICI_BULUNAMADI));
 
         kullaniciMapper.updateKullaniciFromRequest(request, kullanici);
         Kullanici updatedKullanici = kullaniciRepository.save(kullanici);

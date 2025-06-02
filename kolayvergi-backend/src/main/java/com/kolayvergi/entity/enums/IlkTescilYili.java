@@ -1,6 +1,5 @@
 package com.kolayvergi.entity.enums;
 
-
 import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum IlkTescilYili {
@@ -14,14 +13,19 @@ public enum IlkTescilYili {
     Y2024("2024"),
     Y2025("2025");
 
-    private final String label;
+    private final String value;
 
-    IlkTescilYili(String label) {
-        this.label = label;
+    IlkTescilYili(String value) {
+        this.value = value;
     }
 
     @JsonValue
-    public String getLabel() {
-        return label;
+    public String getValue() {
+        return value;
+    }
+
+    @Override
+    public String toString() {
+        return value;
     }
 }

@@ -7,12 +7,5 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface KdvVergisiMapper {
 
-//    @Mapping(target = "id", ignore = true)
-//    @Mapping(target = "alisveris", ignore = true)
-//    KdvVergisi kdvVergisiCreateRequestToKdvVergisi(KdvVergisiCreateRequest request);
-//
-//    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-//    void updateKdvVergisiFromKdvVergisiUpdateRequest(KdvVergisiUpdateRequest request, @MappingTarget KdvVergisi entity);
-
     KdvVergisiResponse kdvVergisiToKdvVergisiResponse(KdvVergisi kdvVergisi);
 }

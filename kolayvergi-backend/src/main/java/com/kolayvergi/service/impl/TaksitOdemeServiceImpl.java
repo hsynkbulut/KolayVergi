@@ -26,7 +26,6 @@ public class TaksitOdemeServiceImpl implements TaksitOdemeService {
     @Override
     public OdemeSonucu taksitOdemeYap(TaksitOdemeRequest request) {
         Taksit taksit = taksitService.getTaksitByTaksitNo(request.getTaksitNo());
-        // Strateji (ödeme yöntemi) seç
         OdemeYontemi odemeYontemi = odemeYontemiFactory.getYontem(request.getOdemeTuru());
         return odemeYontemi.hesaplaVeOde(taksit, request.getOdemeTuru(), LocalDate.now(), request.getOdemeTutari());
     }
@@ -34,7 +33,6 @@ public class TaksitOdemeServiceImpl implements TaksitOdemeService {
     @Override
     public OdemeSonucu taksitOdemeDetaylariniGetir(String taksitNo, OdemeTuru odemeTuru) {
         Taksit taksit = taksitService.getTaksitByTaksitNo(taksitNo);
-        // Strateji (ödeme yöntemi) seç
         OdemeYontemi odemeYontemi = odemeYontemiFactory.getYontem(odemeTuru);
         return odemeYontemi.sadeceHesapla(taksit, LocalDate.now());
     }

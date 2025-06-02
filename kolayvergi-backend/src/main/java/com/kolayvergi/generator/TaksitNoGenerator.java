@@ -29,21 +29,6 @@ public class TaksitNoGenerator {
         return String.format("%03d", hashValue);
     }
 
-    /*
-    * Yaptığım değişiklikler:
-    formatUserId metodunu UUID için uygun hale getirdim
-    UUID'nin hashCode() metodunu kullanarak 1-999 arasında bir sayı üretiyoruz
-    Math.abs() ile negatif değerleri pozitife çeviriyoruz
-    % 999 ile 0-998 arasında bir sayı elde ediyoruz
-    + 1 ile 1-999 arasında bir sayı elde ediyoruz
-    Son olarak bu sayıyı 3 haneli string formatına çeviriyoruz
-    Bu değişiklik ile:
-    UUID'den her zaman 1-999 arasında bir sayı üretilecek
-    Aynı UUID için her zaman aynı sayı üretilecek
-    Taksit numarası formatı korunacak
-    *
-    */
-
     private String generateCheckIndex(String timestamp, String userId, String sequence) {
         String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         try {

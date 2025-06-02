@@ -1,7 +1,6 @@
 package com.kolayvergi.dto.response;
 
 import com.kolayvergi.entity.enums.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
