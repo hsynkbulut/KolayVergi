@@ -26,18 +26,17 @@ public class AracBilgisiServiceImpl implements AracBilgisiService {
     @Override
     @Transactional
     public AracBilgisi createAracBilgisiForAlisveris(AracBilgisiCreateRequest request) {
-        AracBilgisi arac = aracBilgisiMapper.AracBilgisiCreateRequestToAracBilgisi(request);
-        return aracBilgisiRepository.save(arac);
+        return aracBilgisiRepository.save(aracBilgisiMapper.AracBilgisiCreateRequestToAracBilgisi(request));
     }
 
     @Override
     @Transactional
     public AracBilgisiResponse updateAracBilgisi(AracBilgisiUpdateRequest request) {
-        AracBilgisi entity = aracBilgisiRepository.findById(request.getId())
+        AracBilgisi aracBilgisi = aracBilgisiRepository.findById(request.getId())
                 .orElseThrow(() -> new EntityNotFoundException(String.format(AracBilgisiConstants.ARAC_BILGISI_BULUNAMADI, request.getId())));
 
-        aracBilgisiMapper.updateAracBilgisiFromAracBilgisiUpdateRequest(request, entity);
-        return aracBilgisiMapper.aracBilgisiToAracBilgisiResponse(aracBilgisiRepository.save(entity));
+        aracBilgisiMapper.updateAracBilgisiFromAracBilgisiUpdateRequest(request, aracBilgisi);
+        return aracBilgisiMapper.aracBilgisiToAracBilgisiResponse(aracBilgisiRepository.save(aracBilgisi));
     }
 
     @Override

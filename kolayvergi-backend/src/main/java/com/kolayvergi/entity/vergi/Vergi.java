@@ -15,7 +15,7 @@ import java.math.BigDecimal;
 public abstract class Vergi extends BaseEntity {
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "alisveris_id", nullable = true)
+    @JoinColumn(name = "alisveris_id")
     private Alisveris alisveris;
 
     @OneToOne(fetch = FetchType.LAZY)

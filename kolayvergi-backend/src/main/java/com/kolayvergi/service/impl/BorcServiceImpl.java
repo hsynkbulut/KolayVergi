@@ -39,9 +39,7 @@ public class BorcServiceImpl implements BorcService {
 
     @Override
     public BorcResponse getBorc() {
-        Kullanici kullanici = kullaniciService.getCurrentUser();
-        UUID kullaniciId = kullanici.getId();
-        return getBorcByKullaniciId(kullaniciId);
+        return getBorcByKullaniciId(kullaniciService.getCurrentUser().getId());
     }
 
     @Override
@@ -65,15 +63,14 @@ public class BorcServiceImpl implements BorcService {
         return borcMapper.borcToBorcResponse(borcRepository.save(borc));
     }
 
-    private Borc getBorcById(UUID id) {
-        return borcRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(String.format(BorcConstants.BORC_BULUNAMADI_BORC_ID, id)));
-    }
-
     @Transactional
     @Override
     public void deleteBorcByKullaniciId(UUID kullaniciId) {
         borcRepository.deleteByKullaniciId(kullaniciId);
     }
 
+    private Borc getBorcById(UUID id) {
+        return borcRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(String.format(BorcConstants.BORC_BULUNAMADI_BORC_ID, id)));
+    }
 }

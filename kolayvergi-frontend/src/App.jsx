@@ -11,6 +11,7 @@ import Borclarim from './pages/Borclarim';
 import TaksitOdeme from "./pages/TaksitOdeme";
 import AnaSayfa from "./pages/AnaSayfa";
 import Iletisim from './pages/Iletisim';
+import AlisverisDuzenle from './pages/alisveris/AlisverisDuzenle';
 
 const Page = ({ title }) => (
   <div className="flex flex-col items-center justify-center w-full h-full gap-2">
@@ -102,6 +103,16 @@ function App() {
               <ProtectedRoute requiredRoles={['ROLE_ADMIN']}>
                 <Layout currentPath="/admin">
                   <Page title="Admin Sayfası" />
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/alisveris/:id/duzenle"
+            element={
+              <ProtectedRoute>
+                <Layout currentPath="/alisverislerim">
+                  <AlisverisDuzenle />
                 </Layout>
               </ProtectedRoute>
             }
