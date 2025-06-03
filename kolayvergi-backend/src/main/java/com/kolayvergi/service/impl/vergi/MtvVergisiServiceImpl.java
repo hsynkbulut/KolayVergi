@@ -1,6 +1,5 @@
 package com.kolayvergi.service.impl.vergi;
 
-import com.kolayvergi.constant.AlisverisConstants;
 import com.kolayvergi.constant.VergiConstants;
 import com.kolayvergi.dto.mapper.MtvVergisiMapper;
 import com.kolayvergi.dto.response.vergi.MtvVergisiResponse;

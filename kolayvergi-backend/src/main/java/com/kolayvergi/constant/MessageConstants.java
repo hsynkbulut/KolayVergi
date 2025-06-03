@@ -1,10 +1,10 @@
 package com.kolayvergi.constant;
 
-public final class MessageConstants {
-    private MessageConstants() {
-        throw new IllegalStateException("Bu bir yardımcı sınıftır ve nesnesi oluşturulamaz!");
-    }
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public final class MessageConstants {
     public static final String GONDERILEN_VERILERDE_HATA = "Gönderdiğiniz verilerde eksiklik veya hata var.";
     public static final String VALIDATION_HATASI = "Validation hatası oluştu.";
     public static final String KAYIT_BULUNAMADI = "İstenen kayıt bulunamadı.";

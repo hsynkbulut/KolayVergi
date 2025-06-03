@@ -1,10 +1,10 @@
 package com.kolayvergi.constant;
 
-public final class ValidationConstants {
-    private ValidationConstants() {
-        throw new IllegalStateException("Bu bir yardımcı sınıftır ve nesnesi oluşturulamaz!");
-    }
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public final class ValidationConstants {
     // VKN Validasyon mesajları
     public static final String VKN_BOS_OLAMAZ = "VKN boş bırakılamaz.";
     public static final String VKN_10_HANELI_OLMALI = "VKN 10 haneli olmalıdır.";

@@ -20,7 +20,6 @@ const initialForm = {
   }
 };
 
-// Aynı şekilde option listeleri buraya eklenmeli (AlisverisEkle.jsx ile aynı)
 const ILK_TESCIL_YILI_OPTIONS = [
   { value: '2017 ve öncesi', label: '2017 ve öncesi' },
   { value: '2018', label: '2018' },

@@ -1,10 +1,10 @@
 package com.kolayvergi.constant;
 
-public final class VergiConstants {
-    private VergiConstants() {
-        throw new IllegalStateException("Bu bir yardımcı sınıftır ve nesnesi oluşturulamaz!");
-    }
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public final class VergiConstants {
     public static final String MTV_ARAC_BILGISI_GEREKLI = "MTV hesaplaması için araç bilgisi gereklidir";
     public static final String KDV_ARAC_BILGISI_GEREKLI = "KDV hesaplaması için araç bilgisi gereklidir";
     public static final String KDV_ORANI_TANIMLI_DEGIL = "%s için KDV oranı tanımlı değil";

@@ -2,10 +2,9 @@ package com.kolayvergi.entity;
 
 import com.kolayvergi.entity.base.BaseEntity;
 import com.kolayvergi.entity.enums.UrunTuru;
-import com.kolayvergi.entity.enums.VergiTuru;
-import com.kolayvergi.entity.vergi.OtvVergisi;
 import com.kolayvergi.entity.vergi.KdvVergisi;
 import com.kolayvergi.entity.vergi.MtvVergisi;
+import com.kolayvergi.entity.vergi.OtvVergisi;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -38,7 +37,7 @@ public class Alisveris extends BaseEntity {
     @JoinColumn(name = "arac_bilgisi_id")
     private AracBilgisi aracBilgisi;
 
-    @OneToOne(mappedBy = "alisveris", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
+    @OneToOne(mappedBy = "alisveris", cascade = CascadeType.ALL, optional = false)
     private OdemePlani odemePlani;
 
     @OneToOne(mappedBy = "alisveris", cascade = CascadeType.ALL, orphanRemoval = true)

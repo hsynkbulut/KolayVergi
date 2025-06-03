@@ -42,20 +42,16 @@ public class AlisverisServiceImpl implements AlisverisService {
         Alisveris alisveris = alisverisMapper.aliverisCreateRequestToAlisveris(request);
         alisveris.setKullanici(kullanici);
 
-        Alisveris dbAlisveris = alisverisRepository.save(alisveris);
-
-        if (request.getUrunTuru() == UrunTuru.OTOMOBIL) {
-            if (request.getAracBilgisi() == null) {
-                throw new IllegalArgumentException(AlisverisConstants.OTOMOBIL_ARAC_BILGISI_ZORUNLU);
-            }
-            AracBilgisi aracBilgisi = aracBilgisiService.createAracBilgisiForAlisveris(request.getAracBilgisi());
-            dbAlisveris.setAracBilgisi(aracBilgisi);
+        if (request.getUrunTuru() == UrunTuru.OTOMOBIL && request.getAracBilgisi() == null) {
+            throw new IllegalArgumentException(AlisverisConstants.OTOMOBIL_ARAC_BILGISI_ZORUNLU);
         }
+        alisveris = alisverisRepository.save(alisveris);
 
-        VergiHesaplamaSonuc sonuc = vergiHesaplamaService.hesaplaVergiler(dbAlisveris, kullanici);
-        odemePlaniService.createOdemePlaniForAlisveris(dbAlisveris, sonuc.getToplamVergiTutari());
-        
-        return alisverisMapper.alisverisToAlisverisResponse(dbAlisveris);
+        VergiHesaplamaSonuc sonuc = vergiHesaplamaService.hesaplaVergiler(alisveris, kullanici);
+        OdemePlani odemePlani = odemePlaniService.createOdemePlaniForAlisveris(alisveris, sonuc.getToplamVergiTutari());
+        alisveris.setOdemePlani(odemePlani);
+
+        return alisverisMapper.alisverisToAlisverisResponse(alisveris);
     }
 
     @Override
