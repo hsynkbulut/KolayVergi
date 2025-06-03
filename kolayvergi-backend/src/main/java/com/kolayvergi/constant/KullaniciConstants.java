@@ -1,10 +1,10 @@
 package com.kolayvergi.constant;
 
-public final class KullaniciConstants {
-    private KullaniciConstants() {
-        throw new IllegalStateException("Bu bir yardımcı sınıftır ve nesnesi oluşturulamaz!");
-    }
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public final class KullaniciConstants {
     public static final String KULLANICI_BULUNAMADI = "Kullanıcı bulunamadı";
     public static final String KULLANICI_EMAIL_BULUNAMADI = "Kullanıcı bulunamadı: %s";
     public static final String OTURUMDA_KULLANICI_BULUNAMADI = "Oturum açmış kullanıcı bulunamadı";

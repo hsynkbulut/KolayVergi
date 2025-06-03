@@ -1,10 +1,10 @@
 package com.kolayvergi.constant;
 
-public final class JwtConstants {
-    private JwtConstants() {
-        throw new IllegalStateException("Bu bir yardımcı sınıftır ve nesnesi oluşturulamaz!");
-    }
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public final class JwtConstants {
     public static final String BEARER = "Bearer ";
     public static final String AUTHORIZATION = "Authorization";
     public static final String JWT_TOKEN_GECERSIZ = "Geçersiz JWT token";

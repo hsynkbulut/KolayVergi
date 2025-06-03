@@ -27,7 +27,6 @@ public class OdemePlaniServiceImpl implements OdemePlaniService {
 
     @Override
     public OdemePlani createOdemePlaniForAlisveris(Alisveris alisveris, BigDecimal vergiTutari) {
-
         UUID kullaniciId = kullaniciService.getCurrentUser().getId();
         BigDecimal odenecekTutar = vergiTutari.add(alisveris.getTutar());
 
@@ -37,9 +36,9 @@ public class OdemePlaniServiceImpl implements OdemePlaniService {
         odemePlani.setToplamOdenmisTutar(BigDecimal.ZERO);
         odemePlani.setToplamTaksitSayisi(alisveris.getTaksitSayisi());
         odemePlani.setKalanTaksitSayisi(alisveris.getTaksitSayisi());
-        OdemePlani dbOdeme = odemePlaniRepository.save(odemePlani);
 
-        List<Taksit> taksitler = taksitService.createInitialTaksitler(kullaniciId, dbOdeme);
+        List<Taksit> taksitler = taksitService.createInitialTaksitler(kullaniciId, odemePlani);
+        odemePlani.setTaksitler(taksitler);
         return odemePlani;
     }
 

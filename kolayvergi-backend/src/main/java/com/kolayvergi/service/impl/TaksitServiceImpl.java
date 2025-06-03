@@ -61,8 +61,6 @@ public class TaksitServiceImpl implements TaksitService {
             taksitler.add(taksit);
         }
 
-        taksitRepository.saveAll(taksitler);
-
         Optional<BorcResponse> optionalBorc = borcService.getBorcByKullaniciIdSafely(kullaniciId);
 
         if (optionalBorc.isPresent()) {

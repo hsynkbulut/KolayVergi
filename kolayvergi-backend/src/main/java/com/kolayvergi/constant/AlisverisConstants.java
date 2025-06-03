@@ -1,9 +1,10 @@
 package com.kolayvergi.constant;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class AlisverisConstants {
-    private AlisverisConstants() {
-        throw new IllegalStateException("Bu bir yardımcı sınıftır ve nesnesi oluşturulamaz!");
-    }
 
     public static final String OTOMOBIL_ARAC_BILGISI_ZORUNLU = "Otomobil kategorisinde araç bilgisi zorunludur.";
     public static final String ALISVERIS_BULUNAMADI = "Alışveriş bulunamadı: %s";
