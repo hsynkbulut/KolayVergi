@@ -1,6 +1,5 @@
 package com.kolayvergi.service.impl.vergi;
 
-import com.kolayvergi.constant.VergiConstants;
 import com.kolayvergi.dto.mapper.KdvVergisiMapper;
 import com.kolayvergi.dto.response.vergi.KdvVergisiResponse;
 import com.kolayvergi.entity.Alisveris;
@@ -13,6 +12,8 @@ import com.kolayvergi.service.vergi.KdvVergisiService;
 import com.kolayvergi.strategy.VergiHesaplamaStrategy;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,6 +29,7 @@ public class KdvVergisiServiceImpl implements KdvVergisiService {
     private final KdvVergisiRepository kdvVergisiRepository;
     private final KdvVergisiMapper kdvVergisiMapper;
     private final VergiHesaplamaStrategy kdvVergisiHesaplamaStrategy;
+    private final MessageSource messageSource;
 
     @Override
     @Transactional
@@ -48,8 +50,8 @@ public class KdvVergisiServiceImpl implements KdvVergisiService {
 
     @Override
     public KdvVergisiResponse getKdvVergisiById(UUID id) {
-        KdvVergisi vergi = kdvVergisiRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(String.format(VergiConstants.KDV_VERGISI_BULUNAMADI, id)));
-        return kdvVergisiMapper.kdvVergisiToKdvVergisiResponse(vergi);
+        KdvVergisi kdvVergisi = kdvVergisiRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(messageSource.getMessage("vergi.kdv_vergisi_bulunamadi", new Object[]{id}, LocaleContextHolder.getLocale())));
+        return kdvVergisiMapper.kdvVergisiToKdvVergisiResponse(kdvVergisi);
     }
 }

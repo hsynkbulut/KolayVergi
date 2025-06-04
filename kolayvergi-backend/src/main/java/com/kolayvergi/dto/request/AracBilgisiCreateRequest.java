@@ -1,7 +1,6 @@
 package com.kolayvergi.dto.request;
 
 import com.kolayvergi.entity.enums.*;
-import com.kolayvergi.constant.ValidationConstants;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotBlank;
@@ -13,33 +12,33 @@ import lombok.Setter;
 @Setter
 public class AracBilgisiCreateRequest {
 
-    @NotBlank(message = ValidationConstants.MARKA_BOS_OLAMAZ)
+    @NotBlank(message = "validation.marka_bos_olamaz")
     private String marka;
 
-    @NotBlank(message = ValidationConstants.MODEL_BOS_OLAMAZ)
+    @NotBlank(message = "validation.model_bos_olamaz")
     private String model;
 
-    @NotNull(message = ValidationConstants.ILK_TESCIL_YILI_BOS_OLAMAZ)
+    @NotNull(message = "validation.ilk_tescil_yili_bos_olamaz")
     @Enumerated(EnumType.STRING)
     private IlkTescilYili ilkTescilYili;
 
-    @NotNull(message = ValidationConstants.MOTOR_SILINDIR_HACMI_BOS_OLAMAZ)
+    @NotNull(message = "validation.motor_silindir_hacmi_bos_olamaz")
     @Enumerated(EnumType.STRING)
     private MotorSilindirHacmi motorSilindirHacmi;
 
-    @NotNull(message = ValidationConstants.ARAC_TIPI_BOS_OLAMAZ)
+    @NotNull(message = "validation.arac_tipi_bos_olamaz")
     @Enumerated(EnumType.STRING)
     private AracTipi aracTipi;
 
-    @NotNull(message = ValidationConstants.ARAC_YASI_BOS_OLAMAZ)
+    @NotNull(message = "validation.arac_yasi_bos_olamaz")
     @Enumerated(EnumType.STRING)
     private AracYasi aracYasi;
 
-    @NotNull(message = ValidationConstants.ARAC_KAPASITESI_BOS_OLAMAZ)
+    @NotNull(message = "validation.arac_kapasitesi_bos_olamaz")
     @Enumerated(EnumType.STRING)
     private AracKapasitesi aracKapasitesi;
 
-    @NotNull(message = ValidationConstants.ARAC_AGIRLIGI_BOS_OLAMAZ)
+    @NotNull(message = "validation.arac_agirligi_bos_olamaz")
     @Enumerated(EnumType.STRING)
     private AracAgirligi aracAgirligi;
 }

@@ -1,6 +1,5 @@
 package com.kolayvergi.dto.request;
 
-import com.kolayvergi.constant.ValidationConstants;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,9 +16,9 @@ import java.util.UUID;
 public class BorcUpdateRequest {
     private UUID kullaniciId;
 
-    @NotNull(message = ValidationConstants.TOPLAM_BORC_BOS_OLAMAZ)
+    @NotNull(message = "validation.toplam_borc_bos_olamaz")
     private BigDecimal toplamBorc;
 
-    @NotNull(message = ValidationConstants.KALAN_BORC_BOS_OLAMAZ)
+    @NotNull(message = "validation.kalan_borc_bos_olamaz")
     private BigDecimal kalanBorc;
 }

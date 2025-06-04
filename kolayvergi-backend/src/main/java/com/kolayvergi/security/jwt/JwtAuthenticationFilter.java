@@ -1,11 +1,12 @@
 package com.kolayvergi.security.jwt;
 
-import com.kolayvergi.constant.JwtConstants;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,6 +24,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtService tokenProvider;
     private final UserDetailsService userDetailsService;
+    private final MessageSource messageSource;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -41,16 +43,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         } catch (Exception ex) {
-            logger.error(JwtConstants.JWT_TOKEN_DOGRULAMA_YAPILAMADI, ex);
+            logger.error(messageSource.getMessage("auth.jwt_verification_failed", null, LocaleContextHolder.getLocale()), ex);
         }
 
         filterChain.doFilter(request, response);
     }
 
     private String getJwtFromRequest(HttpServletRequest request) {
-        String bearerToken = request.getHeader(JwtConstants.AUTHORIZATION);
-        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(JwtConstants.BEARER)) {
-            return bearerToken.substring(7);
+        String bearerToken = request.getHeader(messageSource.getMessage("auth.authorization", null, LocaleContextHolder.getLocale()));
+        String bearerPrefix = messageSource.getMessage("auth.bearer", null, LocaleContextHolder.getLocale());
+        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(bearerPrefix)) {
+            return bearerToken.substring(bearerPrefix.length());
         }
         return null;
     }

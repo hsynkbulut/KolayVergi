@@ -1,6 +1,5 @@
 package com.kolayvergi.odeme.yontemler;
 
-import com.kolayvergi.constant.OdemeConstants;
 import com.kolayvergi.dto.response.OdemeSonucu;
 import com.kolayvergi.entity.Kullanici;
 import com.kolayvergi.entity.Taksit;
@@ -11,6 +10,8 @@ import com.kolayvergi.service.KullaniciService;
 import com.kolayvergi.service.OdemePlaniService;
 import com.kolayvergi.service.TaksitService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -25,6 +26,7 @@ public abstract class AbstractFaizliOdeme implements OdemeYontemi {
     protected final BorcService borcService;
     protected final BorcUtils borcUtils;
     protected final KullaniciService kullaniciService;
+    protected final MessageSource messageSource;
 
 
     @Override
@@ -32,7 +34,9 @@ public abstract class AbstractFaizliOdeme implements OdemeYontemi {
         OdemeSonucu sonuc = hesapla(taksit, odemeTarihi);
 
         if (sonuc.getGuncellenmisTutar().compareTo(kullaniciOdemeTutari) != 0) {
-            throw new IllegalArgumentException(OdemeConstants.TUTAR_FARKLI);
+            throw new IllegalArgumentException(
+                messageSource.getMessage("odeme.tutar_farkli", null, LocaleContextHolder.getLocale())
+            );
         }
 
         BigDecimal guncellenmisTutar = sonuc.getGuncellenmisTutar();

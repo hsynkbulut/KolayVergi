@@ -31,7 +31,6 @@ public class OtvVergisiHesaplamaStrategy implements VergiHesaplamaStrategy {
         if (aracTipi != null) {
             otvOrani = hesaplaAracOtvOrani(aracTipi, aracBilgisi, matrah);
         } else {
-            // Araçsız ürünler için
             otvOrani = urunTuru.getLuksKatSayisi().multiply(BigDecimal.valueOf(100));
         }
 

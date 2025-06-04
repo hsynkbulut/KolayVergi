@@ -1,19 +1,22 @@
 package com.kolayvergi.security.jwt;
 
-import com.kolayvergi.constant.JwtConstants;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import lombok.RequiredArgsConstructor;
 
 import java.security.Key;
 import java.util.Date;
 
 @Slf4j
+@RequiredArgsConstructor
 @Component
 public class JwtService {
 
@@ -27,6 +30,7 @@ public class JwtService {
     private int jwtRefreshExpirationInMs;
 
     private Key key;
+    private final MessageSource messageSource;
 
     @PostConstruct
     public void init() {
@@ -74,15 +78,15 @@ public class JwtService {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
             return true;
         } catch (SignatureException ex) {
-            log.error(JwtConstants.JWT_TOKEN_IMZASI_GECERSIZ);
+            log.error(messageSource.getMessage("auth.jwt_signature_invalid", null, LocaleContextHolder.getLocale()));
         } catch (MalformedJwtException ex) {
-            log.error(JwtConstants.JWT_TOKEN_GECERSIZ);
+            log.error(messageSource.getMessage("auth.jwt_invalid", null, LocaleContextHolder.getLocale()));
         } catch (ExpiredJwtException ex) {
-            log.error(JwtConstants.JWT_TOKEN_SURESI_DOLMUS);
+            log.error(messageSource.getMessage("auth.jwt_expired", null, LocaleContextHolder.getLocale()));
         } catch (UnsupportedJwtException ex) {
-            log.error(JwtConstants.JWT_TOKEN_DESTEKLENMIYOR);
+            log.error(messageSource.getMessage("auth.jwt_unsupported", null, LocaleContextHolder.getLocale()));
         } catch (IllegalArgumentException ex) {
-            log.error(JwtConstants.JWT_CLAIMS_STRING_BOS);
+            log.error(messageSource.getMessage("auth.jwt_claims_empty", null, LocaleContextHolder.getLocale()));
         }
         return false;
     }

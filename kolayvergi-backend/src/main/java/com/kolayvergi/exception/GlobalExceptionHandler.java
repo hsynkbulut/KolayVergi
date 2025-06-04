@@ -1,8 +1,10 @@
 package com.kolayvergi.exception;
 
-import com.kolayvergi.constant.MessageConstants;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -14,8 +16,11 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.util.*;
 
+@RequiredArgsConstructor
 @ControllerAdvice
 public class GlobalExceptionHandler {
+
+    private final MessageSource messageSource;
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ApiError<Map<String, List<String>>>> handleValidationExceptions(MethodArgumentNotValidException ex, HttpServletRequest request) {
@@ -29,8 +34,8 @@ public class GlobalExceptionHandler {
         ApiError<Map<String, List<String>>> apiError = createApiError(
                 errorMap,
                 HttpStatus.BAD_REQUEST,
-                MessageConstants.GONDERILEN_VERILERDE_HATA,
-                MessageConstants.VALIDATION_HATASI,
+                messageSource.getMessage("genel.gonderilen_verilerde_hata", null, LocaleContextHolder.getLocale()),
+                messageSource.getMessage("genel.validation_hatasi", null, LocaleContextHolder.getLocale()),
                 request.getRequestURI()
         );
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiError);
@@ -41,7 +46,7 @@ public class GlobalExceptionHandler {
         ApiError<String> apiError = createApiError(
                 null,
                 HttpStatus.NOT_FOUND,
-                MessageConstants.KAYIT_BULUNAMADI,
+                messageSource.getMessage("genel.kayit_bulunamadi", null, LocaleContextHolder.getLocale()),
                 ex.getMessage(),
                 request.getRequestURI()
         );
@@ -53,7 +58,7 @@ public class GlobalExceptionHandler {
         ApiError<String> apiError = createApiError(
                 null,
                 HttpStatus.BAD_REQUEST,
-                MessageConstants.URL_PARAMETRE_EKSIK,
+                messageSource.getMessage("genel.url_parametre_eksik", null, LocaleContextHolder.getLocale()),
                 ex.getMessage(),
                 request.getRequestURI()
         );
@@ -65,7 +70,7 @@ public class GlobalExceptionHandler {
         ApiError<String> apiError = createApiError(
                 null,
                 HttpStatus.BAD_REQUEST,
-                MessageConstants.GECERSIZ_VERI,
+                messageSource.getMessage("genel.gecersiz_veri", null, LocaleContextHolder.getLocale()),
                 ex.getMessage(),
                 request.getRequestURI()
         );
@@ -77,7 +82,7 @@ public class GlobalExceptionHandler {
         ApiError<String> apiError = createApiError(
                 null,
                 HttpStatus.INTERNAL_SERVER_ERROR,
-                MessageConstants.SISTEM_HATASI,
+                messageSource.getMessage("genel.sistem_hatasi", null, LocaleContextHolder.getLocale()),
                 ex.getMessage(),
                 request.getRequestURI()
         );
@@ -89,7 +94,7 @@ public class GlobalExceptionHandler {
         ApiError<String> apiError = createApiError(
                 null,
                 HttpStatus.INTERNAL_SERVER_ERROR,
-                MessageConstants.BEKLENMEYEN_HATA,
+                messageSource.getMessage("genel.beklenmeyen_hata", null, LocaleContextHolder.getLocale()),
                 ex.getMessage(),
                 request.getRequestURI()
         );

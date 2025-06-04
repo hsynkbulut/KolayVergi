@@ -1,12 +1,13 @@
 package com.kolayvergi.odeme.factory;
 
-import com.kolayvergi.constant.OdemeConstants;
 import com.kolayvergi.entity.enums.OdemeTuru;
 import com.kolayvergi.odeme.yontemler.KrediKartiOdeme;
 import com.kolayvergi.odeme.yontemler.KrediOdeme;
 import com.kolayvergi.odeme.yontemler.NakitOdeme;
 import com.kolayvergi.odeme.yontemler.OdemeYontemi;
 import org.springframework.stereotype.Component;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 
 import java.util.HashMap;
 import java.util.List;
@@ -16,8 +17,10 @@ import java.util.Map;
 public class OdemeYontemiFactory {
 
     private final Map<OdemeTuru, OdemeYontemi> odemeYontemiMap = new HashMap<>();
+    private final MessageSource messageSource;
 
-    public OdemeYontemiFactory(List<OdemeYontemi> odemeYontemleri) {
+    public OdemeYontemiFactory(List<OdemeYontemi> odemeYontemleri, MessageSource messageSource) {
+        this.messageSource = messageSource;
         for (OdemeYontemi yontem : odemeYontemleri) {
             if (yontem instanceof NakitOdeme) {
                 odemeYontemiMap.put(OdemeTuru.NAKIT, yontem);
@@ -32,7 +35,9 @@ public class OdemeYontemiFactory {
     public OdemeYontemi getYontem(OdemeTuru odemeTuru) {
         OdemeYontemi yontem = odemeYontemiMap.get(odemeTuru);
         if (yontem == null) {
-            throw new IllegalArgumentException(String.format(OdemeConstants.ODEME_TURU_GECERSIZ, odemeTuru));
+            throw new IllegalArgumentException(
+                messageSource.getMessage("odeme.odeme_turu_gecersiz", new Object[]{odemeTuru}, LocaleContextHolder.getLocale())
+            );
         }
         return yontem;
     }

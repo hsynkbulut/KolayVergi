@@ -1,6 +1,5 @@
 package com.kolayvergi.service.impl.vergi;
 
-import com.kolayvergi.constant.VergiConstants;
 import com.kolayvergi.dto.mapper.OtvVergisiMapper;
 import com.kolayvergi.dto.response.vergi.OtvVergisiResponse;
 import com.kolayvergi.entity.Alisveris;
@@ -12,6 +11,8 @@ import com.kolayvergi.service.vergi.OtvVergisiService;
 import com.kolayvergi.strategy.VergiHesaplamaStrategy;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +28,7 @@ public class OtvVergisiServiceImpl implements OtvVergisiService {
     private final OtvVergisiMapper otvVergisiMapper;
     private final OtvVergisiRepository otvVergisiRepository;
     private final VergiHesaplamaStrategy otvVergisiHesaplamaStrategy;
+    private final MessageSource messageSource;
 
     @Override
     @Transactional
@@ -47,8 +49,8 @@ public class OtvVergisiServiceImpl implements OtvVergisiService {
 
     @Override
     public OtvVergisiResponse getOtvVergisiById(UUID id) {
-        OtvVergisi vergi = otvVergisiRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(String.format(VergiConstants.OTV_VERGISI_BULUNAMADI, id)));
-        return otvVergisiMapper.otvVergisiToOtvVergisiResponse(vergi);
+        OtvVergisi otvVergisi = otvVergisiRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(messageSource.getMessage("vergi.otv_vergisi_bulunamadi", new Object[]{id}, LocaleContextHolder.getLocale())));
+        return otvVergisiMapper.otvVergisiToOtvVergisiResponse(otvVergisi);
     }
 }

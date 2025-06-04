@@ -1,6 +1,5 @@
 package com.kolayvergi.service.impl;
 
-import com.kolayvergi.constant.KullaniciConstants;
 import com.kolayvergi.dto.mapper.KullaniciMapper;
 import com.kolayvergi.dto.response.KullaniciResponse;
 import com.kolayvergi.entity.Kullanici;
@@ -8,6 +7,8 @@ import com.kolayvergi.repository.KullaniciRepository;
 import com.kolayvergi.service.KullaniciService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,7 @@ public class KullaniciServiceImpl implements KullaniciService {
 
     private final KullaniciRepository kullaniciRepository;
     private final KullaniciMapper kullaniciMapper;
+    private final MessageSource messageSource;
 
     @Override
     public KullaniciResponse getKullaniciById(UUID id) {
@@ -39,7 +41,7 @@ public class KullaniciServiceImpl implements KullaniciService {
     @Override
     public Kullanici getKullanici(UUID id) {
         return kullaniciRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(String.format(KullaniciConstants.KULLANICI_ID_BULUNAMADI, id)));
+                .orElseThrow(() -> new EntityNotFoundException(messageSource.getMessage("user.id_notfound", new Object[]{id}, LocaleContextHolder.getLocale())));
     }
 
     @Override
@@ -60,6 +62,6 @@ public class KullaniciServiceImpl implements KullaniciService {
     public Kullanici getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return kullaniciRepository.findByEmail(authentication.getName())
-                .orElseThrow(() -> new EntityNotFoundException(KullaniciConstants.OTURUMDA_KULLANICI_BULUNAMADI));
+                .orElseThrow(() -> new EntityNotFoundException(messageSource.getMessage("user.session_notfound", null, LocaleContextHolder.getLocale())));
     }
 }

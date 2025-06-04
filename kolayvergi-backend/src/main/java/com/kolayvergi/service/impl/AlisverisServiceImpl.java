@@ -1,6 +1,5 @@
 package com.kolayvergi.service.impl;
 
-import com.kolayvergi.constant.AlisverisConstants;
 import com.kolayvergi.dto.mapper.AlisverisMapper;
 import com.kolayvergi.dto.request.AlisverisCreateRequest;
 import com.kolayvergi.dto.response.AlisverisResponse;
@@ -10,9 +9,11 @@ import com.kolayvergi.entity.enums.UrunTuru;
 import com.kolayvergi.repository.AlisverisRepository;
 import com.kolayvergi.service.*;
 import com.kolayvergi.service.vergi.VergiHesaplamaService;
-import com.kolayvergi.service.vergi.VergiHesaplamaSonuc;
+import com.kolayvergi.dto.response.vergi.VergiHesaplamaSonucResponse;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,10 +31,10 @@ public class AlisverisServiceImpl implements AlisverisService {
     private final AlisverisRepository alisverisRepository;
     private final KullaniciService kullaniciService;
     private final AlisverisMapper alisverisMapper;
-    private final AracBilgisiService aracBilgisiService;
     private final OdemePlaniService odemePlaniService;
     private final VergiHesaplamaService vergiHesaplamaService;
     private final BorcService borcService;
+    private final MessageSource messageSource;
 
     @Override
     @Transactional
@@ -43,11 +44,12 @@ public class AlisverisServiceImpl implements AlisverisService {
         alisveris.setKullanici(kullanici);
 
         if (request.getUrunTuru() == UrunTuru.OTOMOBIL && request.getAracBilgisi() == null) {
-            throw new IllegalArgumentException(AlisverisConstants.OTOMOBIL_ARAC_BILGISI_ZORUNLU);
+            String msg = messageSource.getMessage("alisveris.otomobil_arac_bilgisi_zorunlu", null, LocaleContextHolder.getLocale());
+            throw new IllegalArgumentException(msg);
         }
         alisveris = alisverisRepository.save(alisveris);
 
-        VergiHesaplamaSonuc sonuc = vergiHesaplamaService.hesaplaVergiler(alisveris, kullanici);
+        VergiHesaplamaSonucResponse sonuc = vergiHesaplamaService.hesaplaVergiler(alisveris, kullanici);
         OdemePlani odemePlani = odemePlaniService.createOdemePlaniForAlisveris(alisveris, sonuc.getToplamVergiTutari());
         alisveris.setOdemePlani(odemePlani);
 
@@ -56,19 +58,22 @@ public class AlisverisServiceImpl implements AlisverisService {
 
     @Override
     public AlisverisResponse getAlisveris(UUID id) {
+        String msg = messageSource.getMessage("alisveris.notfound", new Object[]{id}, LocaleContextHolder.getLocale());
         Alisveris alisveris = alisverisRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(String.format(AlisverisConstants.ALISVERIS_BULUNAMADI, id)));
+                .orElseThrow(() -> new EntityNotFoundException(msg));
         return alisverisMapper.alisverisToAlisverisResponse(alisveris);
     }
 
     @Transactional()
     @Override
     public void deleteAlisveris(UUID id) {
+        String silMsg = messageSource.getMessage("alisveris.delete_notfound", new Object[]{id}, LocaleContextHolder.getLocale());
         if (!alisverisRepository.existsById(id)) {
-            throw new EntityNotFoundException(String.format(AlisverisConstants.SILINECEK_ALISVERIS_BULUNAMADI, id));
+            throw new EntityNotFoundException(silMsg);
         }
+        String bulMsg = messageSource.getMessage("alisveris.notfound", new Object[]{id}, LocaleContextHolder.getLocale());
         Alisveris dbAlisveris = alisverisRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(String.format(AlisverisConstants.ALISVERIS_BULUNAMADI, id)));
+                .orElseThrow(() -> new EntityNotFoundException(bulMsg));
         Kullanici kullanici = kullaniciService.getCurrentUser();
         BigDecimal odenecekTutar = dbAlisveris.getOdemePlani().getToplamOdenecekTutar();
         BigDecimal odenmisTutar = BigDecimal.ZERO;

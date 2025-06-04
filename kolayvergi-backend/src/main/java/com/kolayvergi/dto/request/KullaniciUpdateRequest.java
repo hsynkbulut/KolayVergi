@@ -2,7 +2,6 @@ package com.kolayvergi.dto.request;
 
 import com.kolayvergi.entity.enums.Cinsiyet;
 import com.kolayvergi.entity.enums.Meslek;
-import com.kolayvergi.constant.ValidationConstants;
 import com.kolayvergi.validator.annotation.ValidTCKN;
 import com.kolayvergi.validator.annotation.ValidVKN;
 import jakarta.validation.constraints.*;
@@ -21,33 +20,33 @@ public class KullaniciUpdateRequest {
     @ValidTCKN
     private String tckn;
 
-    @NotBlank(message = ValidationConstants.AD_BOS_OLAMAZ)
+    @NotNull(message = "validation.ad_bos_olamaz")
     private String ad;
 
-    @NotBlank(message = ValidationConstants.SOYAD_BOS_OLAMAZ)
+    @NotNull(message = "validation.soyad_bos_olamaz")
     private String soyad;
 
-    @Email(message = ValidationConstants.GECERLI_EMAIL)
-    @NotBlank(message = ValidationConstants.EMAIL_BOS_OLAMAZ)
+    @Email(message = "validation.gecerli_email")
+    @NotBlank(message = "validation.email_bos_olamaz")
     private String email;
 
-    @NotBlank(message = ValidationConstants.SIFRE_BOS_OLAMAZ)
-    @Size(min = 4, max = 16, message = ValidationConstants.SIFRE_UZUNLUK)
+    @NotBlank(message = ("validation.sifre_bos_olamaz"))
+    @Size(min = 4, max = 16, message = "validation.sifre_uzunluk")
     private String sifre;
 
-    @NotNull(message = ValidationConstants.YAS_BOS_OLAMAZ)
-    @Min(value = 18, message = ValidationConstants.YAS_MIN)
-    @Max(value = 150, message = ValidationConstants.YAS_MAX)
+    @NotNull(message = "validation.yas_bos_olamaz")
+    @Min(value = 18, message = "validation.yas_min")
+    @Max(value = 150, message = "validation.yas_max")
     private Integer yas;
 
-    @NotNull(message = ValidationConstants.CINSIYET_BOS_OLAMAZ)
+    @NotNull(message = "validation.cinsiyet_bos_olamaz")
     private Cinsiyet cinsiyet;
 
-    @NotNull(message = ValidationConstants.MESLEK_BOS_OLAMAZ)
+    @NotNull(message = "validation.meslek_bos_olamaz")
     private Meslek meslek;
 
-    @NotNull(message = ValidationConstants.MAAS_BOS_OLAMAZ)
-    @DecimalMin(value = "0.0", inclusive = false, message = ValidationConstants.MAAS_MIN)
+    @NotNull(message = "validation.maas_bos_olamaz")
+    @DecimalMin(value = "0.0", inclusive = false, message = "validation.maas_min")
     private BigDecimal maas;
 
 }

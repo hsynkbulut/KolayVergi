@@ -1,7 +1,6 @@
 package com.kolayvergi.dto.request;
 
 import com.kolayvergi.entity.enums.UrunTuru;
-import com.kolayvergi.constant.ValidationConstants;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -17,15 +16,15 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class AlisverisUpdateRequest {
 
-    @NotNull(message = ValidationConstants.URUN_TURU_BOS_OLAMAZ)
+    @NotNull(message = "validation.urun_turu_bos_olamaz")
     private UrunTuru urunTuru;
 
     @Valid
     private AracBilgisiCreateRequest aracBilgisi;
 
-    @NotNull(message = ValidationConstants.TUTAR_BOS_OLAMAZ)
+    @NotNull(message = "validation.tutar_bos_olamaz")
     private BigDecimal tutar;
 
-    @NotNull(message = ValidationConstants.TAKSIT_SAYISI_BOS_OLAMAZ)
+    @NotNull(message = "validation.taksit_sayisi_bos_olamaz")
     private Integer taksitSayisi;
 }

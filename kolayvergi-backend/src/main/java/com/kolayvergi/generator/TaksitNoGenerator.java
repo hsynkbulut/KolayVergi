@@ -1,6 +1,9 @@
 package com.kolayvergi.generator;
 
 import org.springframework.stereotype.Component;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
+import lombok.RequiredArgsConstructor;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -9,8 +12,11 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
+@RequiredArgsConstructor
 @Component
 public class TaksitNoGenerator {
+    private final MessageSource messageSource;
+
     public String generateTaksitNo(UUID kullaniciId, int index) {
         String timestamp = generateTimeStamp();
         String formattedKullaniciId = formatUserId(kullaniciId);
@@ -49,7 +55,9 @@ public class TaksitNoGenerator {
             }
             return checkIndex.toString();
         } catch (Exception e) {
-            throw new RuntimeException("CheckIndex üretimi sırasında hata oluştu", e);
+            throw new RuntimeException(
+                messageSource.getMessage("taksitno.checkindex_hatasi", null, LocaleContextHolder.getLocale()), e
+            );
         }
     }
 
