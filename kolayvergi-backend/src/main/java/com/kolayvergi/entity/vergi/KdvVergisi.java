@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnTransformer;
 
 @Entity
 @Table(name = "kdv_vergisi")
@@ -15,6 +16,8 @@ import lombok.Setter;
 @AllArgsConstructor
 public class KdvVergisi extends Vergi {
     @Enumerated(EnumType.STRING)
+    @Column(name = "urun_turu", columnDefinition = "urun_turu_enum not null", nullable = false)
+    @ColumnTransformer(write = "?::urun_turu_enum")
     private UrunTuru urunTuru;
 }
 

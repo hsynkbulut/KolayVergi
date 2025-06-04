@@ -3,47 +3,33 @@ package com.kolayvergi.validator;
 import com.kolayvergi.validator.annotation.ValidTCKN;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
-import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 
-@RequiredArgsConstructor
 public class TCKNValidator implements ConstraintValidator<ValidTCKN, String> {
-
-    private final MessageSource messageSource;
 
     @Override
     public boolean isValid(String tckn, ConstraintValidatorContext context) {
         if (StringUtils.isBlank(tckn)) {
             context.disableDefaultConstraintViolation();
-            context.buildConstraintViolationWithTemplate(
-                messageSource.getMessage("validation.tckn_bos_olamaz", null, LocaleContextHolder.getLocale())
-            ).addConstraintViolation();
+            context.buildConstraintViolationWithTemplate("TCKN boş olamaz").addConstraintViolation();
             return false;
         }
 
         if (tckn.length() != 11) {
             context.disableDefaultConstraintViolation();
-            context.buildConstraintViolationWithTemplate(
-                messageSource.getMessage("validation.tckn_11_haneli_olmali", null, LocaleContextHolder.getLocale())
-            ).addConstraintViolation();
+            context.buildConstraintViolationWithTemplate("TCKN 11 haneli olmalı").addConstraintViolation();
             return false;
         }
 
         if (!tckn.matches("\\d+")) {
             context.disableDefaultConstraintViolation();
-            context.buildConstraintViolationWithTemplate(
-                messageSource.getMessage("validation.tckn_sadece_rakam", null, LocaleContextHolder.getLocale())
-            ).addConstraintViolation();
+            context.buildConstraintViolationWithTemplate("TCKN sadece rakamlardan oluşmalı").addConstraintViolation();
             return false;
         }
 
         if (tckn.charAt(0) == '0') {
             context.disableDefaultConstraintViolation();
-            context.buildConstraintViolationWithTemplate(
-                messageSource.getMessage("validation.tckn_sifir_ile_baslayamaz", null, LocaleContextHolder.getLocale())
-            ).addConstraintViolation();
+            context.buildConstraintViolationWithTemplate("TCKN sıfır ile başlayamaz").addConstraintViolation();
             return false;
         }
 
@@ -63,9 +49,7 @@ public class TCKNValidator implements ConstraintValidator<ValidTCKN, String> {
 
         if (digit10 != digits[9] || digit11 != digits[10]) {
             context.disableDefaultConstraintViolation();
-            context.buildConstraintViolationWithTemplate(
-                messageSource.getMessage("validation.tckn_gecersiz_format", null, LocaleContextHolder.getLocale())
-            ).addConstraintViolation();
+            context.buildConstraintViolationWithTemplate("Geçersiz TCKN formatı").addConstraintViolation();
             return false;
         }
 

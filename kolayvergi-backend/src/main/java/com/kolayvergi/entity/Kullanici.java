@@ -9,6 +9,7 @@ import com.kolayvergi.validator.annotation.ValidVKN;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnTransformer;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -45,7 +46,6 @@ public class Kullanici extends BaseEntity implements UserDetails {
     private String email;
 
     @NotBlank(message = ("validation.sifre_bos_olamaz"))
-    @Size(min = 4, max = 16, message = "validation.sifre_uzunluk")
     @Column(nullable = false)
     private String sifre;
 
@@ -56,10 +56,14 @@ public class Kullanici extends BaseEntity implements UserDetails {
 
     @NotNull(message = "validation.cinsiyet_bos_olamaz")
     @Enumerated(EnumType.STRING)
+    @Column(name = "cinsiyet", columnDefinition = "cinsiyet_enum not null", nullable = false)
+    @ColumnTransformer(write = "?::cinsiyet_enum")
     private Cinsiyet cinsiyet;
 
     @NotNull(message = "validation.meslek_bos_olamaz")
     @Enumerated(EnumType.STRING)
+    @Column(name = "meslek", columnDefinition = "meslek_enum not null", nullable = false)
+    @ColumnTransformer(write = "?::meslek_enum")
     private Meslek meslek;
 
     @NotNull(message = "validation.maas_bos_olamaz")
@@ -73,7 +77,8 @@ public class Kullanici extends BaseEntity implements UserDetails {
     private Borc borc;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(name = "rol", columnDefinition = "role_enum not null", nullable = false)
+    @ColumnTransformer(write = "?::role_enum")
     private Role rol;
 
     @Override
