@@ -5,6 +5,7 @@ import com.kolayvergi.entity.enums.OdemeDurumu;
 import com.kolayvergi.entity.enums.OdemeTuru;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnTransformer;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -35,10 +36,12 @@ public class Taksit extends BaseEntity {
     private LocalDate sonOdemeTarihi;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "durum", nullable = false)
+    @Column(name = "durum", columnDefinition = "odeme_durumu_enum not null", nullable = false)
+    @ColumnTransformer(write = "?::odeme_durumu_enum")
     private OdemeDurumu durum;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "odeme_turu", nullable = false)
+    @Column(name = "odeme_turu", columnDefinition = "odeme_turu_enum not null", nullable = false)
+    @ColumnTransformer(write = "?::odeme_turu_enum")
     private OdemeTuru odemeTuru;
 }

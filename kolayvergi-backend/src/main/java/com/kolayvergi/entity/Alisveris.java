@@ -8,6 +8,7 @@ import com.kolayvergi.entity.vergi.OtvVergisi;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import org.hibernate.annotations.ColumnTransformer;
 
 import java.math.BigDecimal;
 
@@ -25,8 +26,9 @@ public class Alisveris extends BaseEntity {
     private Kullanici kullanici;
 
     @NotNull(message = "validation.urun_turu_bos_olamaz")
-    @Column(name = "urun_turu", nullable = false)
     @Enumerated(EnumType.STRING)
+    @Column(name = "urun_turu", columnDefinition = "urun_turu_enum not null", nullable = false)
+    @ColumnTransformer(write = "?::urun_turu_enum")
     private UrunTuru urunTuru;
 
     @NotNull(message = "validation.tutar_bos_olamaz")

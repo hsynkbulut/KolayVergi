@@ -28,7 +28,9 @@ public class GlobalExceptionHandler {
 
         for (ObjectError objectError : ex.getBindingResult().getAllErrors()) {
             String fieldName = (objectError instanceof FieldError) ? ((FieldError) objectError).getField() : objectError.getObjectName();
-            errorMap.computeIfAbsent(fieldName, k -> new ArrayList<>()).add(objectError.getDefaultMessage());
+            String localizedMessage = messageSource.getMessage(
+                objectError.getDefaultMessage(), null, objectError.getDefaultMessage(), LocaleContextHolder.getLocale());
+            errorMap.computeIfAbsent(fieldName, k -> new ArrayList<>()).add(localizedMessage);
         }
 
         ApiError<Map<String, List<String>>> apiError = createApiError(
