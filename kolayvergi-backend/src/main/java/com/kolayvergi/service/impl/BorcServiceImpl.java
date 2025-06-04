@@ -11,11 +11,13 @@ import com.kolayvergi.service.BorcService;
 import com.kolayvergi.service.KullaniciService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -75,5 +77,17 @@ public class BorcServiceImpl implements BorcService {
         return borcRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(
                         messageSource.getMessage("alisveris.borc_bulunamadi_borc_id", new Object[]{id}, LocaleContextHolder.getLocale())));
+    }
+
+    // Kullanıcının kalan borcunu günceller
+    @Override
+    public void kalanBorcuGuncelle(UUID kullaniciId, BigDecimal odemeTutari) {
+        BorcResponse dbBorc = getBorcByKullaniciId(kullaniciId);
+        if (ObjectUtils.isNotEmpty(dbBorc)) {
+            BorcUpdateRequest update = new BorcUpdateRequest();
+            update.setKullaniciId(kullaniciId);
+            update.setKalanBorc(dbBorc.getKalanBorc().subtract(odemeTutari));
+            updateBorc(dbBorc.getId(), update);
+        }
     }
 }

@@ -9,6 +9,7 @@ import com.kolayvergi.entity.vergi.OtvVergisi;
 import com.kolayvergi.entity.vergi.Vergi;
 import com.kolayvergi.strategy.VergiHesaplamaStrategy;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Component;
@@ -27,7 +28,7 @@ public class KdvVergisiHesaplamaStrategy implements VergiHesaplamaStrategy {
         UrunTuru urunTuru = alisveris.getUrunTuru();
 
         AracBilgisi aracBilgisi = alisveris.getAracBilgisi();
-        if (alisveris.getUrunTuru() == UrunTuru.OTOMOBIL && aracBilgisi == null) {
+        if (alisveris.getUrunTuru() == UrunTuru.OTOMOBIL && ObjectUtils.isEmpty(aracBilgisi)) {
             throw new IllegalArgumentException(messageSource.getMessage("vergi.kdv_arac_bilgisi_gerekli", null, LocaleContextHolder.getLocale()));
         }
 
@@ -74,18 +75,18 @@ public class KdvVergisiHesaplamaStrategy implements VergiHesaplamaStrategy {
     private BigDecimal uygulaKullaniciIndirimleri(BigDecimal mevcutOran, Kullanici kullanici) {
         BigDecimal yeniOran = mevcutOran;
 
-        if (kullanici.getYas() != null && kullanici.getYas() < 25) {
+        if (ObjectUtils.isNotEmpty(kullanici.getYas()) && kullanici.getYas() < 25) {
             yeniOran = yeniOran.subtract(BigDecimal.valueOf(2));
         }
 
-        if (kullanici.getMeslek() != null && kullanici.getMeslek().name().equals("OGRETMEN")) {
+        if (ObjectUtils.isNotEmpty(kullanici.getMeslek()) && kullanici.getMeslek().name().equals("OGRETMEN")) {
             yeniOran = yeniOran.subtract(BigDecimal.valueOf(3));
         }
 
-        if (kullanici.getCinsiyet() != null &&
-                kullanici.getCinsiyet().name().equals("KADIN") &&
-                kullanici.getYas() != null &&
-                kullanici.getYas() > 40) {
+        if (ObjectUtils.isNotEmpty(kullanici.getCinsiyet()) &&
+            kullanici.getCinsiyet().name().equals("KADIN") &&
+            ObjectUtils.isNotEmpty(kullanici.getYas()) &&
+            kullanici.getYas() > 40) {
             yeniOran = yeniOran.subtract(BigDecimal.valueOf(1));
         }
 

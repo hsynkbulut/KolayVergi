@@ -12,6 +12,7 @@ import com.kolayvergi.service.vergi.VergiHesaplamaService;
 import com.kolayvergi.dto.response.vergi.VergiHesaplamaSonucResponse;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
@@ -43,7 +44,7 @@ public class AlisverisServiceImpl implements AlisverisService {
         Alisveris alisveris = alisverisMapper.aliverisCreateRequestToAlisveris(request);
         alisveris.setKullanici(kullanici);
 
-        if (request.getUrunTuru() == UrunTuru.OTOMOBIL && request.getAracBilgisi() == null) {
+        if (request.getUrunTuru() == UrunTuru.OTOMOBIL && ObjectUtils.isEmpty(request.getAracBilgisi())) {
             String msg = messageSource.getMessage("alisveris.otomobil_arac_bilgisi_zorunlu", null, LocaleContextHolder.getLocale());
             throw new IllegalArgumentException(msg);
         }

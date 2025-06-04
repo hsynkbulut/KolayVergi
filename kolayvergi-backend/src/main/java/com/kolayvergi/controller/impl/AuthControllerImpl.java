@@ -14,6 +14,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.util.StringUtils;
 
 @RestController
 @RequiredArgsConstructor
@@ -28,7 +29,7 @@ public class AuthControllerImpl implements AuthController {
 
     @Override
     public ResponseEntity<JwtResponse> refreshToken(@RequestHeader("Authorization") String refreshToken) {
-        if (refreshToken != null && refreshToken.startsWith("Bearer ")) {
+        if (StringUtils.hasText(refreshToken) && refreshToken.startsWith("Bearer ")) {
             refreshToken = refreshToken.substring(7);
         }
         return ResponseEntity.ok(authService.refreshToken(refreshToken));
