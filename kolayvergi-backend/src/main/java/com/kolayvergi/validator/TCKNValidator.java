@@ -6,6 +6,7 @@ import jakarta.validation.ConstraintValidatorContext;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 
 @RequiredArgsConstructor
 public class TCKNValidator implements ConstraintValidator<ValidTCKN, String> {
@@ -14,7 +15,7 @@ public class TCKNValidator implements ConstraintValidator<ValidTCKN, String> {
 
     @Override
     public boolean isValid(String tckn, ConstraintValidatorContext context) {
-        if (tckn == null || tckn.isEmpty()) {
+        if (StringUtils.isBlank(tckn)) {
             context.disableDefaultConstraintViolation();
             context.buildConstraintViolationWithTemplate(
                 messageSource.getMessage("validation.tckn_bos_olamaz", null, LocaleContextHolder.getLocale())

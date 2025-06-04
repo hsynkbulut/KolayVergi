@@ -4,7 +4,6 @@ import com.kolayvergi.dto.response.OdemeSonucu;
 import com.kolayvergi.entity.Kullanici;
 import com.kolayvergi.entity.Taksit;
 import com.kolayvergi.entity.enums.OdemeTuru;
-import com.kolayvergi.odeme.utils.BorcUtils;
 import com.kolayvergi.service.BorcService;
 import com.kolayvergi.service.KullaniciService;
 import com.kolayvergi.service.OdemePlaniService;
@@ -24,7 +23,6 @@ public abstract class AbstractFaizliOdeme implements OdemeYontemi {
     protected final TaksitService taksitService;
     protected final OdemePlaniService odemePlaniService;
     protected final BorcService borcService;
-    protected final BorcUtils borcUtils;
     protected final KullaniciService kullaniciService;
     protected final MessageSource messageSource;
 
@@ -46,7 +44,7 @@ public abstract class AbstractFaizliOdeme implements OdemeYontemi {
         Kullanici kullanici = kullaniciService.getCurrentUser();
         UUID kullaniciId = kullanici.getId();
 
-        borcUtils.kalanBorcuGuncelle(kullaniciId, sonuc.getMevcutTaksitTutari());
+        borcService.kalanBorcuGuncelle(kullaniciId, sonuc.getMevcutTaksitTutari());
         return sonuc;
     }
 

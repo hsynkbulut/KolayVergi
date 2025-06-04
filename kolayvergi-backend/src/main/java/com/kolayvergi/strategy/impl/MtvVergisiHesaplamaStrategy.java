@@ -8,6 +8,7 @@ import com.kolayvergi.entity.vergi.MtvVergisi;
 import com.kolayvergi.entity.vergi.Vergi;
 import com.kolayvergi.strategy.VergiHesaplamaStrategy;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Component;
@@ -22,7 +23,7 @@ public class MtvVergisiHesaplamaStrategy implements VergiHesaplamaStrategy {
     @Override
     public Vergi hesapla(Alisveris alisveris, Kullanici kullanici, Vergi... oncekiVergiler) {
         AracBilgisi aracBilgisi = alisveris.getAracBilgisi();
-        if (aracBilgisi == null) {
+        if (ObjectUtils.isEmpty(aracBilgisi)) {
             throw new IllegalArgumentException(
                     messageSource.getMessage("vergi.mtv_arac_bilgisi_gerekli", null, LocaleContextHolder.getLocale()));
         }
@@ -105,11 +106,11 @@ public class MtvVergisiHesaplamaStrategy implements VergiHesaplamaStrategy {
     private BigDecimal uygulaKullaniciIndirimleri(BigDecimal mevcutMtvTutari, Kullanici kullanici) {
         BigDecimal yeniMtvTutari = mevcutMtvTutari;
 
-        if (kullanici.getYas() != null && kullanici.getYas() < 25) {
+        if (ObjectUtils.isNotEmpty(kullanici.getYas()) && kullanici.getYas() < 25) {
             yeniMtvTutari = yeniMtvTutari.subtract(BigDecimal.valueOf(1));
         }
 
-        if (kullanici.getCinsiyet() == Cinsiyet.KADIN && kullanici.getYas() != null && kullanici.getYas() > 40) {
+        if (kullanici.getCinsiyet() == Cinsiyet.KADIN && ObjectUtils.isNotEmpty(kullanici.getYas()) && kullanici.getYas() > 40) {
             yeniMtvTutari = yeniMtvTutari.subtract(BigDecimal.valueOf(0.5));
         }
 

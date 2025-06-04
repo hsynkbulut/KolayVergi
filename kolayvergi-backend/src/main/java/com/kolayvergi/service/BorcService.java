@@ -4,6 +4,7 @@ import com.kolayvergi.dto.request.BorcCreateRequest;
 import com.kolayvergi.dto.request.BorcUpdateRequest;
 import com.kolayvergi.dto.response.BorcResponse;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -15,4 +16,6 @@ public interface BorcService {
     Optional<BorcResponse> getBorcByKullaniciIdSafely(UUID kullaniciId);
     BorcResponse updateBorc(UUID id, BorcUpdateRequest updateBorc);
     void deleteBorcByKullaniciId(UUID kullaniciId);
+    // Kullanıcının kalan borcunu günceller
+    void kalanBorcuGuncelle(UUID kullaniciId, BigDecimal odemeTutari);
 }

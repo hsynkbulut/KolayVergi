@@ -8,6 +8,7 @@ import com.kolayvergi.odeme.yontemler.OdemeYontemi;
 import org.springframework.stereotype.Component;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.apache.commons.lang3.ObjectUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -34,7 +35,7 @@ public class OdemeYontemiFactory {
 
     public OdemeYontemi getYontem(OdemeTuru odemeTuru) {
         OdemeYontemi yontem = odemeYontemiMap.get(odemeTuru);
-        if (yontem == null) {
+        if (ObjectUtils.isEmpty(yontem)) {
             throw new IllegalArgumentException(
                 messageSource.getMessage("odeme.odeme_turu_gecersiz", new Object[]{odemeTuru}, LocaleContextHolder.getLocale())
             );

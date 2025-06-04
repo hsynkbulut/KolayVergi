@@ -10,6 +10,7 @@ import com.kolayvergi.entity.vergi.OtvVergisi;
 import com.kolayvergi.entity.vergi.Vergi;
 import com.kolayvergi.strategy.VergiHesaplamaStrategy;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -24,11 +25,11 @@ public class OtvVergisiHesaplamaStrategy implements VergiHesaplamaStrategy {
         AracBilgisi aracBilgisi = alisveris.getAracBilgisi();
         UrunTuru urunTuru = alisveris.getUrunTuru();
         BigDecimal matrah = alisveris.getTutar();
-        AracTipi aracTipi = aracBilgisi != null ? aracBilgisi.getAracTipi() : null;
+        AracTipi aracTipi = ObjectUtils.isNotEmpty(aracBilgisi) ? aracBilgisi.getAracTipi() : null;
 
         BigDecimal otvOrani;
 
-        if (aracTipi != null) {
+        if (ObjectUtils.isNotEmpty(aracTipi)) {
             otvOrani = hesaplaAracOtvOrani(aracTipi, aracBilgisi, matrah);
         } else {
             otvOrani = urunTuru.getLuksKatSayisi().multiply(BigDecimal.valueOf(100));
@@ -82,18 +83,18 @@ public class OtvVergisiHesaplamaStrategy implements VergiHesaplamaStrategy {
     private BigDecimal uygulaKullaniciIndirimleri(BigDecimal mevcutOran, Kullanici kullanici) {
         BigDecimal yeniOran = mevcutOran;
 
-        if (kullanici.getYas() != null && kullanici.getYas() < 25) {
+        if (ObjectUtils.isNotEmpty(kullanici.getYas()) && kullanici.getYas() < 25) {
             yeniOran = yeniOran.subtract(BigDecimal.valueOf(2));
         }
 
-        if (kullanici.getMeslek() != null && kullanici.getMeslek().name().equals("OGRETMEN")) {
+        if (ObjectUtils.isNotEmpty(kullanici.getMeslek()) && kullanici.getMeslek().name().equals("OGRETMEN")) {
             yeniOran = yeniOran.subtract(BigDecimal.valueOf(3));
         }
 
-        if (kullanici.getCinsiyet() != null &&
-                kullanici.getCinsiyet().name().equals("KADIN") &&
-                kullanici.getYas() != null &&
-                kullanici.getYas() > 40) {
+        if (ObjectUtils.isNotEmpty(kullanici.getCinsiyet()) &&
+            kullanici.getCinsiyet().name().equals("KADIN") &&
+            ObjectUtils.isNotEmpty(kullanici.getYas()) &&
+            kullanici.getYas() > 40) {
             yeniOran = yeniOran.subtract(BigDecimal.valueOf(1));
         }
 

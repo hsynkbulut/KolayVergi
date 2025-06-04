@@ -6,6 +6,7 @@ import com.kolayvergi.dto.response.AlisverisResponse;
 import com.kolayvergi.dto.response.AracBilgisiResponse;
 import com.kolayvergi.entity.Alisveris;
 import com.kolayvergi.entity.AracBilgisi;
+import org.apache.commons.lang3.ObjectUtils;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
@@ -25,7 +26,7 @@ public interface AlisverisMapper {
 
     @Named("mapAracBilgisi")
     default AracBilgisiResponse mapAracBilgisi(AracBilgisi aracBilgisi) {
-        if (aracBilgisi == null) {
+        if (ObjectUtils.isEmpty(aracBilgisi)) {
             return null;
         }
         return new AracBilgisiResponse(
