@@ -1,7 +1,5 @@
 package com.kolayvergi.service.impl;
 
-import com.kolayvergi.constant.AuthConstants;
-import com.kolayvergi.constant.KullaniciConstants;
 import com.kolayvergi.dto.mapper.KullaniciMapper;
 import com.kolayvergi.dto.request.KullaniciCreateRequest;
 import com.kolayvergi.dto.request.KullaniciUpdateRequest;
@@ -16,6 +14,8 @@ import com.kolayvergi.security.jwt.JwtService;
 import com.kolayvergi.service.AuthService;
 import com.kolayvergi.service.KullaniciService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -37,10 +37,10 @@ public class AuthServiceImpl implements AuthService {
     private final JwtService jwtTokenProvider;
     private final KullaniciRepository kullaniciRepository;
     private final PasswordEncoder passwordEncoder;
-    private final KullaniciService kullaniciService;
     private final KullaniciMapper kullaniciMapper;
     private final UserDetailsService userDetailsService;
     private final VknGenerator vknGenerator;
+    private final MessageSource messageSource;
 
     @Override
     public JwtResponse login(LoginRequest loginRequest) {
@@ -75,14 +75,14 @@ public class AuthServiceImpl implements AuthService {
 
             return new JwtResponse(newAccessToken, newRefreshToken, username, roles);
         }
-        throw new RuntimeException(AuthConstants.GECERSIZ_REFRESH_TOKEN);
+        throw new RuntimeException(messageSource.getMessage("auth.jwt_invalid", null, LocaleContextHolder.getLocale()));
     }
 
     @Override
     @Transactional
     public KullaniciResponse register(KullaniciCreateRequest request) {
         if (kullaniciRepository.existsByEmail(request.getEmail())) {
-            throw new RuntimeException(AuthConstants.EMAIL_KULLANIMDA);
+            throw new RuntimeException(messageSource.getMessage("auth.email_in_use", null, LocaleContextHolder.getLocale()));
         }
 
         Kullanici kullanici = kullaniciMapper.kullaniciCreateRequestToKullanici(request);
@@ -99,7 +99,7 @@ public class AuthServiceImpl implements AuthService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
         Kullanici kullanici = kullaniciRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException(KullaniciConstants.KULLANICI_BULUNAMADI));
+                .orElseThrow(() -> new RuntimeException(messageSource.getMessage("user.notfound", null, LocaleContextHolder.getLocale())));
 
         kullaniciMapper.updateKullaniciFromRequest(request, kullanici);
         return kullaniciMapper.kullaniciToKullaniciResponse(kullaniciRepository.save(kullanici));

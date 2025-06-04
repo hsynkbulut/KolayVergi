@@ -6,6 +6,7 @@ import com.kolayvergi.entity.vergi.KdvVergisi;
 import com.kolayvergi.entity.vergi.MtvVergisi;
 import com.kolayvergi.entity.vergi.OtvVergisi;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -23,13 +24,16 @@ public class Alisveris extends BaseEntity {
     @JoinColumn(name = "kullanici_id", nullable = false)
     private Kullanici kullanici;
 
+    @NotNull(message = "validation.urun_turu_bos_olamaz")
     @Column(name = "urun_turu", nullable = false)
     @Enumerated(EnumType.STRING)
     private UrunTuru urunTuru;
 
+    @NotNull(message = "validation.tutar_bos_olamaz")
     @Column(name = "tutar", nullable = false, precision = 12, scale = 2)
     private BigDecimal tutar;
 
+    @NotNull(message = "validation.taksit_sayisi_bos_olamaz")
     @Column(name = "taksit_sayisi", nullable = false)
     private Integer taksitSayisi;
 

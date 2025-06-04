@@ -1,40 +1,48 @@
 package com.kolayvergi.validator;
 
 import com.kolayvergi.validator.annotation.ValidTCKN;
-import com.kolayvergi.constant.ValidationConstants;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 public class TCKNValidator implements ConstraintValidator<ValidTCKN, String> {
+
+    private final MessageSource messageSource;
 
     @Override
     public boolean isValid(String tckn, ConstraintValidatorContext context) {
         if (tckn == null || tckn.isEmpty()) {
             context.disableDefaultConstraintViolation();
-            context.buildConstraintViolationWithTemplate(ValidationConstants.TCKN_BOS_OLAMAZ)
-                   .addConstraintViolation();
+            context.buildConstraintViolationWithTemplate(
+                messageSource.getMessage("validation.tckn_bos_olamaz", null, LocaleContextHolder.getLocale())
+            ).addConstraintViolation();
             return false;
         }
 
         if (tckn.length() != 11) {
             context.disableDefaultConstraintViolation();
-            context.buildConstraintViolationWithTemplate(ValidationConstants.TCKN_11_HANELI_OLMALI)
-                   .addConstraintViolation();
+            context.buildConstraintViolationWithTemplate(
+                messageSource.getMessage("validation.tckn_11_haneli_olmali", null, LocaleContextHolder.getLocale())
+            ).addConstraintViolation();
             return false;
         }
 
         if (!tckn.matches("\\d+")) {
             context.disableDefaultConstraintViolation();
-            context.buildConstraintViolationWithTemplate(ValidationConstants.TCKN_SADECE_RAKAM)
-                   .addConstraintViolation();
+            context.buildConstraintViolationWithTemplate(
+                messageSource.getMessage("validation.tckn_sadece_rakam", null, LocaleContextHolder.getLocale())
+            ).addConstraintViolation();
             return false;
         }
 
-        // İlk hane 0 olamaz
         if (tckn.charAt(0) == '0') {
             context.disableDefaultConstraintViolation();
-            context.buildConstraintViolationWithTemplate(ValidationConstants.TCKN_SIFIR_ILE_BASLAYAMAZ)
-                   .addConstraintViolation();
+            context.buildConstraintViolationWithTemplate(
+                messageSource.getMessage("validation.tckn_sifir_ile_baslayamaz", null, LocaleContextHolder.getLocale())
+            ).addConstraintViolation();
             return false;
         }
 
@@ -54,8 +62,9 @@ public class TCKNValidator implements ConstraintValidator<ValidTCKN, String> {
 
         if (digit10 != digits[9] || digit11 != digits[10]) {
             context.disableDefaultConstraintViolation();
-            context.buildConstraintViolationWithTemplate(ValidationConstants.TCKN_GECERSIZ_FORMAT)
-                   .addConstraintViolation();
+            context.buildConstraintViolationWithTemplate(
+                messageSource.getMessage("validation.tckn_gecersiz_format", null, LocaleContextHolder.getLocale())
+            ).addConstraintViolation();
             return false;
         }
 

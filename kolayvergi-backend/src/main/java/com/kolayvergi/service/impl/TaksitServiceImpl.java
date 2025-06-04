@@ -1,6 +1,5 @@
 package com.kolayvergi.service.impl;
 
-import com.kolayvergi.constant.OdemeConstants;
 import com.kolayvergi.dto.request.BorcCreateRequest;
 import com.kolayvergi.dto.request.BorcUpdateRequest;
 import com.kolayvergi.dto.response.BorcResponse;
@@ -14,6 +13,8 @@ import com.kolayvergi.service.BorcService;
 import com.kolayvergi.service.KullaniciService;
 import com.kolayvergi.service.TaksitService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,6 +35,7 @@ public class TaksitServiceImpl implements TaksitService {
     private final TaksitNoGenerator taksitNoGenerator;
     private final BorcService borcService;
     private final KullaniciService kullaniciService;
+    private final MessageSource messageSource;
 
     @Override
     @Transactional
@@ -87,7 +89,7 @@ public class TaksitServiceImpl implements TaksitService {
     @Override
     public Taksit getTaksitByTaksitNo(String taksitNo) {
         return taksitRepository.findByTaksitNo(taksitNo)
-                .orElseThrow(() -> new RuntimeException(String.format(OdemeConstants.TAKSIT_BULUNAMADI, taksitNo)));
+                .orElseThrow(() -> new RuntimeException(messageSource.getMessage("odeme.taksit_bulunamadi", new Object[]{taksitNo}, LocaleContextHolder.getLocale())));
     }
 
     @Override

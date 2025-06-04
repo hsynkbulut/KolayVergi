@@ -1,6 +1,5 @@
 package com.kolayvergi.service.impl;
 
-import com.kolayvergi.constant.BorcConstants;
 import com.kolayvergi.dto.mapper.BorcMapper;
 import com.kolayvergi.dto.request.BorcCreateRequest;
 import com.kolayvergi.dto.request.BorcUpdateRequest;
@@ -12,6 +11,8 @@ import com.kolayvergi.service.BorcService;
 import com.kolayvergi.service.KullaniciService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +27,7 @@ public class BorcServiceImpl implements BorcService {
     private final BorcRepository borcRepository;
     private final BorcMapper borcMapper;
     private final KullaniciService kullaniciService;
+    private final MessageSource messageSource;
 
     @Transactional()
     @Override
@@ -45,7 +47,8 @@ public class BorcServiceImpl implements BorcService {
     public BorcResponse getBorcByKullaniciId(UUID kullaniciId) {
         return borcRepository.getBorcByKullaniciId(kullaniciId)
                 .map(borcMapper::borcToBorcResponse)
-                .orElseThrow(() -> new EntityNotFoundException(String.format(BorcConstants.BORC_BULUNAMADI_KULLANICI_ID, kullaniciId)));
+                .orElseThrow(() -> new EntityNotFoundException(
+                        messageSource.getMessage("alisveris.borc_bulunamadi_kullanici_id", new Object[]{kullaniciId}, LocaleContextHolder.getLocale())));
     }
 
     public Optional<BorcResponse> getBorcByKullaniciIdSafely(UUID kullaniciId) {
@@ -70,6 +73,7 @@ public class BorcServiceImpl implements BorcService {
 
     private Borc getBorcById(UUID id) {
         return borcRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(String.format(BorcConstants.BORC_BULUNAMADI_BORC_ID, id)));
+                .orElseThrow(() -> new EntityNotFoundException(
+                        messageSource.getMessage("alisveris.borc_bulunamadi_borc_id", new Object[]{id}, LocaleContextHolder.getLocale())));
     }
 }

@@ -1,6 +1,5 @@
 package com.kolayvergi.strategy.impl;
 
-import com.kolayvergi.constant.VergiConstants;
 import com.kolayvergi.entity.Alisveris;
 import com.kolayvergi.entity.AracBilgisi;
 import com.kolayvergi.entity.Kullanici;
@@ -10,6 +9,8 @@ import com.kolayvergi.entity.vergi.OtvVergisi;
 import com.kolayvergi.entity.vergi.Vergi;
 import com.kolayvergi.strategy.VergiHesaplamaStrategy;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -18,6 +19,7 @@ import java.math.RoundingMode;
 @Component
 @RequiredArgsConstructor
 public class KdvVergisiHesaplamaStrategy implements VergiHesaplamaStrategy {
+    private final MessageSource messageSource;
 
     @Override
     public Vergi hesapla(Alisveris alisveris, Kullanici kullanici, Vergi... oncekiVergiler) {
@@ -26,7 +28,7 @@ public class KdvVergisiHesaplamaStrategy implements VergiHesaplamaStrategy {
 
         AracBilgisi aracBilgisi = alisveris.getAracBilgisi();
         if (alisveris.getUrunTuru() == UrunTuru.OTOMOBIL && aracBilgisi == null) {
-            throw new IllegalArgumentException(VergiConstants.KDV_ARAC_BILGISI_GEREKLI);
+            throw new IllegalArgumentException(messageSource.getMessage("vergi.kdv_arac_bilgisi_gerekli", null, LocaleContextHolder.getLocale()));
         }
 
         BigDecimal tabanTutar = matrah;
@@ -63,7 +65,9 @@ public class KdvVergisiHesaplamaStrategy implements VergiHesaplamaStrategy {
             case KOZMETIK -> BigDecimal.valueOf(20);
             case MOBILYA -> BigDecimal.valueOf(20);
             case OTOMOBIL -> BigDecimal.valueOf(20);
-            default -> throw new IllegalArgumentException(String.format(VergiConstants.KDV_ORANI_TANIMLI_DEGIL, urunTuru));
+            default -> throw new IllegalArgumentException(
+                    messageSource.getMessage("vergi.kdv_orani_tanimli_degil", new Object[]{urunTuru}, LocaleContextHolder.getLocale())
+            );
         };
     }
 

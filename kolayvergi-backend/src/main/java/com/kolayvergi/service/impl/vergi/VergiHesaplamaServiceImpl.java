@@ -11,7 +11,7 @@ import com.kolayvergi.service.vergi.KdvVergisiService;
 import com.kolayvergi.service.vergi.MtvVergisiService;
 import com.kolayvergi.service.vergi.OtvVergisiService;
 import com.kolayvergi.service.vergi.VergiHesaplamaService;
-import com.kolayvergi.service.vergi.VergiHesaplamaSonuc;
+import com.kolayvergi.dto.response.vergi.VergiHesaplamaSonucResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +28,7 @@ public class VergiHesaplamaServiceImpl implements VergiHesaplamaService {
     private final MtvVergisiService mtvVergisiService;
 
     @Override
-    public VergiHesaplamaSonuc hesaplaVergiler(Alisveris alisveris, Kullanici kullanici) {
+    public VergiHesaplamaSonucResponse hesaplaVergiler(Alisveris alisveris, Kullanici kullanici) {
         List<VergiTuru> vergiTurleri = vergiTuruBelirleyici.getVergiTurleri(alisveris.getUrunTuru());
         
         BigDecimal toplamVergiTutari = BigDecimal.ZERO;
@@ -51,7 +51,7 @@ public class VergiHesaplamaServiceImpl implements VergiHesaplamaService {
             toplamVergiTutari = toplamVergiTutari.add(mtvVergisi.getTutar());
         }
 
-        return VergiHesaplamaSonuc.builder()
+        return VergiHesaplamaSonucResponse.builder()
                 .toplamVergiTutari(toplamVergiTutari)
                 .otvVergisi(otvVergisi)
                 .kdvVergisi(kdvVergisi)

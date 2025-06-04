@@ -1,6 +1,5 @@
 package com.kolayvergi.service.impl;
 
-import com.kolayvergi.constant.AracBilgisiConstants;
 import com.kolayvergi.dto.mapper.AracBilgisiMapper;
 import com.kolayvergi.dto.request.AracBilgisiCreateRequest;
 import com.kolayvergi.dto.request.AracBilgisiUpdateRequest;
@@ -10,6 +9,8 @@ import com.kolayvergi.repository.AracBilgisiRepository;
 import com.kolayvergi.service.AracBilgisiService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +23,7 @@ public class AracBilgisiServiceImpl implements AracBilgisiService {
 
     private final AracBilgisiRepository aracBilgisiRepository;
     private final AracBilgisiMapper aracBilgisiMapper;
+    private final MessageSource messageSource;
 
     @Override
     @Transactional
@@ -33,7 +35,9 @@ public class AracBilgisiServiceImpl implements AracBilgisiService {
     @Transactional
     public AracBilgisiResponse updateAracBilgisi(AracBilgisiUpdateRequest request) {
         AracBilgisi aracBilgisi = aracBilgisiRepository.findById(request.getId())
-                .orElseThrow(() -> new EntityNotFoundException(String.format(AracBilgisiConstants.ARAC_BILGISI_BULUNAMADI, request.getId())));
+                .orElseThrow(() -> new EntityNotFoundException(
+                    messageSource.getMessage("alisveris.arac_bilgisi_bulunamadi", new Object[]{request.getId()}, LocaleContextHolder.getLocale())
+                ));
 
         aracBilgisiMapper.updateAracBilgisiFromAracBilgisiUpdateRequest(request, aracBilgisi);
         return aracBilgisiMapper.aracBilgisiToAracBilgisiResponse(aracBilgisiRepository.save(aracBilgisi));
@@ -42,7 +46,9 @@ public class AracBilgisiServiceImpl implements AracBilgisiService {
     @Override
     public AracBilgisiResponse getAracBilgisiById(UUID id) {
         AracBilgisi arac = aracBilgisiRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(String.format(AracBilgisiConstants.ARAC_BILGISI_BULUNAMADI, id)));
+                .orElseThrow(() -> new EntityNotFoundException(
+                    messageSource.getMessage("alisveris.arac_bilgisi_bulunamadi", new Object[]{id}, LocaleContextHolder.getLocale())
+                ));
         return aracBilgisiMapper.aracBilgisiToAracBilgisiResponse(arac);
     }
 }
