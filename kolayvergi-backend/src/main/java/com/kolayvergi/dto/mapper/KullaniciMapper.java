@@ -18,8 +18,6 @@ public interface KullaniciMapper {
 
     KullaniciResponse kullaniciToKullaniciResponse(Kullanici kullanici);
 
-    Kullanici kullaniciUpdateRequestToKullanici(KullaniciUpdateRequest request);
-
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "alisverisler", ignore = true)
     void updateKullaniciFromRequest(KullaniciUpdateRequest request, @MappingTarget Kullanici kullanici);

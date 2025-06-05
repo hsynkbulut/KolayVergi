@@ -3,6 +3,8 @@ package com.kolayvergi.service.impl;
 import com.kolayvergi.dto.request.BorcCreateRequest;
 import com.kolayvergi.dto.request.BorcUpdateRequest;
 import com.kolayvergi.dto.response.BorcResponse;
+import com.kolayvergi.dto.mapper.TaksitMapper;
+import com.kolayvergi.dto.response.TaksitResponse;
 import com.kolayvergi.entity.Alisveris;
 import com.kolayvergi.entity.OdemePlani;
 import com.kolayvergi.entity.Taksit;
@@ -10,6 +12,7 @@ import com.kolayvergi.entity.enums.OdemeDurumu;
 import com.kolayvergi.entity.enums.OdemeTuru;
 import com.kolayvergi.generator.TaksitNoGenerator;
 import com.kolayvergi.repository.TaksitRepository;
+import com.kolayvergi.repository.AlisverisRepository;
 import com.kolayvergi.service.BorcService;
 import com.kolayvergi.service.KullaniciService;
 import com.kolayvergi.service.TaksitService;
@@ -37,6 +40,8 @@ public class TaksitServiceImpl implements TaksitService {
     private final BorcService borcService;
     private final KullaniciService kullaniciService;
     private final MessageSource messageSource;
+    private final TaksitMapper taksitMapper;
+    private final AlisverisRepository alisverisRepository;
 
     @Override
     @Transactional
@@ -109,9 +114,10 @@ public class TaksitServiceImpl implements TaksitService {
     }
 
     @Override
-    public List<Taksit> getCurrentUserTaksitler() {
+    public List<TaksitResponse> getCurrentUserTaksitler() {
         UUID currentUserId = kullaniciService.getCurrentUser().getId();
-        return taksitRepository.findByOdemePlani_Alisveris_KullaniciId(currentUserId);
+        List<Taksit> taksitler = taksitRepository.findByOdemePlani_Alisveris_KullaniciId(currentUserId);
+        return taksitMapper.taksitListToTaksitResponseList(taksitler);
     }
 
     @Override
@@ -141,13 +147,29 @@ public class TaksitServiceImpl implements TaksitService {
             taksit.setTaksitTutari(yeniTaksitTutari);
             taksit.setOdemePlani(odemePlani);
         }
-        Optional<BorcResponse> optionalBorc = borcService.getBorcByKullaniciIdSafely(alisveris.getKullanici().getId());
+        UUID kullaniciId = alisveris.getKullanici().getId();
+        List<Alisveris> kullanicininAlisverisleri = alisverisRepository.findAllByKullaniciId(kullaniciId);
+        BigDecimal toplamBorc = BigDecimal.ZERO;
+        BigDecimal odenenBorc = BigDecimal.ZERO;
+        for (Alisveris kullaniciAlisverisi : kullanicininAlisverisleri) {
+            OdemePlani alisverisOdemePlani = kullaniciAlisverisi.getOdemePlani();
+            if (alisverisOdemePlani != null && alisverisOdemePlani.getTaksitler() != null) {
+                for (Taksit taksit : alisverisOdemePlani.getTaksitler()) {
+                    toplamBorc = toplamBorc.add(taksit.getTaksitTutari());
+                    if (taksit.getDurum() == OdemeDurumu.ODENDI) {
+                        odenenBorc = odenenBorc.add(taksit.getTaksitTutari());
+                    }
+                }
+            }
+        }
+        BigDecimal kalanBorc = toplamBorc.subtract(odenenBorc);
+        Optional<BorcResponse> optionalBorc = borcService.getBorcByKullaniciIdSafely(kullaniciId);
         if (optionalBorc.isPresent()) {
             BorcResponse existingBorc = optionalBorc.get();
             BorcUpdateRequest updateRequest = new BorcUpdateRequest();
-            updateRequest.setKullaniciId(alisveris.getKullanici().getId());
-            updateRequest.setToplamBorc(toplamTutar);
-            updateRequest.setKalanBorc(toplamTutar);
+            updateRequest.setKullaniciId(kullaniciId);
+            updateRequest.setToplamBorc(toplamBorc);
+            updateRequest.setKalanBorc(kalanBorc);
             borcService.updateBorc(existingBorc.getId(), updateRequest);
         }
         return taksitler;

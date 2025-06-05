@@ -44,7 +44,7 @@ public class AlisverisServiceImpl implements AlisverisService {
     @Transactional
     public AlisverisResponse createAlisveris(AlisverisCreateRequest request) {
         Kullanici kullanici = kullaniciService.getCurrentUser();
-        Alisveris alisveris = alisverisMapper.aliverisCreateRequestToAlisveris(request);
+        Alisveris alisveris = alisverisMapper.alisverisCreateRequestToAlisveris(request);
         alisveris.setKullanici(kullanici);
 
         if (request.getUrunTuru() == UrunTuru.OTOMOBIL) {
@@ -69,11 +69,14 @@ public class AlisverisServiceImpl implements AlisverisService {
 
     @Override
     public AlisverisResponse getAlisveris(UUID id) {
-        Alisveris alisveris = alisverisRepository.findById(id)
+        Alisveris alisveris = alisverisRepository.findByIdWithAracBilgisi(id)
                 .orElseThrow(() -> new EntityNotFoundException(
                         messageSource.getMessage(ALISVERIS_NOT_FOUND_KEY, new Object[]{id},
                                 LocaleContextHolder.getLocale())
                 ));
+        if (alisveris.getUrunTuru() != null && !alisveris.getUrunTuru().name().equals("OTOMOBIL")) {
+            alisveris.setAracBilgisi(null);
+        }
         return alisverisMapper.alisverisToAlisverisResponse(alisveris);
     }
 

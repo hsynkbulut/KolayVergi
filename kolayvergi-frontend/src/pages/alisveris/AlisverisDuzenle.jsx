@@ -9,6 +9,7 @@ const initialForm = {
   tutar: '',
   taksitSayisi: '',
   aracBilgisi: {
+    id: '',
     marka: '',
     model: '',
     ilkTescilYili: '',
@@ -97,7 +98,17 @@ const AlisverisDuzenle = () => {
           urunTuru: data.urunTuru,
           tutar: data.tutar,
           taksitSayisi: data.taksitSayisi,
-          aracBilgisi: data.aracBilgisi || initialForm.aracBilgisi
+          aracBilgisi: data.aracBilgisi ? {
+            id: data.aracBilgisi.id || '',
+            marka: data.aracBilgisi.marka || '',
+            model: data.aracBilgisi.model || '',
+            ilkTescilYili: data.aracBilgisi.ilkTescilYili || '',
+            motorSilindirHacmi: data.aracBilgisi.motorSilindirHacmi || '',
+            aracTipi: data.aracBilgisi.aracTipi || '',
+            aracYasi: data.aracBilgisi.aracYasi || '',
+            aracKapasitesi: data.aracBilgisi.aracKapasitesi || '',
+            aracAgirligi: data.aracBilgisi.aracAgirligi || ''
+          } : initialForm.aracBilgisi
         });
       } catch (err) {
         setError('Alışveriş bilgileri alınamadı.');
@@ -143,7 +154,10 @@ const AlisverisDuzenle = () => {
         urunTuru: form.urunTuru,
         tutar: parseFloat(form.tutar),
         taksitSayisi: parseInt(form.taksitSayisi, 10),
-        aracBilgisi: form.urunTuru === 'OTOMOBIL' ? form.aracBilgisi : undefined
+        aracBilgisi: form.urunTuru === 'OTOMOBIL' ? {
+          ...form.aracBilgisi,
+          id: form.aracBilgisi.id
+        } : undefined
       };
       await alisverisService.updateAlisveris(id, payload);
       setSuccess('Alışveriş başarıyla güncellendi!');
