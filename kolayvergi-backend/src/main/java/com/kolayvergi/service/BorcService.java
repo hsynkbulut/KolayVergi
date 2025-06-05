@@ -16,6 +16,5 @@ public interface BorcService {
     Optional<BorcResponse> getBorcByKullaniciIdSafely(UUID kullaniciId);
     BorcResponse updateBorc(UUID id, BorcUpdateRequest updateBorc);
     void deleteBorcByKullaniciId(UUID kullaniciId);
-    // Kullanıcının kalan borcunu günceller
     void kalanBorcuGuncelle(UUID kullaniciId, BigDecimal odemeTutari);
 }
