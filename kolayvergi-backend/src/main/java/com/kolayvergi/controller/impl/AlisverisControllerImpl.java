@@ -2,6 +2,7 @@ package com.kolayvergi.controller.impl;
 
 import com.kolayvergi.controller.AlisverisController;
 import com.kolayvergi.dto.request.AlisverisCreateRequest;
+import com.kolayvergi.dto.request.AlisverisUpdateRequest;
 import com.kolayvergi.dto.response.AlisverisResponse;
 import com.kolayvergi.service.AlisverisService;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +32,7 @@ public class AlisverisControllerImpl implements AlisverisController {
     }
 
     @Override
-    public ResponseEntity<AlisverisResponse> updateAlisveris(UUID id, AlisverisCreateRequest request) {
+    public ResponseEntity<AlisverisResponse> updateAlisveris(UUID id, AlisverisUpdateRequest request) {
         AlisverisResponse response = alisverisService.updateAlisveris(id, request);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }

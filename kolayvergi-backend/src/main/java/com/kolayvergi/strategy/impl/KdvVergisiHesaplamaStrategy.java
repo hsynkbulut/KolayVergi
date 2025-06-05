@@ -29,7 +29,9 @@ public class KdvVergisiHesaplamaStrategy implements VergiHesaplamaStrategy {
 
         AracBilgisi aracBilgisi = alisveris.getAracBilgisi();
         if (alisveris.getUrunTuru() == UrunTuru.OTOMOBIL && ObjectUtils.isEmpty(aracBilgisi)) {
-            throw new IllegalArgumentException(messageSource.getMessage("vergi.kdv_arac_bilgisi_gerekli", null, LocaleContextHolder.getLocale()));
+            throw new IllegalArgumentException(messageSource.getMessage("vergi.kdv_arac_bilgisi_gerekli",
+                    null, LocaleContextHolder.getLocale())
+            );
         }
 
         BigDecimal tabanTutar = matrah;
@@ -67,7 +69,8 @@ public class KdvVergisiHesaplamaStrategy implements VergiHesaplamaStrategy {
             case MOBILYA -> BigDecimal.valueOf(20);
             case OTOMOBIL -> BigDecimal.valueOf(20);
             default -> throw new IllegalArgumentException(
-                    messageSource.getMessage("vergi.kdv_orani_tanimli_degil", new Object[]{urunTuru}, LocaleContextHolder.getLocale())
+                    messageSource.getMessage("vergi.kdv_orani_tanimli_degil", new Object[]{urunTuru},
+                            LocaleContextHolder.getLocale())
             );
         };
     }

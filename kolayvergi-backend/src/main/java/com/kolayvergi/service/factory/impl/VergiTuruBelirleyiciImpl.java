@@ -22,9 +22,7 @@ public class VergiTuruBelirleyiciImpl implements VergiTuruBelirleyici {
                 vergiTurleri.add(VergiTuru.KDV);
                 vergiTurleri.add(VergiTuru.MTV);
             }
-            case GIDA, KITAP -> {
-                vergiTurleri.add(VergiTuru.KDV);
-            }
+            case GIDA, KITAP -> vergiTurleri.add(VergiTuru.KDV);
             case ELEKTRONIK, GIYIM, BEYAZ_ESYA, KOZMETIK, MOBILYA -> {
                 vergiTurleri.add(VergiTuru.KDV);
                 if (urunTuru.getLuksKatSayisi().compareTo(BigDecimal.ONE) > 0) {

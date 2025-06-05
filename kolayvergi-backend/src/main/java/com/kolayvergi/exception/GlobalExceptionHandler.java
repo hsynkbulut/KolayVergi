@@ -27,9 +27,16 @@ public class GlobalExceptionHandler {
         Map<String, List<String>> errorMap = new HashMap<>();
 
         for (ObjectError objectError : ex.getBindingResult().getAllErrors()) {
-            String fieldName = (objectError instanceof FieldError) ? ((FieldError) objectError).getField() : objectError.getObjectName();
-            String localizedMessage = messageSource.getMessage(
-                objectError.getDefaultMessage(), null, objectError.getDefaultMessage(), LocaleContextHolder.getLocale());
+            String fieldName;
+            if (objectError instanceof FieldError fieldError) {
+                fieldName = fieldError.getField();
+            } else {
+                fieldName = objectError.getObjectName();
+            }
+            String defaultMessage = objectError.getDefaultMessage();
+            String localizedMessage = defaultMessage != null
+                ? messageSource.getMessage(defaultMessage, null, defaultMessage, LocaleContextHolder.getLocale())
+                : "";
             errorMap.computeIfAbsent(fieldName, k -> new ArrayList<>()).add(localizedMessage);
         }
 

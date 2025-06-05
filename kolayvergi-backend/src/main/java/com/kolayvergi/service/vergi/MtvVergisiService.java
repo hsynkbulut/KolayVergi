@@ -12,4 +12,5 @@ public interface MtvVergisiService {
     MtvVergisi createMtvVergisi(Alisveris alisveris, Kullanici kullanici);
     List<MtvVergisiResponse> getAllByAlisverisId(UUID alisverisId);
     MtvVergisiResponse getMtvVergisiById(UUID id);
+    MtvVergisi updateMtvVergisi(Alisveris alisveris, Kullanici kullanici);
 }

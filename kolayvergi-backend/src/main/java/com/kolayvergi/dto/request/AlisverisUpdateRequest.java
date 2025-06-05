@@ -20,7 +20,7 @@ public class AlisverisUpdateRequest {
     private UrunTuru urunTuru;
 
     @Valid
-    private AracBilgisiCreateRequest aracBilgisi;
+    private AracBilgisiUpdateRequest aracBilgisi;
 
     @NotNull(message = "validation.tutar_bos_olamaz")
     private BigDecimal tutar;

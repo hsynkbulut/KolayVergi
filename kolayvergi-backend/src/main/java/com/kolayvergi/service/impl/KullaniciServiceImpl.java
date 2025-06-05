@@ -48,7 +48,7 @@ public class KullaniciServiceImpl implements KullaniciService {
     public List<KullaniciResponse> getAllKullanicilar() {
         return kullaniciRepository.findAll().stream()
                 .map(kullaniciMapper::kullaniciToKullaniciResponse)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public boolean isCurrentUser(UUID userId) {

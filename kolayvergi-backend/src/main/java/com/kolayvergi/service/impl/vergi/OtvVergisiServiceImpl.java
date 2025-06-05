@@ -39,12 +39,10 @@ public class OtvVergisiServiceImpl implements OtvVergisiService {
 
     @Override
     public List<OtvVergisiResponse> getAllByAlisverisId(UUID alisverisId) {
-        List<OtvVergisiResponse> list = new ArrayList<>();
-        for (OtvVergisi otvVergisi : otvVergisiRepository.findByAlisverisId(alisverisId)) {
-            OtvVergisiResponse otvVergisiResponse = otvVergisiMapper.otvVergisiToOtvVergisiResponse(otvVergisi);
-            list.add(otvVergisiResponse);
-        }
-        return list;
+        return otvVergisiRepository.findByAlisverisId(alisverisId)
+                .stream()
+                .map(otvVergisiMapper::otvVergisiToOtvVergisiResponse)
+                .toList();
     }
 
     @Override
@@ -52,5 +50,24 @@ public class OtvVergisiServiceImpl implements OtvVergisiService {
         OtvVergisi otvVergisi = otvVergisiRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(messageSource.getMessage("vergi.otv_vergisi_bulunamadi", new Object[]{id}, LocaleContextHolder.getLocale())));
         return otvVergisiMapper.otvVergisiToOtvVergisiResponse(otvVergisi);
+    }
+
+    @Override
+    @Transactional
+    public OtvVergisi updateOtvVergisi(Alisveris alisveris, Kullanici kullanici) {
+        List<OtvVergisi> mevcutlar = otvVergisiRepository.findByAlisverisId(alisveris.getId());
+        Vergi yeniOtv = otvVergisiHesaplamaStrategy.hesapla(alisveris, kullanici);
+        if (!mevcutlar.isEmpty()) {
+            OtvVergisi otv = mevcutlar.get(0);
+            otv.setMatrah(yeniOtv.getMatrah());
+            otv.setOran(yeniOtv.getOran());
+            otv.setTutar(yeniOtv.getTutar());
+            otv.setUrunTuru(((OtvVergisi) yeniOtv).getUrunTuru());
+            otv.setAracBilgisi(((OtvVergisi) yeniOtv).getAracBilgisi());
+            otv.setLuksUrunKatSayisi(((OtvVergisi) yeniOtv).getLuksUrunKatSayisi());
+            return otvVergisiRepository.save(otv);
+        } else {
+            return otvVergisiRepository.save((OtvVergisi) yeniOtv);
+        }
     }
 }

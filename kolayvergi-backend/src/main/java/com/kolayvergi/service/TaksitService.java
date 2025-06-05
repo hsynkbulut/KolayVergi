@@ -1,5 +1,6 @@
 package com.kolayvergi.service;
 
+import com.kolayvergi.entity.Alisveris;
 import com.kolayvergi.entity.OdemePlani;
 import com.kolayvergi.entity.Taksit;
 import com.kolayvergi.entity.enums.OdemeTuru;
@@ -19,4 +20,6 @@ public interface TaksitService {
     List<Taksit> getAllTaksitler();
 
     List<Taksit> getCurrentUserTaksitler();
+
+    List<Taksit> updateTaksitler(Alisveris alisveris, OdemePlani odemePlani);
 }

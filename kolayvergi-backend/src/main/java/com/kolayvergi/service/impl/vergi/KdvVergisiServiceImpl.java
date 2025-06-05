@@ -39,13 +39,29 @@ public class KdvVergisiServiceImpl implements KdvVergisiService {
     }
 
     @Override
-    public List<KdvVergisiResponse> getAllByAlisverisId(UUID alisverisId) {
-        List<KdvVergisiResponse> list = new ArrayList<>();
-        for (KdvVergisi kdvVergisi : kdvVergisiRepository.findByAlisverisId(alisverisId)) {
-            KdvVergisiResponse kdvVergisiResponse = kdvVergisiMapper.kdvVergisiToKdvVergisiResponse(kdvVergisi);
-            list.add(kdvVergisiResponse);
+    @Transactional
+    public KdvVergisi updateKdvVergisi(Alisveris alisveris, Kullanici kullanici, OtvVergisi otvVergisi) {
+        List<KdvVergisi> mevcutlar = kdvVergisiRepository.findByAlisverisId(alisveris.getId());
+        Vergi yeniKdv = kdvVergisiHesaplamaStrategy.hesapla(alisveris, kullanici, otvVergisi);
+        if (!mevcutlar.isEmpty()) {
+            KdvVergisi kdv = mevcutlar.get(0);
+            kdv.setMatrah(yeniKdv.getMatrah());
+            kdv.setOran(yeniKdv.getOran());
+            kdv.setTutar(yeniKdv.getTutar());
+            kdv.setUrunTuru(((KdvVergisi) yeniKdv).getUrunTuru());
+            kdv.setAracBilgisi(((KdvVergisi) yeniKdv).getAracBilgisi());
+            return kdvVergisiRepository.save(kdv);
+        } else {
+            return kdvVergisiRepository.save((KdvVergisi) yeniKdv);
         }
-        return list;
+    }
+
+    @Override
+    public List<KdvVergisiResponse> getAllByAlisverisId(UUID alisverisId) {
+        return kdvVergisiRepository.findByAlisverisId(alisverisId)
+                .stream()
+                .map(kdvVergisiMapper::kdvVergisiToKdvVergisiResponse)
+                .toList();
     }
 
     @Override

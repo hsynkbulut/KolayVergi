@@ -29,7 +29,7 @@ public class TaksitControllerImpl implements TaksitController {
                         taksit.getOdemeTuru(),
                         taksit.getOdemePlani().getId()
                 ))
-                .collect(Collectors.toList());
+                .toList();
         return ResponseEntity.ok(taksitler);
     }
 } 
