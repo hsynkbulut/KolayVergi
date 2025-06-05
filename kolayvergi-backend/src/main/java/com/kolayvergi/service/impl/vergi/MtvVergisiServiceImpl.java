@@ -38,13 +38,28 @@ public class MtvVergisiServiceImpl implements MtvVergisiService {
     }
 
     @Override
-    public List<MtvVergisiResponse> getAllByAlisverisId(UUID alisverisId) {
-        List<MtvVergisiResponse> list = new ArrayList<>();
-        for (MtvVergisi mtvVergisi : mtvVergisiRepository.findByAlisverisId(alisverisId)) {
-            MtvVergisiResponse mtvVergisiResponse = mtvVergisiMapper.mtvVergisiToMtvVergisiResponse(mtvVergisi);
-            list.add(mtvVergisiResponse);
+    @Transactional
+    public MtvVergisi updateMtvVergisi(Alisveris alisveris, Kullanici kullanici) {
+        List<MtvVergisi> mevcutlar = mtvVergisiRepository.findByAlisverisId(alisveris.getId());
+        Vergi yeniMtv = mtvVergisiHesaplamaStrategy.hesapla(alisveris, kullanici);
+        if (!mevcutlar.isEmpty()) {
+            MtvVergisi mtv = mevcutlar.get(0);
+            mtv.setMatrah(yeniMtv.getMatrah());
+            mtv.setOran(yeniMtv.getOran());
+            mtv.setTutar(yeniMtv.getTutar());
+            mtv.setAracBilgisi(((MtvVergisi) yeniMtv).getAracBilgisi());
+            return mtvVergisiRepository.save(mtv);
+        } else {
+            return mtvVergisiRepository.save((MtvVergisi) yeniMtv);
         }
-        return list;
+    }
+
+    @Override
+    public List<MtvVergisiResponse> getAllByAlisverisId(UUID alisverisId) {
+        return mtvVergisiRepository.findByAlisverisId(alisverisId)
+                .stream()
+                .map(mtvVergisiMapper::mtvVergisiToMtvVergisiResponse)
+                .toList();
     }
 
     @Override

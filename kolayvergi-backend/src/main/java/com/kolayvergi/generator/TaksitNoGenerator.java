@@ -55,7 +55,7 @@ public class TaksitNoGenerator {
             }
             return checkIndex.toString();
         } catch (Exception e) {
-            throw new RuntimeException(
+            throw new IllegalStateException(
                 messageSource.getMessage("taksitno.checkindex_hatasi", null, LocaleContextHolder.getLocale()), e
             );
         }

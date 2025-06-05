@@ -2,6 +2,7 @@ package com.kolayvergi.dto.mapper;
 
 
 import com.kolayvergi.dto.request.AlisverisCreateRequest;
+import com.kolayvergi.dto.request.AlisverisUpdateRequest;
 import com.kolayvergi.dto.response.AlisverisResponse;
 import com.kolayvergi.dto.response.AracBilgisiResponse;
 import com.kolayvergi.entity.Alisveris;
@@ -9,6 +10,7 @@ import com.kolayvergi.entity.AracBilgisi;
 import org.apache.commons.lang3.ObjectUtils;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
 import org.mapstruct.ReportingPolicy;
 
@@ -40,4 +42,6 @@ public interface AlisverisMapper {
             aracBilgisi.getAracAgirligi()
         );
     }
+
+    void updateAlisverisFromRequest(AlisverisUpdateRequest request, @MappingTarget Alisveris alisveris);
 }

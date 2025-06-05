@@ -3,6 +3,7 @@ package com.kolayvergi.service.impl;
 import com.kolayvergi.dto.request.BorcCreateRequest;
 import com.kolayvergi.dto.request.BorcUpdateRequest;
 import com.kolayvergi.dto.response.BorcResponse;
+import com.kolayvergi.entity.Alisveris;
 import com.kolayvergi.entity.OdemePlani;
 import com.kolayvergi.entity.Taksit;
 import com.kolayvergi.entity.enums.OdemeDurumu;
@@ -56,7 +57,7 @@ public class TaksitServiceImpl implements TaksitService {
             taksit.setOdemePlani(odemePlani);
             taksit.setTaksitNo(taksitNoGenerator.generateTaksitNo(kullaniciId, i + 1));
             taksit.setTaksitTutari(taksitTutari);
-            taksit.setSonOdemeTarihi(LocalDate.now().plusMonths(i + 1));
+            taksit.setSonOdemeTarihi(LocalDate.now().plusMonths(i + 1L));
             taksit.setOdemeTarihi(null);
             taksit.setDurum(OdemeDurumu.ODENMEDI);
             taksit.setOdemeTuru(OdemeTuru.NAKIT); 
@@ -111,5 +112,44 @@ public class TaksitServiceImpl implements TaksitService {
     public List<Taksit> getCurrentUserTaksitler() {
         UUID currentUserId = kullaniciService.getCurrentUser().getId();
         return taksitRepository.findByOdemePlani_Alisveris_KullaniciId(currentUserId);
+    }
+
+    @Override
+    @Transactional
+    public List<Taksit> updateTaksitler(Alisveris alisveris, OdemePlani odemePlani) {
+        int yeniTaksitSayisi = alisveris.getTaksitSayisi();
+        BigDecimal toplamTutar = odemePlani.getToplamOdenecekTutar();
+        BigDecimal yeniTaksitTutari = toplamTutar.divide(BigDecimal.valueOf(yeniTaksitSayisi), 2, RoundingMode.HALF_UP);
+        List<Taksit> taksitler = odemePlani.getTaksitler();
+
+        if (taksitler.size() < yeniTaksitSayisi) {
+            for (int i = taksitler.size(); i < yeniTaksitSayisi; i++) {
+                Taksit yeniTaksit = new Taksit();
+                yeniTaksit.setOdemePlani(odemePlani);
+                yeniTaksit.setTaksitNo(taksitNoGenerator.generateTaksitNo(alisveris.getKullanici().getId(), i + 1));
+                yeniTaksit.setTaksitTutari(yeniTaksitTutari);
+                yeniTaksit.setSonOdemeTarihi(LocalDate.now().plusMonths(i + 1L));
+                yeniTaksit.setOdemeTarihi(null);
+                yeniTaksit.setDurum(OdemeDurumu.ODENMEDI);
+                yeniTaksit.setOdemeTuru(OdemeTuru.NAKIT);
+                taksitler.add(yeniTaksit);
+            }
+        } else if (taksitler.size() > yeniTaksitSayisi) {
+            taksitler.subList(yeniTaksitSayisi, taksitler.size()).clear();
+        }
+        for (Taksit taksit : taksitler) {
+            taksit.setTaksitTutari(yeniTaksitTutari);
+            taksit.setOdemePlani(odemePlani);
+        }
+        Optional<BorcResponse> optionalBorc = borcService.getBorcByKullaniciIdSafely(alisveris.getKullanici().getId());
+        if (optionalBorc.isPresent()) {
+            BorcResponse existingBorc = optionalBorc.get();
+            BorcUpdateRequest updateRequest = new BorcUpdateRequest();
+            updateRequest.setKullaniciId(alisveris.getKullanici().getId());
+            updateRequest.setToplamBorc(toplamTutar);
+            updateRequest.setKalanBorc(toplamTutar);
+            borcService.updateBorc(existingBorc.getId(), updateRequest);
+        }
+        return taksitler;
     }
 }

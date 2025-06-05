@@ -79,7 +79,6 @@ public class BorcServiceImpl implements BorcService {
                         messageSource.getMessage("alisveris.borc_bulunamadi_borc_id", new Object[]{id}, LocaleContextHolder.getLocale())));
     }
 
-    // Kullanıcının kalan borcunu günceller
     @Override
     public void kalanBorcuGuncelle(UUID kullaniciId, BigDecimal odemeTutari) {
         BorcResponse dbBorc = getBorcByKullaniciId(kullaniciId);

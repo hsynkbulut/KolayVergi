@@ -28,27 +28,22 @@ public class AracBilgisiServiceImpl implements AracBilgisiService {
     @Override
     @Transactional
     public AracBilgisi createAracBilgisiForAlisveris(AracBilgisiCreateRequest request) {
-        return aracBilgisiRepository.save(aracBilgisiMapper.AracBilgisiCreateRequestToAracBilgisi(request));
+        return aracBilgisiRepository.save(aracBilgisiMapper.aracBilgisiCreateRequestToAracBilgisi(request));
     }
 
-    @Override
     @Transactional
-    public AracBilgisiResponse updateAracBilgisi(AracBilgisiUpdateRequest request) {
-        AracBilgisi aracBilgisi = aracBilgisiRepository.findById(request.getId())
-                .orElseThrow(() -> new EntityNotFoundException(
-                    messageSource.getMessage("alisveris.arac_bilgisi_bulunamadi", new Object[]{request.getId()}, LocaleContextHolder.getLocale())
-                ));
-
-        aracBilgisiMapper.updateAracBilgisiFromAracBilgisiUpdateRequest(request, aracBilgisi);
-        return aracBilgisiMapper.aracBilgisiToAracBilgisiResponse(aracBilgisiRepository.save(aracBilgisi));
+    public void updateAracBilgisi(AracBilgisiUpdateRequest request, AracBilgisi entity) {
+        aracBilgisiMapper.updateAracBilgisiFromAracBilgisiUpdateRequest(request, entity);
+        aracBilgisiRepository.save(entity);
     }
 
     @Override
     public AracBilgisiResponse getAracBilgisiById(UUID id) {
-        AracBilgisi arac = aracBilgisiRepository.findById(id)
+        AracBilgisi aracBilgisi = aracBilgisiRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(
-                    messageSource.getMessage("alisveris.arac_bilgisi_bulunamadi", new Object[]{id}, LocaleContextHolder.getLocale())
+                        messageSource.getMessage("alisveris.arac_bilgisi_bulunamadi", new Object[]{id},
+                                LocaleContextHolder.getLocale())
                 ));
-        return aracBilgisiMapper.aracBilgisiToAracBilgisiResponse(arac);
+        return aracBilgisiMapper.aracBilgisiToAracBilgisiResponse(aracBilgisi);
     }
 }

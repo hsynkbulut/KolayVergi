@@ -10,7 +10,7 @@ import org.mapstruct.*;
 public interface AracBilgisiMapper {
 
     @Mapping(target = "id", ignore = true)
-    AracBilgisi AracBilgisiCreateRequestToAracBilgisi(AracBilgisiCreateRequest request);
+    AracBilgisi aracBilgisiCreateRequestToAracBilgisi(AracBilgisiCreateRequest request);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateAracBilgisiFromAracBilgisiUpdateRequest(AracBilgisiUpdateRequest request, @MappingTarget AracBilgisi entity);

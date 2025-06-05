@@ -58,4 +58,34 @@ public class VergiHesaplamaServiceImpl implements VergiHesaplamaService {
                 .mtvVergisi(mtvVergisi)
                 .build();
     }
+
+    @Override
+    public VergiHesaplamaSonucResponse updateVergiler(Alisveris alisveris, Kullanici kullanici) {
+        List<VergiTuru> vergiTurleri = vergiTuruBelirleyici.getVergiTurleri(alisveris.getUrunTuru());
+
+        BigDecimal toplamVergiTutari = BigDecimal.ZERO;
+        OtvVergisi otvVergisi = null;
+        KdvVergisi kdvVergisi = null;
+        MtvVergisi mtvVergisi = null;
+
+        if (vergiTurleri.contains(VergiTuru.OTV)) {
+            otvVergisi = otvVergisiService.updateOtvVergisi(alisveris, kullanici);
+            toplamVergiTutari = toplamVergiTutari.add(otvVergisi.getTutar());
+        }
+        if (vergiTurleri.contains(VergiTuru.KDV)) {
+            kdvVergisi = kdvVergisiService.updateKdvVergisi(alisveris, kullanici, otvVergisi);
+            toplamVergiTutari = toplamVergiTutari.add(kdvVergisi.getTutar());
+        }
+        if (vergiTurleri.contains(VergiTuru.MTV)) {
+            mtvVergisi = mtvVergisiService.updateMtvVergisi(alisveris, kullanici);
+            toplamVergiTutari = toplamVergiTutari.add(mtvVergisi.getTutar());
+        }
+
+        return VergiHesaplamaSonucResponse.builder()
+                .toplamVergiTutari(toplamVergiTutari)
+                .otvVergisi(otvVergisi)
+                .kdvVergisi(kdvVergisi)
+                .mtvVergisi(mtvVergisi)
+                .build();
+    }
 } 

@@ -12,13 +12,13 @@ import com.kolayvergi.generator.VknGenerator;
 import com.kolayvergi.repository.KullaniciRepository;
 import com.kolayvergi.security.jwt.JwtService;
 import com.kolayvergi.service.AuthService;
-import com.kolayvergi.service.KullaniciService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -27,7 +27,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -53,8 +52,8 @@ public class AuthServiceImpl implements AuthService {
         String refreshToken = jwtTokenProvider.generateRefreshToken(authentication);
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         List<String> roles = userDetails.getAuthorities().stream()
-                .map(authority -> authority.getAuthority())
-                .collect(Collectors.toList());
+                .map(GrantedAuthority::getAuthority)
+                .toList();
 
         return new JwtResponse(jwt, refreshToken, userDetails.getUsername(), roles);
     }
@@ -70,19 +69,19 @@ public class AuthServiceImpl implements AuthService {
             String newAccessToken = jwtTokenProvider.generateToken(authentication);
             String newRefreshToken = jwtTokenProvider.generateRefreshToken(authentication);
             List<String> roles = userDetails.getAuthorities().stream()
-                    .map(authority -> authority.getAuthority())
-                    .collect(Collectors.toList());
+                    .map(GrantedAuthority::getAuthority)
+                    .toList();
 
             return new JwtResponse(newAccessToken, newRefreshToken, username, roles);
         }
-        throw new RuntimeException(messageSource.getMessage("auth.jwt_invalid", null, LocaleContextHolder.getLocale()));
+        throw new IllegalArgumentException(messageSource.getMessage("auth.jwt_invalid", null, LocaleContextHolder.getLocale()));
     }
 
     @Override
     @Transactional
     public KullaniciResponse register(KullaniciCreateRequest request) {
         if (kullaniciRepository.existsByEmail(request.getEmail())) {
-            throw new RuntimeException(messageSource.getMessage("auth.email_in_use", null, LocaleContextHolder.getLocale()));
+            throw new IllegalStateException(messageSource.getMessage("auth.email_in_use", null, LocaleContextHolder.getLocale()));
         }
 
         Kullanici kullanici = kullaniciMapper.kullaniciCreateRequestToKullanici(request);
@@ -99,7 +98,7 @@ public class AuthServiceImpl implements AuthService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
         Kullanici kullanici = kullaniciRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException(messageSource.getMessage("user.notfound", null, LocaleContextHolder.getLocale())));
+                .orElseThrow(() -> new java.util.NoSuchElementException(messageSource.getMessage("user.notfound", null, LocaleContextHolder.getLocale())));
 
         kullaniciMapper.updateKullaniciFromRequest(request, kullanici);
         return kullaniciMapper.kullaniciToKullaniciResponse(kullaniciRepository.save(kullanici));

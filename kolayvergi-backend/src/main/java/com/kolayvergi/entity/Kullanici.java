@@ -73,7 +73,7 @@ public class Kullanici extends BaseEntity implements UserDetails {
     @OneToMany(mappedBy = "kullanici", cascade = CascadeType.ALL)
     private List<Alisveris> alisverisler;
 
-    @OneToOne(mappedBy = "kullanici", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
+    @OneToOne(mappedBy = "kullanici", cascade = CascadeType.ALL, optional = false)
     private Borc borc;
 
     @Enumerated(EnumType.STRING)

@@ -13,4 +13,5 @@ public interface KdvVergisiService {
     KdvVergisi createKdvVergisi(Alisveris alisveris, Kullanici kullanici, OtvVergisi otvVergisi);
     List<KdvVergisiResponse> getAllByAlisverisId(UUID alisverisId);
     KdvVergisiResponse getKdvVergisiById(UUID id);
+    KdvVergisi updateKdvVergisi(Alisveris alisveris, Kullanici kullanici, OtvVergisi otvVergisi);
 }

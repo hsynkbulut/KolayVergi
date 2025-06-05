@@ -9,6 +9,6 @@ import java.util.UUID;
 
 public interface AracBilgisiService {
     AracBilgisi createAracBilgisiForAlisveris(AracBilgisiCreateRequest request);
-    AracBilgisiResponse updateAracBilgisi(AracBilgisiUpdateRequest request);
+    void updateAracBilgisi(AracBilgisiUpdateRequest request, AracBilgisi entity);
     AracBilgisiResponse getAracBilgisiById(UUID id);
 }

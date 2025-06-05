@@ -1,7 +1,6 @@
 package com.kolayvergi.controller;
 
 import com.kolayvergi.constant.ApiConstants;
-import com.kolayvergi.constant.swagger.SwaggerConstants;
 import com.kolayvergi.dto.response.TaksitResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
