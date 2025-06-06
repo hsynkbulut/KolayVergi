@@ -72,12 +72,6 @@ public class BorcServiceImpl implements BorcService {
         return borcMapper.borcToBorcResponse(borcRepository.save(borc));
     }
 
-    @Transactional
-    @Override
-    public void deleteBorcByKullaniciId(UUID kullaniciId) {
-        borcRepository.deleteByKullaniciId(kullaniciId);
-    }
-
     private Borc getBorcById(UUID id) {
         return borcRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(

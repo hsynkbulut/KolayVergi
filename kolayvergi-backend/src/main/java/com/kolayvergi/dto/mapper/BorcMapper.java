@@ -1,6 +1,8 @@
 package com.kolayvergi.dto.mapper;
 
+import com.kolayvergi.dto.BorcDurumu;
 import com.kolayvergi.dto.request.BorcCreateRequest;
+import com.kolayvergi.dto.request.BorcUpdateRequest;
 import com.kolayvergi.dto.response.BorcResponse;
 import com.kolayvergi.entity.Borc;
 import org.mapstruct.Mapper;
@@ -14,4 +16,6 @@ public interface BorcMapper {
     Borc borcCreateRequestToBorc(BorcCreateRequest request);
 
     BorcResponse borcToBorcResponse(Borc borc);
+
+    BorcUpdateRequest borcDurumutoBorcUpdateRequest(BorcDurumu borcDurumu);
 }
