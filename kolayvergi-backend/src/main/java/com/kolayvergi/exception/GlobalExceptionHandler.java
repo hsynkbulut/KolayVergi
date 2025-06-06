@@ -13,6 +13,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingPathVariableException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.security.access.AccessDeniedException;
 
 import java.util.*;
 
@@ -108,6 +109,18 @@ public class GlobalExceptionHandler {
                 request.getRequestURI()
         );
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(apiError);
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<ApiError<String>> handleAccessDeniedException(AccessDeniedException ex, HttpServletRequest request) {
+        ApiError<String> apiError = createApiError(
+                null,
+                HttpStatus.FORBIDDEN,
+                messageSource.getMessage("genel.yetkisiz_erisim", null, "Bu kaynağa erişim yetkiniz yok.", LocaleContextHolder.getLocale()),
+                ex.getMessage(),
+                request.getRequestURI()
+        );
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(apiError);
     }
 
     private <T> ApiError<T> createApiError(T errors, HttpStatus status, String userMessage, String developerMessage, String path) {

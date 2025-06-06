@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,6 +43,7 @@ public class AlisverisServiceImpl implements AlisverisService {
 
     @Override
     @Transactional
+    @PreAuthorize("hasRole('ROLE_USER')")
     public AlisverisResponse createAlisveris(AlisverisCreateRequest request) {
         Kullanici kullanici = kullaniciService.getCurrentUser();
         Alisveris alisveris = alisverisMapper.alisverisCreateRequestToAlisveris(request);
@@ -68,6 +70,7 @@ public class AlisverisServiceImpl implements AlisverisService {
     }
 
     @Override
+    @PreAuthorize("hasRole('ROLE_USER') and @alisverisServiceImpl.isCurrentUserOwner(#id)")
     public AlisverisResponse getAlisveris(UUID id) {
         Alisveris alisveris = alisverisRepository.findByIdWithAracBilgisi(id)
                 .orElseThrow(() -> new EntityNotFoundException(
@@ -81,6 +84,7 @@ public class AlisverisServiceImpl implements AlisverisService {
     }
 
     @Override
+    @PreAuthorize("hasRole('ROLE_USER')")
     public List<AlisverisResponse> getCurrentUserAlisverisler() {
         Kullanici kullanici = kullaniciService.getCurrentUser();
         List<Alisveris> alisverisler = alisverisRepository.findAllByKullaniciId(kullanici.getId());
@@ -91,6 +95,7 @@ public class AlisverisServiceImpl implements AlisverisService {
 
     @Override
     @Transactional
+    @PreAuthorize("hasRole('ROLE_USER') and @alisverisServiceImpl.isCurrentUserOwner(#id)")
     public AlisverisResponse updateAlisveris(UUID id, AlisverisUpdateRequest request) {
         Kullanici kullanici = kullaniciService.getCurrentUser();
         Alisveris alisveris = alisverisRepository.findById(id)
@@ -122,6 +127,7 @@ public class AlisverisServiceImpl implements AlisverisService {
 
     @Transactional()
     @Override
+    @PreAuthorize("hasRole('ROLE_USER') and @alisverisServiceImpl.isCurrentUserOwner(#id)")
     public void deleteAlisveris(UUID id) {
         if (!alisverisRepository.existsById(id)) {
             throw new EntityNotFoundException(
@@ -153,5 +159,12 @@ public class AlisverisServiceImpl implements AlisverisService {
         dbBorc.setToplamBorc(dbBorc.getToplamBorc().subtract(odenecekTutar));
         dbBorc.setKalanBorc(dbBorc.getKalanBorc().subtract(kalanBorc));
         alisverisRepository.deleteById(id);
+    }
+
+    public boolean isCurrentUserOwner(UUID alisverisId) {
+        if (alisverisId == null) return false;
+        Alisveris alisveris = alisverisRepository.findById(alisverisId).orElse(null);
+        if (alisveris == null || alisveris.getKullanici() == null) return false;
+        return kullaniciService.getCurrentUser().getId().equals(alisveris.getKullanici().getId());
     }
 }
