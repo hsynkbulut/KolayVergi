@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,6 +34,7 @@ public class BorcServiceImpl implements BorcService {
 
     @Transactional()
     @Override
+    @PreAuthorize("hasRole('ROLE_USER')")
     public BorcResponse createBorc(BorcCreateRequest request) {
         Kullanici kullanici = kullaniciService.getCurrentUser();
         Borc borc = borcMapper.borcCreateRequestToBorc(request);
@@ -41,16 +43,18 @@ public class BorcServiceImpl implements BorcService {
     }
 
     @Override
+    @PreAuthorize("hasRole('ROLE_USER')")
     public BorcResponse getBorc() {
         return getBorcByKullaniciId(kullaniciService.getCurrentUser().getId());
     }
 
     @Override
+    @PreAuthorize("hasRole('ROLE_USER')")
     public BorcResponse getBorcByKullaniciId(UUID kullaniciId) {
-        return borcRepository.getBorcByKullaniciId(kullaniciId)
-                .map(borcMapper::borcToBorcResponse)
+        Borc borc = borcRepository.getBorcByKullaniciId(kullaniciId)
                 .orElseThrow(() -> new EntityNotFoundException(
                         messageSource.getMessage("alisveris.borc_bulunamadi_kullanici_id", new Object[]{kullaniciId}, LocaleContextHolder.getLocale())));
+        return borcMapper.borcToBorcResponse(borc);
     }
 
     public Optional<BorcResponse> getBorcByKullaniciIdSafely(UUID kullaniciId) {
@@ -60,6 +64,7 @@ public class BorcServiceImpl implements BorcService {
 
     @Transactional()
     @Override
+    @PreAuthorize("hasRole('ROLE_USER') and @borcServiceImpl.isCurrentUserOwner(#id)")
     public BorcResponse updateBorc(UUID id, BorcUpdateRequest updateBorcRequest) {
         Borc borc = getBorcById(id);
         Optional.ofNullable(updateBorcRequest.getToplamBorc()).ifPresent(borc::setToplamBorc);
@@ -88,5 +93,12 @@ public class BorcServiceImpl implements BorcService {
             update.setKalanBorc(dbBorc.getKalanBorc().subtract(odemeTutari));
             updateBorc(dbBorc.getId(), update);
         }
+    }
+
+    public boolean isCurrentUserOwner(UUID borcId) {
+        if (borcId == null) return false;
+        Borc borc = borcRepository.findById(borcId).orElse(null);
+        if (borc == null || borc.getKullanici() == null) return false;
+        return kullaniciService.getCurrentUser().getId().equals(borc.getKullanici().getId());
     }
 }
